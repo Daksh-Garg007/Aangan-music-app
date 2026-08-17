@@ -154,11 +154,13 @@
         position: fixed;
         width: 200px;
         height: 200px;
-        left: -220px;
-        top: 0;
-        z-index: -1;
-        opacity: 0.01;
+        right: 12px;
+        top: 12px;
+        z-index: 1;
+        opacity: 0.001;
         pointer-events: none;
+        border-radius: 8px;
+        overflow: hidden;
       }
       .radio {
         position: absolute;
@@ -353,11 +355,13 @@
         position: fixed;
         width: 200px;
         height: 200px;
-        left: -220px;
-        top: 0;
-        z-index: -1;
-        opacity: 0.01;
+        right: 12px;
+        top: 12px;
+        z-index: 1;
+        opacity: 0.001;
         pointer-events: none;
+        border-radius: 8px;
+        overflow: hidden;
       }
       @media (max-width: 600px) {
         header {
@@ -701,6 +705,18 @@
       }
       function onReady() {
         ready = true;
+        const frame = player.getIframe && player.getIframe();
+        if (frame) {
+          frame.setAttribute(
+            "allow",
+            "autoplay; encrypted-media; picture-in-picture",
+          );
+          frame.setAttribute("title", "Aangan Radio");
+          frame.setAttribute(
+            "referrerpolicy",
+            "strict-origin-when-cross-origin",
+          );
+        }
         $("status").textContent = "Tap ▶ to start Aangan Radio";
         applySlot();
         renderQueue();
@@ -755,30 +771,44 @@
       }
       function weather() {
         if (!navigator.geolocation) return;
-        navigator.geolocation.getCurrentPosition(
-          async (pos) => {
-            try {
-              let { latitude, longitude } = pos.coords;
-              let r = await fetch(
-                `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=weather_code`,
-              );
-              let j = await r.json();
-              let code = j.current?.weather_code;
-              let rain = [
-                51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82,
-              ].includes(code);
-              weatherRain = rain;
-              $("rain").classList.toggle("on", rain);
-              if (rain) {
-                $("slot").textContent = "बारिश · आँगन Radio";
-                $("desc").textContent =
-                  "The courtyard has gone quiet. Let the rain choose the mood.";
-                $("scene").style.backgroundImage = `url("${IMAGES[8]}")`;
-              }
-            } catch (e) {}
-          },
-          { enableHighAccuracy: false, timeout: 5000, maximumAge: 600000 },
-        );
+        const success = async (pos) => {
+          try {
+            const { latitude, longitude } = pos.coords;
+            const r = await fetch(
+              `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=weather_code`,
+              { cache: "no-store" },
+            );
+            if (!r.ok) throw new Error("Weather request failed");
+            const j = await r.json();
+            const code = j.current?.weather_code;
+            const rain = [
+              51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82,
+            ].includes(code);
+            weatherRain = rain;
+            $("rain").classList.toggle("on", rain);
+            if (rain) {
+              $("slot").textContent = "बारिश · आँगन Radio";
+              $("desc").textContent =
+                "The courtyard has gone quiet. Let the rain choose the mood.";
+              $("scene").style.backgroundImage = `url("${IMAGES[8]}")`;
+            } else {
+              applySlot();
+            }
+          } catch (e) {
+            console.warn("Weather unavailable:", e);
+            applySlot();
+          }
+        };
+        const error = (err) => {
+          console.warn("Location unavailable:", err.message);
+          applySlot();
+        };
+        const options = {
+          enableHighAccuracy: false,
+          timeout: 5000,
+          maximumAge: 600000,
+        };
+        navigator.geolocation.getCurrentPosition(success, error, options);
       }
       setInterval(updateProgress, 1000);
       setInterval(updateClock, 30000);

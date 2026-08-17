@@ -1,74 +1,793 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0d0906">
-<title>आँगन — A Living Radio</title>
-<style>
-:root{--cream:#f7ead5;--gold:#d9b26b;--dark:rgba(10,7,5,.78)}
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080605;color:var(--cream);font-family:Georgia,"Times New Roman",serif}button{font:inherit} .app{position:fixed;inset:0;background:#080605}
-.scene{position:absolute;inset:-2%;background:center/cover no-repeat;transition:opacity 1s ease,transform 12s ease;transform:scale(1.025)}.scene:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.06) 40%,rgba(0,0,0,.65))}
-.vignette{position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,transparent 35%,rgba(0,0,0,.45) 100%);pointer-events:none}.rain{position:absolute;inset:0;opacity:0;pointer-events:none;background:repeating-linear-gradient(105deg,transparent 0 18px,rgba(220,235,255,.13) 19px,transparent 20px 34px);mix-blend-mode:screen;z-index:2}.rain.on{opacity:1;animation:rain .65s linear infinite}@keyframes rain{to{background-position:0 65px}}
-header{position:absolute;z-index:5;top:25px;left:28px;right:28px;display:flex;justify-content:space-between;align-items:flex-start}.brand{font:11px Arial,sans-serif;letter-spacing:.3em;text-transform:uppercase}.clock{text-align:right;font:10px Arial,sans-serif;letter-spacing:.12em;opacity:.78}
-.hero{position:absolute;z-index:4;inset:0;display:grid;place-items:center;text-align:center;padding:24px}.hero-inner{max-width:780px}.eyebrow{font:10px Arial,sans-serif;letter-spacing:.4em;text-transform:uppercase;opacity:.75;margin-bottom:15px}.title{margin:0;font-size:clamp(60px,11vw,125px);font-weight:500;letter-spacing:-.065em;line-height:.8;text-shadow:0 10px 40px #000}.desc{max-width:570px;margin:22px auto 0;font-size:clamp(14px,2vw,20px);line-height:1.55;text-shadow:0 3px 20px #000}
-.radio{position:absolute;z-index:10;left:50%;bottom:max(12px,env(safe-area-inset-bottom));transform:translateX(-50%);width:min(650px,calc(100vw - 22px))}.player{background:var(--dark);border:1px solid rgba(255,235,205,.16);backdrop-filter:blur(18px);border-radius:17px;padding:13px 15px;box-shadow:0 18px 70px #0009}.row{display:flex;align-items:center;gap:12px}.disc{width:42px;height:42px;border-radius:10px;display:grid;place-items:center;background:#ffffff0c;color:var(--gold);font-size:20px;flex:none}.meta{min-width:0;flex:1;text-align:left}.track{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.artist{font:10px Arial,sans-serif;color:#a99b89;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.controls{display:flex;align-items:center;gap:4px}.ctrl{width:32px;height:32px;border:0;border-radius:50%;background:transparent;color:var(--cream);cursor:pointer}.ctrl:hover,.ctrl:focus-visible{background:#ffffff12;outline:none}.play{width:40px;height:40px;background:var(--gold);color:#21170c;font-size:15px}.progress{height:2px;background:#ffffff16;margin-top:10px;border-radius:2px;overflow:hidden}.progress i{display:block;height:100%;width:0;background:var(--gold)}.status{font:9px Arial,sans-serif;color:#887b6b;min-height:11px;margin-top:6px}.queue{display:none;position:absolute;bottom:calc(100% + 9px);left:0;right:0;max-height:min(360px,55vh);overflow:auto;background:rgba(10,7,5,.97);border:1px solid #ead5af1f;border-radius:15px;padding:7px;box-shadow:0 20px 80px #000b}.queue.open{display:block}.qhead{padding:9px 10px 11px;font:9px Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#c6a16a}.qitem{width:100%;display:flex;align-items:center;gap:9px;padding:9px;border:0;border-radius:9px;background:transparent;color:var(--cream);text-align:left;cursor:pointer}.qitem:hover,.qitem.active{background:#d9b26b10}.num{width:22px;color:#756958;font:9px Arial}.qtext{flex:1;min-width:0}.qtitle{font:11px Arial,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.qsub{font:9px Arial,sans-serif;color:#756b5d;margin-top:2px}.dot{width:5px;height:5px;border-radius:50%;background:var(--gold);opacity:0}.active .dot{opacity:1}.footer{position:absolute;z-index:5;left:28px;bottom:30px;font:9px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#eee0cb88}
-#yt{position:fixed;width:1px;height:1px;left:-20px;top:-20px;opacity:.001;pointer-events:none}
-@media(max-width:600px){header{top:17px;left:17px;right:17px}.footer{left:17px;bottom:100px}.title{font-size:70px}.desc{font-size:14px}.radio{width:calc(100vw - 14px);bottom:max(7px,env(safe-area-inset-bottom))}.player{padding:11px}.disc{width:38px;height:38px}.ctrl{width:30px;height:30px}.play{width:38px;height:38px}}
-@media(prefers-reduced-motion:reduce){.scene,.rain{transition:none;animation:none}}
-</style>
-</head>
-<body>
-<div class="app">
- <div class="scene" id="scene"></div><div class="vignette"></div><div class="rain" id="rain"></div>
- <header><div class="brand">आँगन Radio</div><div class="clock" id="clock">--:--</div></header>
- <main class="hero"><div class="hero-inner"><div class="eyebrow" id="slot">A living courtyard</div><h1 class="title">आँगन</h1><p class="desc" id="desc">हर वक़्त की अपनी धुन होती है।</p></div></main>
- <div class="footer">90s Hindi Radio · slow moments</div>
- <section class="radio" aria-label="Aangan music player">
-  <div class="queue" id="queue"><div class="qhead" id="qhead">आँगन Radio</div><div id="songs"></div></div>
-  <div class="player">
-   <div class="row"><div class="disc">♫</div><div class="meta"><div class="track" id="track">आँगन Radio</div><div class="artist" id="artist">Tap ▶ to start</div></div><div class="controls"><button class="ctrl" id="prev" aria-label="Previous song">‹</button><button class="ctrl play" id="play" aria-label="Play">▶</button><button class="ctrl" id="next" aria-label="Next song">›</button><button class="ctrl" id="more" aria-label="Open song list">⋮</button></div></div>
-   <div class="progress"><i id="bar"></i></div><div class="status" id="status">Tap ▶ to start Aangan Radio</div>
-  </div>
- </section>
- <div id="yt"></div>
-</div>
-<script>
-const IMAGES=['1000106018.jpg','1000106021.jpg','1000106024.jpg','1000106027.jpg','1000106030.jpg','1000106033.jpg','1000106036.jpg','1000106039.jpg','1000106042.jpg'];
-const PLAYLIST='PLmrzljTFgnQD5PO9sgJtdEIadZYVsO7C0';
-const slots=[
- {from:5,to:8,name:'सुबह · सूर्योदय',desc:'Soft sunlight, chai and the first songs of the day.',img:0,start:0},
- {from:8,to:11,name:'सुबह की रौनक',desc:'Newspaper, voices and a radio getting more lively.',img:1,start:3},
- {from:11,to:14,name:'दोपहर',desc:'Bright sun, friends, cards and old Bollywood energy.',img:2,start:7},
- {from:14,to:17,name:'ढलती दोपहर',desc:'Longer shadows and slower conversations.',img:3,start:11},
- {from:17,to:20,name:'सूर्यास्त + शाम',desc:'Golden light, lanterns and the signature Aangan feeling.',img:4,start:15},
- {from:20,to:23,name:'रात',desc:'Lanterns are on. The radio becomes the centre of the courtyard.',img:5,start:19},
- {from:23,to:26,name:'आधी रात',desc:'Fewer voices, softer songs, memories that stay a little longer.',img:6,start:23},
- {from:26,to:29,name:'रात का सन्नाटा',desc:'The courtyard sleeps; only the radio and the night remain.',img:7,start:27}
-];
-const fallbackSongs=[['Pehla Nasha','Jo Jeeta Wohi Sikandar · 1992'],['Ae Kash Ke Hum','Kabhi Haan Kabhi Naa · 1994'],['Yeh Haseen Vadiyan','Roja · 1992'],['Dheere Dheere Se Meri Zindagi Mein Aana','Aashiqui · 1990'],['Tu Meri Zindagi Hai','Aashiqui · 1990'],['Nazar Ke Saamne','Aashiqui · 1990'],['Mera Dil Bhi Kitna Pagal Hai','Saajan · 1991'],['Dil Hai Ke Manta Nahin','Dil Hai Ke Manta Nahin · 1991'],['Tujhe Dekha To','DDLJ · 1995'],['Chura Ke Dil Mera','Main Khiladi Tu Anari · 1994'],['Yeh Kaali Kaali Aankhen','Baazigar · 1993'],['Chaiyya Chaiyya','Dil Se.. · 1998'],['Mera Mann','Mann · 1999'],['Chaand Taare','Yes Boss · 1997'],['Hoshwalon Ko Khabar Kya','Sarfarosh · 1999'],['Do Dil Mil Rahe Hain','Pardes · 1997'],['Pardesi Pardesi','Raja Hindustani · 1996'],['Mujhe Neend Na Aaye','Dil · 1990'],['Ab Tere Bin Jee Lenge Hum','Aashiqui · 1990'],['Tere Dard Se Dil','Deewana · 1992'],['Tu Hi Re','Bombay · 1995'],['Ae Ajnabi','Dil Se.. · 1998'],['Tip Tip Barsa Paani','Mohra · 1994'],['Barsaat Ke Mausam Mein','Naajayaz · 1995']];
-let player=null,ready=false,playing=false,currentSlot=-1,weatherRain=false,playlistIndex=0;
-const $=id=>document.getElementById(id);
-function getSlot(){let h=new Date().getHours();if(h<5)h+=24;return slots.findIndex(s=>h>=s.from&&h<s.to)}
-function applySlot(){let n=getSlot();if(n<0)return;if(n!==currentSlot){currentSlot=n;const s=slots[n];$('scene').style.backgroundImage=`url("${IMAGES[s.img]}")`;$('slot').textContent=s.name;$('desc').textContent=s.desc;$('qhead').textContent='आँगन Radio · '+s.name;playlistIndex=s.start; if(ready&&!playing) cueAt(s.start)}}
-function updateClock(){const d=new Date();$('clock').textContent=d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})+' · '+Intl.DateTimeFormat().resolvedOptions().timeZone;applySlot()}
-function renderQueue(){const list=$('songs');list.innerHTML=fallbackSongs.map((s,i)=>`<button class="qitem ${i===playlistIndex?'active':''}" data-i="${i}"><span class="num">${String(i+1).padStart(2,'0')}</span><span class="qtext"><span class="qtitle">${s[0]}</span><span class="qsub">${s[1]}</span></span><span class="dot"></span></button>`).join('');list.querySelectorAll('.qitem').forEach(b=>b.addEventListener('click',()=>{playlistIndex=+b.dataset.i;cueAt(playlistIndex);$('queue').classList.remove('open')}))}
-function setMeta(title,sub){$('track').textContent=title||'आँगन Radio';$('artist').textContent=sub||'90s Hindi Radio';renderQueue()}
-function cueAt(index){if(!ready)return;playlistIndex=Math.max(0,index);player.playVideoAt(playlistIndex);$('status').textContent='Loading · Aangan Radio'}
-function toggle(){if(!ready){$('status').textContent='Connecting to YouTube…';return}playing?player.pauseVideo():player.playVideo()}
-$('play').onclick=toggle;
-$('next').onclick=()=>{if(!ready)return;player.nextVideo()};
-$('prev').onclick=()=>{if(!ready)return;player.previousVideo()};
-$('more').onclick=e=>{$('queue').classList.toggle('open');renderQueue();e.stopPropagation()};
-document.addEventListener('click',e=>{if(!$('queue').contains(e.target)&&e.target!==$('more'))$('queue').classList.remove('open')});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')$('queue').classList.remove('open');if(e.code==='Space'&&document.activeElement.tagName!=='INPUT'){e.preventDefault();toggle()}});
-function updateProgress(){if(!player||!ready)return;let d=player.getDuration(),t=player.getCurrentTime();$('bar').style.width=(d?Math.min(100,t/d*100):0)+'%'}
-function onYouTubeIframeAPIReady(){player=new YT.Player('yt',{width:1,height:1,playerVars:{listType:'playlist',list:PLAYLIST,autoplay:0,controls:0,playsinline:1,rel:0,iv_load_policy:3},events:{onReady:onReady,onStateChange:onState,onError:onError}})}
-function onReady(){ready=true;$('status').textContent='Tap ▶ to start Aangan Radio';applySlot();renderQueue()}
-function onState(e){if(e.data===YT.PlayerState.PLAYING){playing=true;$('play').textContent='Ⅱ';$('status').textContent='Playing · Aangan Radio';const d=player.getVideoData();setMeta(d.title||'Aangan Radio','YouTube · 90s Hindi Radio')}else if(e.data===YT.PlayerState.PAUSED){playing=false;$('play').textContent='▶';$('status').textContent='Paused'}else if(e.data===YT.PlayerState.ENDED){playing=false;$('play').textContent='▶';player.nextVideo()}else if(e.data===YT.PlayerState.BUFFERING){$('status').textContent='Buffering…'}}
-function onError(){ $('status').textContent='This song is unavailable · skipping…'; setTimeout(()=>player.nextVideo(),700)}
-function weather(){if(!navigator.geolocation)return;navigator.geolocation.getCurrentPosition(async pos=>{try{let {latitude,longitude}=pos.coords;let r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=weather_code`);let j=await r.json();let code=j.current?.weather_code;let rain=[51,53,55,56,57,61,63,65,66,67,80,81,82].includes(code);weatherRain=rain;$('rain').classList.toggle('on',rain);if(rain){$('slot').textContent='बारिश · आँगन Radio';$('desc').textContent='The courtyard has gone quiet. Let the rain choose the mood.';$('scene').style.backgroundImage=`url("${IMAGES[8]}")`;}}catch(e){}},{enableHighAccuracy:false,timeout:5000,maximumAge:600000})}
-setInterval(updateProgress,1000);setInterval(updateClock,30000);updateClock();weather();renderQueue();
-const api=document.createElement('script');api.src='https://www.youtube.com/iframe_api';document.head.appendChild(api);
-</script>
-</body></html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="theme-color" content="#0d0906" />
+    <title>आँगन — A Living Radio</title>
+    <style>
+      :root {
+        --cream: #f7ead5;
+        --gold: #d9b26b;
+        --dark: rgba(10, 7, 5, 0.78);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #080605;
+        color: var(--cream);
+        font-family: Georgia, "Times New Roman", serif;
+      }
+      button {
+        font: inherit;
+      }
+      .app {
+        position: fixed;
+        inset: 0;
+        background: #080605;
+      }
+      .scene {
+        position: absolute;
+        inset: -2%;
+        background: center/cover no-repeat;
+        transition:
+          opacity 1s ease,
+          transform 12s ease;
+        transform: scale(1.025);
+      }
+      .scene:after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.18),
+          rgba(0, 0, 0, 0.06) 40%,
+          rgba(0, 0, 0, 0.65)
+        );
+      }
+      .vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at 50% 45%,
+          transparent 35%,
+          rgba(0, 0, 0, 0.45) 100%
+        );
+        pointer-events: none;
+      }
+      .rain {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        pointer-events: none;
+        background: repeating-linear-gradient(
+          105deg,
+          transparent 0 18px,
+          rgba(220, 235, 255, 0.13) 19px,
+          transparent 20px 34px
+        );
+        mix-blend-mode: screen;
+        z-index: 2;
+      }
+      .rain.on {
+        opacity: 1;
+        animation: rain 0.65s linear infinite;
+      }
+      @keyframes rain {
+        to {
+          background-position: 0 65px;
+        }
+      }
+      header {
+        position: absolute;
+        z-index: 5;
+        top: 25px;
+        left: 28px;
+        right: 28px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      .brand {
+        font:
+          11px Arial,
+          sans-serif;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+      }
+      .clock {
+        text-align: right;
+        font:
+          10px Arial,
+          sans-serif;
+        letter-spacing: 0.12em;
+        opacity: 0.78;
+      }
+      .hero {
+        position: absolute;
+        z-index: 4;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 24px;
+      }
+      .hero-inner {
+        max-width: 780px;
+      }
+      .eyebrow {
+        font:
+          10px Arial,
+          sans-serif;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        opacity: 0.75;
+        margin-bottom: 15px;
+      }
+      .title {
+        margin: 0;
+        font-size: clamp(60px, 11vw, 125px);
+        font-weight: 500;
+        letter-spacing: -0.065em;
+        line-height: 0.8;
+        text-shadow: 0 10px 40px #000;
+      }
+      .desc {
+        max-width: 570px;
+        margin: 22px auto 0;
+        font-size: clamp(14px, 2vw, 20px);
+        line-height: 1.55;
+        text-shadow: 0 3px 20px #000;
+      }
+      #yt {
+        position: fixed;
+        width: 200px;
+        height: 200px;
+        left: -220px;
+        top: 0;
+        z-index: -1;
+        opacity: 0.01;
+        pointer-events: none;
+      }
+      .radio {
+        position: absolute;
+        z-index: 10;
+        left: 50%;
+        bottom: max(12px, env(safe-area-inset-bottom));
+        transform: translateX(-50%);
+        width: min(650px, calc(100vw - 22px));
+      }
+      .player {
+        background: var(--dark);
+        border: 1px solid rgba(255, 235, 205, 0.16);
+        backdrop-filter: blur(18px);
+        border-radius: 17px;
+        padding: 13px 15px;
+        box-shadow: 0 18px 70px #0009;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .disc {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        background: #ffffff0c;
+        color: var(--gold);
+        font-size: 20px;
+        flex: none;
+      }
+      .meta {
+        min-width: 0;
+        flex: 1;
+        text-align: left;
+      }
+      .track {
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .artist {
+        font:
+          10px Arial,
+          sans-serif;
+        color: #a99b89;
+        margin-top: 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .controls {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .ctrl {
+        width: 32px;
+        height: 32px;
+        border: 0;
+        border-radius: 50%;
+        background: transparent;
+        color: var(--cream);
+        cursor: pointer;
+      }
+      .ctrl:hover,
+      .ctrl:focus-visible {
+        background: #ffffff12;
+        outline: none;
+      }
+      .play {
+        width: 40px;
+        height: 40px;
+        background: var(--gold);
+        color: #21170c;
+        font-size: 15px;
+      }
+      .progress {
+        height: 2px;
+        background: #ffffff16;
+        margin-top: 10px;
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .progress i {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: var(--gold);
+      }
+      .status {
+        font:
+          9px Arial,
+          sans-serif;
+        color: #887b6b;
+        min-height: 11px;
+        margin-top: 6px;
+      }
+      .queue {
+        display: none;
+        position: absolute;
+        bottom: calc(100% + 9px);
+        left: 0;
+        right: 0;
+        max-height: min(360px, 55vh);
+        overflow: auto;
+        background: rgba(10, 7, 5, 0.97);
+        border: 1px solid #ead5af1f;
+        border-radius: 15px;
+        padding: 7px;
+        box-shadow: 0 20px 80px #000b;
+      }
+      .queue.open {
+        display: block;
+      }
+      .qhead {
+        padding: 9px 10px 11px;
+        font:
+          9px Arial,
+          sans-serif;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #c6a16a;
+      }
+      .qitem {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 9px;
+        border: 0;
+        border-radius: 9px;
+        background: transparent;
+        color: var(--cream);
+        text-align: left;
+        cursor: pointer;
+      }
+      .qitem:hover,
+      .qitem.active {
+        background: #d9b26b10;
+      }
+      .num {
+        width: 22px;
+        color: #756958;
+        font: 9px Arial;
+      }
+      .qtext {
+        flex: 1;
+        min-width: 0;
+      }
+      .qtitle {
+        font:
+          11px Arial,
+          sans-serif;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .qsub {
+        font:
+          9px Arial,
+          sans-serif;
+        color: #756b5d;
+        margin-top: 2px;
+      }
+      .dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--gold);
+        opacity: 0;
+      }
+      .active .dot {
+        opacity: 1;
+      }
+      .footer {
+        position: absolute;
+        z-index: 5;
+        left: 28px;
+        bottom: 30px;
+        font:
+          9px Arial,
+          sans-serif;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #eee0cb88;
+      }
+      #yt {
+        position: fixed;
+        width: 200px;
+        height: 200px;
+        left: -220px;
+        top: 0;
+        z-index: -1;
+        opacity: 0.01;
+        pointer-events: none;
+      }
+      @media (max-width: 600px) {
+        header {
+          top: 17px;
+          left: 17px;
+          right: 17px;
+        }
+        .footer {
+          left: 17px;
+          bottom: 100px;
+        }
+        .title {
+          font-size: 70px;
+        }
+        .desc {
+          font-size: 14px;
+        }
+        .radio {
+          width: calc(100vw - 14px);
+          bottom: max(7px, env(safe-area-inset-bottom));
+        }
+        .player {
+          padding: 11px;
+        }
+        .disc {
+          width: 38px;
+          height: 38px;
+        }
+        .ctrl {
+          width: 30px;
+          height: 30px;
+        }
+        .play {
+          width: 38px;
+          height: 38px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .scene,
+        .rain {
+          transition: none;
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="scene" id="scene"></div>
+      <div class="vignette"></div>
+      <div class="rain" id="rain"></div>
+      <header>
+        <div class="brand">आँगन Radio</div>
+        <div class="clock" id="clock">--:--</div>
+      </header>
+      <main class="hero">
+        <div class="hero-inner">
+          <div class="eyebrow" id="slot">A living courtyard</div>
+          <h1 class="title">आँगन</h1>
+          <p class="desc" id="desc">हर वक़्त की अपनी धुन होती है।</p>
+        </div>
+      </main>
+      <div class="footer">90s Hindi Radio · slow moments</div>
+      <section class="radio" aria-label="Aangan music player">
+        <div class="queue" id="queue">
+          <div class="qhead" id="qhead">आँगन Radio</div>
+          <div id="songs"></div>
+        </div>
+        <div class="player">
+          <div class="row">
+            <div class="disc">♫</div>
+            <div class="meta">
+              <div class="track" id="track">आँगन Radio</div>
+              <div class="artist" id="artist">Tap ▶ to start</div>
+            </div>
+            <div class="controls">
+              <button class="ctrl" id="prev" aria-label="Previous song">
+                ‹</button
+              ><button class="ctrl play" id="play" aria-label="Play">▶</button
+              ><button class="ctrl" id="next" aria-label="Next song">›</button
+              ><button class="ctrl" id="more" aria-label="Open song list">
+                ⋮
+              </button>
+            </div>
+          </div>
+          <div class="progress"><i id="bar"></i></div>
+          <div class="status" id="status">Tap ▶ to start Aangan Radio</div>
+        </div>
+      </section>
+      <div id="yt" aria-hidden="true"></div>
+    </div>
+    <script>
+      const IMAGES = [
+        "1000106018.jpg",
+        "1000106021.jpg",
+        "1000106024.jpg",
+        "1000106027.jpg",
+        "1000106030.jpg",
+        "1000106033.jpg",
+        "1000106036.jpg",
+        "1000106039.jpg",
+        "1000106042.jpg",
+      ];
+      const PLAYLIST = "PLmrzljTFgnQD5PO9sgJtdEIadZYVsO7C0";
+      const slots = [
+        {
+          from: 5,
+          to: 8,
+          name: "सुबह · सूर्योदय",
+          desc: "Soft sunlight, chai and the first songs of the day.",
+          img: 0,
+          start: 0,
+        },
+        {
+          from: 8,
+          to: 11,
+          name: "सुबह की रौनक",
+          desc: "Newspaper, voices and a radio getting more lively.",
+          img: 1,
+          start: 3,
+        },
+        {
+          from: 11,
+          to: 14,
+          name: "दोपहर",
+          desc: "Bright sun, friends, cards and old Bollywood energy.",
+          img: 2,
+          start: 7,
+        },
+        {
+          from: 14,
+          to: 17,
+          name: "ढलती दोपहर",
+          desc: "Longer shadows and slower conversations.",
+          img: 3,
+          start: 11,
+        },
+        {
+          from: 17,
+          to: 20,
+          name: "सूर्यास्त + शाम",
+          desc: "Golden light, lanterns and the signature Aangan feeling.",
+          img: 4,
+          start: 15,
+        },
+        {
+          from: 20,
+          to: 23,
+          name: "रात",
+          desc: "Lanterns are on. The radio becomes the centre of the courtyard.",
+          img: 5,
+          start: 19,
+        },
+        {
+          from: 23,
+          to: 26,
+          name: "आधी रात",
+          desc: "Fewer voices, softer songs, memories that stay a little longer.",
+          img: 6,
+          start: 23,
+        },
+        {
+          from: 26,
+          to: 29,
+          name: "रात का सन्नाटा",
+          desc: "The courtyard sleeps; only the radio and the night remain.",
+          img: 7,
+          start: 27,
+        },
+      ];
+      const fallbackSongs = [
+        ["Pehla Nasha", "Jo Jeeta Wohi Sikandar · 1992"],
+        ["Ae Kash Ke Hum", "Kabhi Haan Kabhi Naa · 1994"],
+        ["Yeh Haseen Vadiyan", "Roja · 1992"],
+        ["Dheere Dheere Se Meri Zindagi Mein Aana", "Aashiqui · 1990"],
+        ["Tu Meri Zindagi Hai", "Aashiqui · 1990"],
+        ["Nazar Ke Saamne", "Aashiqui · 1990"],
+        ["Mera Dil Bhi Kitna Pagal Hai", "Saajan · 1991"],
+        ["Dil Hai Ke Manta Nahin", "Dil Hai Ke Manta Nahin · 1991"],
+        ["Tujhe Dekha To", "DDLJ · 1995"],
+        ["Chura Ke Dil Mera", "Main Khiladi Tu Anari · 1994"],
+        ["Yeh Kaali Kaali Aankhen", "Baazigar · 1993"],
+        ["Chaiyya Chaiyya", "Dil Se.. · 1998"],
+        ["Mera Mann", "Mann · 1999"],
+        ["Chaand Taare", "Yes Boss · 1997"],
+        ["Hoshwalon Ko Khabar Kya", "Sarfarosh · 1999"],
+        ["Do Dil Mil Rahe Hain", "Pardes · 1997"],
+        ["Pardesi Pardesi", "Raja Hindustani · 1996"],
+        ["Mujhe Neend Na Aaye", "Dil · 1990"],
+        ["Ab Tere Bin Jee Lenge Hum", "Aashiqui · 1990"],
+        ["Tere Dard Se Dil", "Deewana · 1992"],
+        ["Tu Hi Re", "Bombay · 1995"],
+        ["Ae Ajnabi", "Dil Se.. · 1998"],
+        ["Tip Tip Barsa Paani", "Mohra · 1994"],
+        ["Barsaat Ke Mausam Mein", "Naajayaz · 1995"],
+      ];
+      let player = null,
+        ready = false,
+        playing = false,
+        currentSlot = -1,
+        weatherRain = false,
+        playlistIndex = 0;
+      const $ = (id) => document.getElementById(id);
+      function getSlot() {
+        let h = new Date().getHours();
+        if (h < 5) h += 24;
+        return slots.findIndex((s) => h >= s.from && h < s.to);
+      }
+      function applySlot() {
+        let n = getSlot();
+        if (n < 0) return;
+        if (n !== currentSlot) {
+          currentSlot = n;
+          const s = slots[n];
+          $("scene").style.backgroundImage = `url("${IMAGES[s.img]}")`;
+          $("slot").textContent = s.name;
+          $("desc").textContent = s.desc;
+          $("qhead").textContent = "आँगन Radio · " + s.name;
+          playlistIndex = s.start;
+          if (ready && !playing) cueAt(s.start);
+        }
+      }
+      function updateClock() {
+        const d = new Date();
+        $("clock").textContent =
+          d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) +
+          " · " +
+          Intl.DateTimeFormat().resolvedOptions().timeZone;
+        applySlot();
+      }
+      function renderQueue() {
+        const list = $("songs");
+        list.innerHTML = fallbackSongs
+          .map(
+            (s, i) =>
+              `<button class="qitem ${i === playlistIndex ? "active" : ""}" data-i="${i}"><span class="num">${String(i + 1).padStart(2, "0")}</span><span class="qtext"><span class="qtitle">${s[0]}</span><span class="qsub">${s[1]}</span></span><span class="dot"></span></button>`,
+          )
+          .join("");
+        list.querySelectorAll(".qitem").forEach((b) =>
+          b.addEventListener("click", () => {
+            playlistIndex = +b.dataset.i;
+            cueAt(playlistIndex);
+            $("queue").classList.remove("open");
+          }),
+        );
+      }
+      function setMeta(title, sub) {
+        $("track").textContent = title || "आँगन Radio";
+        $("artist").textContent = sub || "90s Hindi Radio";
+        renderQueue();
+      }
+      function cueAt(index) {
+        if (!ready) return;
+        const list = player.getPlaylist && player.getPlaylist();
+        if (!list || !list.length) {
+          $("status").textContent = "Loading Aangan Radio…";
+          player.cuePlaylist({
+            listType: "playlist",
+            list: PLAYLIST,
+            index: Math.max(0, index),
+          });
+          return;
+        }
+        playlistIndex = ((index % list.length) + list.length) % list.length;
+        player.loadVideoById(list[playlistIndex]);
+        $("status").textContent = "Loading · Aangan Radio";
+      }
+      function toggle() {
+        if (!ready) {
+          $("status").textContent = "Connecting to YouTube…";
+          return;
+        }
+        if (playing) {
+          player.pauseVideo();
+          return;
+        }
+        $("status").textContent = "Starting Aangan Radio…";
+        player.playVideo();
+      }
+      $("play").onclick = toggle;
+      $("next").onclick = () => {
+        if (!ready) return;
+        const list = player.getPlaylist && player.getPlaylist();
+        if (list && list.length) {
+          playlistIndex = (playlistIndex + 1) % list.length;
+          player.playVideoAt(playlistIndex);
+        } else player.nextVideo();
+      };
+      $("prev").onclick = () => {
+        if (!ready) return;
+        const list = player.getPlaylist && player.getPlaylist();
+        if (list && list.length) {
+          playlistIndex = (playlistIndex - 1 + list.length) % list.length;
+          player.playVideoAt(playlistIndex);
+        } else player.previousVideo();
+      };
+      $("more").onclick = (e) => {
+        $("queue").classList.toggle("open");
+        renderQueue();
+        e.stopPropagation();
+      };
+      document.addEventListener("click", (e) => {
+        if (!$("queue").contains(e.target) && e.target !== $("more"))
+          $("queue").classList.remove("open");
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") $("queue").classList.remove("open");
+        if (e.code === "Space" && document.activeElement.tagName !== "INPUT") {
+          e.preventDefault();
+          toggle();
+        }
+      });
+      function updateProgress() {
+        if (!player || !ready) return;
+        let d = player.getDuration(),
+          t = player.getCurrentTime();
+        $("bar").style.width = (d ? Math.min(100, (t / d) * 100) : 0) + "%";
+      }
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player("yt", {
+          width: 200,
+          height: 200,
+          playerVars: {
+            listType: "playlist",
+            list: PLAYLIST,
+            autoplay: 0,
+            controls: 0,
+            playsinline: 1,
+            rel: 0,
+            iv_load_policy: 3,
+            enablejsapi: 1,
+            origin: window.location.origin,
+          },
+          events: {
+            onReady,
+            onStateChange: onState,
+            onError,
+            onAutoplayBlocked,
+          },
+        });
+      }
+      function onReady() {
+        ready = true;
+        $("status").textContent = "Tap ▶ to start Aangan Radio";
+        applySlot();
+        renderQueue();
+      }
+      function syncTrack() {
+        const list = player.getPlaylist && player.getPlaylist();
+        const pi = player.getPlaylistIndex && player.getPlaylistIndex();
+        if (typeof pi === "number" && pi >= 0) playlistIndex = pi;
+        const d = player.getVideoData && player.getVideoData();
+        if (d) setMeta(d.title || "Aangan Radio", "YouTube · 90s Hindi Radio");
+      }
+      function onState(e) {
+        if (e.data === YT.PlayerState.PLAYING) {
+          playing = true;
+          $("play").textContent = "Ⅱ";
+          $("status").textContent = "Playing · Aangan Radio";
+          syncTrack();
+        } else if (e.data === YT.PlayerState.PAUSED) {
+          playing = false;
+          $("play").textContent = "▶";
+          $("status").textContent = "Paused";
+        } else if (e.data === YT.PlayerState.ENDED) {
+          playing = false;
+          $("play").textContent = "▶";
+          $("status").textContent = "Next song…";
+          const list = player.getPlaylist && player.getPlaylist();
+          if (list && list.length) {
+            playlistIndex = (playlistIndex + 1) % list.length;
+            player.playVideoAt(playlistIndex);
+          }
+        } else if (e.data === YT.PlayerState.BUFFERING) {
+          $("status").textContent = "Buffering…";
+        }
+      }
+      function onAutoplayBlocked() {
+        playing = false;
+        $("play").textContent = "▶";
+        $("status").textContent = "Tap ▶ to start Aangan Radio";
+      }
+      function onError() {
+        playing = false;
+        $("play").textContent = "▶";
+        $("status").textContent = "Song unavailable · trying next…";
+        setTimeout(() => {
+          if (!player) return;
+          const list = player.getPlaylist && player.getPlaylist();
+          if (list && list.length) {
+            playlistIndex = (playlistIndex + 1) % list.length;
+            player.playVideoAt(playlistIndex);
+          }
+        }, 500);
+      }
+      function weather() {
+        if (!navigator.geolocation) return;
+        navigator.geolocation.getCurrentPosition(
+          async (pos) => {
+            try {
+              let { latitude, longitude } = pos.coords;
+              let r = await fetch(
+                `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=weather_code`,
+              );
+              let j = await r.json();
+              let code = j.current?.weather_code;
+              let rain = [
+                51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82,
+              ].includes(code);
+              weatherRain = rain;
+              $("rain").classList.toggle("on", rain);
+              if (rain) {
+                $("slot").textContent = "बारिश · आँगन Radio";
+                $("desc").textContent =
+                  "The courtyard has gone quiet. Let the rain choose the mood.";
+                $("scene").style.backgroundImage = `url("${IMAGES[8]}")`;
+              }
+            } catch (e) {}
+          },
+          { enableHighAccuracy: false, timeout: 5000, maximumAge: 600000 },
+        );
+      }
+      setInterval(updateProgress, 1000);
+      setInterval(updateClock, 30000);
+      updateClock();
+      weather();
+      renderQueue();
+      const api = document.createElement("script");
+      api.src = "https://www.youtube.com/iframe_api";
+      document.head.appendChild(api);
+    </script>
+  </body>
+</html>

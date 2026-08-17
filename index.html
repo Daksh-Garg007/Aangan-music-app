@@ -401,204 +401,382 @@
     </style>
 
     <style id="aangan-responsive">
-      /* ---------- AANGAN RESPONSIVE LAYER ---------- */
-      * {
-        box-sizing: border-box;
+      /* ===== AANGAN MOBILE-FIRST RESPONSIVE SYSTEM ===== */
+      :root {
+        --safe-bottom: env(safe-area-inset-bottom, 0px);
+        --safe-top: env(safe-area-inset-top, 0px);
       }
+
       html {
         width: 100%;
+        min-width: 0;
         min-height: 100%;
-        overflow-x: hidden;
+        overflow: hidden;
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
       }
       body {
         width: 100%;
         min-width: 0;
-        overflow-x: hidden;
-        -webkit-text-size-adjust: 100%;
-      }
-      img,
-      iframe,
-      video {
-        max-width: 100%;
-      }
-      button,
-      input,
-      select {
-        font: inherit;
-      }
-      button {
+        min-height: 100svh;
+        overflow: hidden;
+        overscroll-behavior: none;
         touch-action: manipulation;
       }
-
-      @media (max-width: 1100px) {
-        .player,
-        .music-player,
-        .radio-player,
-        #playerCard {
-          max-width: min(92vw, 680px);
-        }
+      .app {
+        width: 100%;
+        min-width: 0;
+        height: 100svh;
+        min-height: 100svh;
+        overflow: hidden;
+      }
+      .scene,
+      .vignette,
+      .rain {
+        width: 100%;
+        height: 100%;
+      }
+      .scene {
+        inset: 0;
+        transform: scale(1.01);
+        background-size: cover;
+        background-position: center center;
       }
 
-      @media (max-width: 768px) {
-        body {
-          min-height: 100svh;
+      /* Large phones / foldables */
+      @media (max-width: 767px) {
+        header {
+          top: calc(14px + var(--safe-top));
+          left: 16px;
+          right: 16px;
+          align-items: center;
         }
-        .scene,
-        #scene {
-          min-height: 100svh !important;
-          height: auto !important;
-          background-position: center center !important;
+        .brand {
+          font-size: 9px;
+          letter-spacing: 0.22em;
         }
-
-        /* Keep hero content readable without changing the desktop composition. */
-        .hero,
-        .hero-content,
-        .content,
-        .overlay,
-        .scene-content {
-          max-width: 100%;
-        }
-
-        h1,
-        .title,
-        .hero-title {
-          font-size: clamp(2.1rem, 9vw, 4.2rem) !important;
-          line-height: 1.02 !important;
+        .clock {
+          max-width: 48vw;
+          font-size: 8px;
+          line-height: 1.35;
+          letter-spacing: 0.06em;
         }
 
-        h2 {
-          font-size: clamp(1.35rem, 5vw, 2rem) !important;
+        .hero {
+          padding: calc(76px + var(--safe-top)) 18px
+            calc(128px + var(--safe-bottom));
+          align-items: center;
         }
-        p,
-        .desc,
-        #desc {
-          font-size: clamp(0.92rem, 3.5vw, 1.08rem);
+        .hero-inner {
+          width: min(100%, 680px);
+        }
+        .eyebrow {
+          margin-bottom: 12px;
+          font-size: 8px;
+          letter-spacing: 0.27em;
+          line-height: 1.5;
+        }
+        .title {
+          font-size: clamp(48px, 18vw, 92px) !important;
+          line-height: 0.88 !important;
+          letter-spacing: -0.055em;
+          overflow-wrap: anywhere;
+        }
+        .desc {
+          width: min(100%, 500px);
+          margin: 16px auto 0;
+          padding: 0 4px;
+          font-size: clamp(13px, 3.8vw, 17px) !important;
+          line-height: 1.45;
         }
 
-        .player,
-        .music-player,
-        .radio-player,
-        #playerCard {
-          width: min(92vw, 620px) !important;
-          max-width: 92vw !important;
-          margin-left: auto !important;
-          margin-right: auto !important;
+        .footer {
+          left: 16px;
+          right: 16px;
+          bottom: calc(112px + var(--safe-bottom));
+          text-align: center;
+          font-size: 7px;
+          letter-spacing: 0.09em;
         }
 
-        /* Make the embedded YouTube area fit narrow screens. */
-        .player iframe,
-        .music-player iframe,
-        .radio-player iframe {
+        .radio {
+          left: 8px;
+          right: 8px;
+          bottom: calc(7px + var(--safe-bottom));
+          width: auto;
+          max-width: none;
+          transform: none;
+        }
+        .player {
           width: 100% !important;
-          max-width: 100% !important;
+          max-width: none !important;
+          padding: 9px 10px;
+          border-radius: 15px;
         }
-
-        /* Prevent long metadata/playlist text from forcing horizontal scroll. */
-        .queue,
-        .playlist,
-        .track-list,
-        #queue {
-          max-width: 100%;
-          overflow-x: hidden;
-        }
-        .queue-item,
-        .track,
-        .song,
-        .track-row {
+        .row {
+          gap: 7px;
           min-width: 0;
         }
-
-        /* Comfortable touch targets. */
-        button,
-        .btn,
-        .control,
-        .player button {
-          min-height: 44px;
-          min-width: 44px;
+        .disc {
+          width: 34px;
+          height: 34px;
+          border-radius: 9px;
+          font-size: 16px;
+        }
+        .meta {
+          min-width: 0;
+          width: 0;
+        }
+        .track {
+          font-size: 12px;
+        }
+        .artist {
+          font-size: 8px;
+          margin-top: 3px;
+        }
+        .controls {
+          flex: none;
+          gap: 1px;
+        }
+        .ctrl {
+          width: 34px;
+          height: 34px;
+          min-width: 34px;
+          min-height: 34px;
+          padding: 0;
+        }
+        .play {
+          width: 38px;
+          height: 38px;
+          min-width: 38px;
+          min-height: 38px;
+        }
+        .progress {
+          margin-top: 8px;
+        }
+        .status {
+          margin-top: 5px;
+          font-size: 8px;
         }
 
-        #clock {
-          white-space: normal;
-          max-width: 90vw;
+        .queue {
+          left: 0;
+          right: 0;
+          bottom: calc(100% + 7px);
+          max-height: min(55svh, 430px);
+          border-radius: 14px;
+          padding: 5px;
         }
-      }
-
-      @media (max-width: 480px) {
-        .scene,
-        #scene {
-          background-position: 50% 50% !important;
+        .qhead {
+          padding: 8px;
+          font-size: 8px;
         }
-
-        h1,
-        .title,
-        .hero-title {
-          font-size: clamp(1.85rem, 11vw, 3rem) !important;
+        .qitem {
+          min-height: 42px;
+          padding: 8px;
         }
-
-        .player,
-        .music-player,
-        .radio-player,
-        #playerCard {
-          width: calc(100vw - 24px) !important;
-          max-width: calc(100vw - 24px) !important;
-          border-radius: 18px !important;
+        .qtitle {
+          font-size: 10px;
         }
-
-        .player iframe,
-        .music-player iframe,
-        .radio-player iframe {
-          min-height: 190px;
-          height: 34vw;
-          max-height: 240px;
-        }
-
-        .controls,
-        .player-controls,
-        .music-controls {
-          gap: 8px !important;
-          flex-wrap: wrap;
-        }
-
-        .controls > *,
-        .player-controls > *,
-        .music-controls > * {
-          flex: 0 0 auto;
-        }
-
-        .queue-item,
-        .track,
-        .song,
-        .track-row {
-          padding: 10px !important;
-        }
-      }
-
-      @media (max-width: 360px) {
-        h1,
-        .title,
-        .hero-title {
-          font-size: 1.7rem !important;
-        }
-
-        .player,
-        .music-player,
-        .radio-player,
-        #playerCard {
-          width: calc(100vw - 16px) !important;
-          max-width: calc(100vw - 16px) !important;
+        .qsub {
+          font-size: 8px;
         }
       }
 
-      /* Tablet landscape / small laptops */
-      @media (min-width: 769px) and (max-width: 1024px) {
-        .scene,
-        #scene {
-          min-height: 100svh !important;
-          background-position: center !important;
+      /* Narrow phones: 320–390px and similar OEM widths */
+      @media (max-width: 390px) {
+        header {
+          top: calc(11px + var(--safe-top));
+          left: 12px;
+          right: 12px;
+        }
+        .brand {
+          font-size: 8px;
+          letter-spacing: 0.18em;
+        }
+        .clock {
+          font-size: 7px;
+          max-width: 52vw;
+        }
+
+        .hero {
+          padding-left: 12px;
+          padding-right: 12px;
+          padding-bottom: calc(125px + var(--safe-bottom));
+        }
+        .title {
+          font-size: clamp(43px, 19vw, 76px) !important;
+        }
+        .eyebrow {
+          font-size: 7px;
+          letter-spacing: 0.22em;
+        }
+        .desc {
+          font-size: 12px !important;
+          max-width: 310px;
+        }
+
+        .radio {
+          left: 6px;
+          right: 6px;
+          bottom: calc(5px + var(--safe-bottom));
+        }
+        .player {
+          padding: 8px;
+          border-radius: 13px;
+        }
+        .disc {
+          display: none;
+        }
+        .controls {
+          gap: 0;
+        }
+        .ctrl {
+          width: 32px;
+          height: 32px;
+          min-width: 32px;
+          min-height: 32px;
+        }
+        .play {
+          width: 36px;
+          height: 36px;
+          min-width: 36px;
+          min-height: 36px;
+        }
+        .track {
+          font-size: 11px;
+        }
+        .artist {
+          font-size: 7px;
+        }
+        .status {
+          font-size: 7px;
+        }
+        .footer {
+          bottom: calc(108px + var(--safe-bottom));
+          font-size: 6.5px;
         }
       }
 
-      /* Respect reduced motion. */
+      /* Very narrow / short devices */
+      @media (max-width: 340px), (max-height: 620px) and (max-width: 767px) {
+        .hero {
+          padding-top: calc(60px + var(--safe-top));
+          padding-bottom: calc(112px + var(--safe-bottom));
+        }
+        .title {
+          font-size: clamp(38px, 17vw, 62px) !important;
+        }
+        .desc {
+          margin-top: 10px;
+          font-size: 11px !important;
+        }
+        .eyebrow {
+          margin-bottom: 7px;
+        }
+        .footer {
+          display: none;
+        }
+        .player {
+          padding: 7px;
+        }
+        .status {
+          display: none;
+        }
+        .progress {
+          margin-top: 6px;
+        }
+      }
+
+      /* Short but wide phones in landscape */
+      @media (orientation: landscape) and (max-height: 600px) and (max-width: 1024px) {
+        .hero {
+          padding: calc(45px + var(--safe-top)) 18px
+            calc(82px + var(--safe-bottom));
+        }
+        .title {
+          font-size: clamp(42px, 11vh, 76px) !important;
+        }
+        .desc {
+          margin-top: 8px;
+          font-size: 12px !important;
+          max-width: 560px;
+        }
+        .eyebrow {
+          margin-bottom: 6px;
+        }
+        .footer {
+          display: none;
+        }
+        .radio {
+          left: 12px;
+          right: 12px;
+          bottom: calc(6px + var(--safe-bottom));
+        }
+        .player {
+          max-width: 620px !important;
+          margin: auto;
+        }
+        .queue {
+          max-height: 72svh;
+        }
+      }
+
+      /* Tablets / iPad / Android tablets */
+      @media (min-width: 768px) and (max-width: 1200px) {
+        .hero {
+          padding: 30px;
+        }
+        .title {
+          font-size: clamp(72px, 12vw, 116px) !important;
+        }
+        .desc {
+          max-width: 620px;
+        }
+        .radio {
+          width: min(680px, calc(100vw - 40px));
+          bottom: calc(14px + var(--safe-bottom));
+        }
+        .player {
+          padding: 13px 15px;
+        }
+      }
+
+      /* Desktop */
+      @media (min-width: 1201px) {
+        .scene {
+          transform: scale(1.025);
+        }
+      }
+
+      /* Landscape-safe-area and notch support */
+      @supports (padding: max(0px)) {
+        .radio {
+          margin-bottom: max(0px, env(safe-area-inset-bottom));
+        }
+      }
+
+      /* Prevent accidental layout overflow from long dynamic text. */
+      .track,
+      .artist,
+      .qtitle,
+      .qsub,
+      .clock,
+      .desc {
+        overflow-wrap: anywhere;
+      }
+
+      /* Touch / keyboard accessibility */
+      button {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+      }
+      button:focus-visible {
+        outline: 2px solid var(--gold);
+        outline-offset: 2px;
+      }
+
+      /* Reduced motion */
       @media (prefers-reduced-motion: reduce) {
         *,
         *::before,

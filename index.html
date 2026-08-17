@@ -6,7 +6,6 @@
       name="viewport"
       content="width=device-width,initial-scale=1,viewport-fit=cover"
     />
-    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="theme-color" content="#0d0906" />
     <title>आँगन — A Living Radio</title>
     <style>
@@ -149,18 +148,6 @@
         font-size: clamp(14px, 2vw, 20px);
         line-height: 1.55;
         text-shadow: 0 3px 20px #000;
-      }
-      #yt {
-        position: fixed;
-        width: 200px;
-        height: 200px;
-        right: 12px;
-        top: 12px;
-        z-index: 1;
-        opacity: 0.001;
-        pointer-events: none;
-        border-radius: 8px;
-        overflow: hidden;
       }
       .radio {
         position: absolute;
@@ -358,10 +345,14 @@
         right: 12px;
         top: 12px;
         z-index: 1;
-        opacity: 0.001;
-        pointer-events: none;
-        border-radius: 8px;
+        border-radius: 12px;
         overflow: hidden;
+        opacity: 0.01;
+        pointer-events: none;
+      }
+      #yt iframe {
+        width: 200px !important;
+        height: 200px !important;
       }
       @media (max-width: 600px) {
         header {
@@ -451,7 +442,7 @@
           <div class="status" id="status">Tap ▶ to start Aangan Radio</div>
         </div>
       </section>
-      <div id="yt" aria-hidden="true"></div>
+      <div id="yt"></div>
     </div>
     <script>
       const IMAGES = [
@@ -465,7 +456,73 @@
         "1000106039.jpg",
         "1000106042.jpg",
       ];
-      const PLAYLIST = "PLmrzljTFgnQD5PO9sgJtdEIadZYVsO7C0";
+      const VIDEO_QUEUES = {
+        sunrise: [
+          {
+            id: "mJmbQrrzzXc",
+            title: "90s Superhit Hindi Songs",
+            sub: "Romantic Evergreen Jukebox",
+          },
+        ],
+        morning: [
+          {
+            id: "mJmbQrrzzXc",
+            title: "90s Bollywood Romance",
+            sub: "Evergreen Hindi Jukebox",
+          },
+        ],
+        afternoon: [
+          {
+            id: "Fs-lAtqIO9g",
+            title: "90's Dance Songs",
+            sub: "90s Party Hits · Tips Official",
+          },
+        ],
+        late: [
+          {
+            id: "mJmbQrrzzXc",
+            title: "90s Superhit Hindi Songs",
+            sub: "Evergreen Romantic Hits",
+          },
+        ],
+        sunset: [
+          {
+            id: "mJmbQrrzzXc",
+            title: "90s Bollywood Romance",
+            sub: "Golden Hour Jukebox",
+          },
+        ],
+        night: [
+          {
+            id: "iiwILELFmxs",
+            title: "Hindi 90s Sad Songs Hits",
+            sub: "Late Night Jukebox · Tips Official",
+          },
+        ],
+        midnight: [
+          {
+            id: "l8_1_5R0oz8",
+            title: "90's Bollywood Sadabahar Sad Songs",
+            sub: "Midnight Jukebox · 90s Gaane",
+          },
+        ],
+        lateNight: [
+          {
+            id: "iiwILELFmxs",
+            title: "Hindi 90s Sad Songs Hits",
+            sub: "Quiet Night Jukebox · Tips Official",
+          },
+        ],
+        rain: [
+          {
+            id: "mJmbQrrzzXc",
+            title: "90s Superhit Hindi Songs",
+            sub: "Rainy Evening · Evergreen Hindi",
+          },
+        ],
+      };
+      let activeQueue = "sunrise";
+      let activeVideoIndex = 0;
       const slots = [
         {
           from: 5,
@@ -570,6 +627,20 @@
         if (h < 5) h += 24;
         return slots.findIndex((s) => h >= s.from && h < s.to);
       }
+      function queueForSlot(n) {
+        return (
+          [
+            "sunrise",
+            "morning",
+            "afternoon",
+            "late",
+            "sunset",
+            "night",
+            "midnight",
+            "lateNight",
+          ][n] || "sunrise"
+        );
+      }
       function applySlot() {
         let n = getSlot();
         if (n < 0) return;
@@ -580,8 +651,10 @@
           $("slot").textContent = s.name;
           $("desc").textContent = s.desc;
           $("qhead").textContent = "आँगन Radio · " + s.name;
-          playlistIndex = s.start;
-          if (ready && !playing) cueAt(s.start);
+          activeQueue = queueForSlot(n);
+          activeVideoIndex = 0;
+          renderQueue();
+          if (ready && !playing) loadActive(false);
         }
       }
       function updateClock() {
@@ -594,16 +667,17 @@
       }
       function renderQueue() {
         const list = $("songs");
-        list.innerHTML = fallbackSongs
+        const q = VIDEO_QUEUES[activeQueue] || VIDEO_QUEUES.sunrise;
+        list.innerHTML = q
           .map(
             (s, i) =>
-              `<button class="qitem ${i === playlistIndex ? "active" : ""}" data-i="${i}"><span class="num">${String(i + 1).padStart(2, "0")}</span><span class="qtext"><span class="qtitle">${s[0]}</span><span class="qsub">${s[1]}</span></span><span class="dot"></span></button>`,
+              `<button class="qitem ${i === activeVideoIndex ? "active" : ""}" data-i="${i}"><span class="num">${String(i + 1).padStart(2, "0")}</span><span class="qtext"><span class="qtitle">${s.title}</span><span class="qsub">${s.sub}</span></span><span class="dot"></span></button>`,
           )
           .join("");
         list.querySelectorAll(".qitem").forEach((b) =>
           b.addEventListener("click", () => {
-            playlistIndex = +b.dataset.i;
-            cueAt(playlistIndex);
+            activeVideoIndex = +b.dataset.i;
+            loadActive(true);
             $("queue").classList.remove("open");
           }),
         );
@@ -613,50 +687,39 @@
         $("artist").textContent = sub || "90s Hindi Radio";
         renderQueue();
       }
-      function cueAt(index) {
+      function loadActive(play) {
         if (!ready) return;
-        const list = player.getPlaylist && player.getPlaylist();
-        if (!list || !list.length) {
-          $("status").textContent = "Loading Aangan Radio…";
-          player.cuePlaylist({
-            listType: "playlist",
-            list: PLAYLIST,
-            index: Math.max(0, index),
-          });
-          return;
+        const q = VIDEO_QUEUES[activeQueue] || VIDEO_QUEUES.sunrise;
+        const item = q[activeVideoIndex % q.length];
+        $("status").textContent = "Loading · " + item.title;
+        player.loadVideoById({ videoId: item.id, startSeconds: 0 });
+        if (!play) {
+          player.pauseVideo();
         }
-        playlistIndex = ((index % list.length) + list.length) % list.length;
-        player.loadVideoById(list[playlistIndex]);
-        $("status").textContent = "Loading · Aangan Radio";
+      }
+      function cueAt(index) {
+        activeVideoIndex = Math.max(0, index);
+        loadActive(true);
       }
       function toggle() {
         if (!ready) {
           $("status").textContent = "Connecting to YouTube…";
           return;
         }
-        if (playing) {
-          player.pauseVideo();
-          return;
-        }
-        $("status").textContent = "Starting Aangan Radio…";
-        player.playVideo();
+        playing ? player.pauseVideo() : player.playVideo();
       }
       $("play").onclick = toggle;
       $("next").onclick = () => {
         if (!ready) return;
-        const list = player.getPlaylist && player.getPlaylist();
-        if (list && list.length) {
-          playlistIndex = (playlistIndex + 1) % list.length;
-          player.playVideoAt(playlistIndex);
-        } else player.nextVideo();
+        const q = VIDEO_QUEUES[activeQueue] || VIDEO_QUEUES.sunrise;
+        activeVideoIndex = (activeVideoIndex + 1) % q.length;
+        loadActive(true);
       };
       $("prev").onclick = () => {
         if (!ready) return;
-        const list = player.getPlaylist && player.getPlaylist();
-        if (list && list.length) {
-          playlistIndex = (playlistIndex - 1 + list.length) % list.length;
-          player.playVideoAt(playlistIndex);
-        } else player.previousVideo();
+        const q = VIDEO_QUEUES[activeQueue] || VIDEO_QUEUES.sunrise;
+        activeVideoIndex = (activeVideoIndex - 1 + q.length) % q.length;
+        loadActive(true);
       };
       $("more").onclick = (e) => {
         $("queue").classList.toggle("open");
@@ -681,59 +744,49 @@
         $("bar").style.width = (d ? Math.min(100, (t / d) * 100) : 0) + "%";
       }
       function onYouTubeIframeAPIReady() {
+        const origin = window.location.origin;
         player = new YT.Player("yt", {
-          width: 200,
-          height: 200,
+          width: "200",
+          height: "200",
+          videoId: "mJmbQrrzzXc",
+          host: "https://www.youtube.com",
           playerVars: {
-            listType: "playlist",
-            list: PLAYLIST,
             autoplay: 0,
             controls: 0,
             playsinline: 1,
             rel: 0,
             iv_load_policy: 3,
             enablejsapi: 1,
-            origin: window.location.origin,
+            origin: origin,
+            widget_referrer: window.location.href,
           },
           events: {
-            onReady,
+            onReady: onReady,
             onStateChange: onState,
-            onError,
-            onAutoplayBlocked,
+            onError: onError,
+            onAutoplayBlocked: onAutoplayBlocked,
           },
         });
       }
+      function onAutoplayBlocked() {
+        playing = false;
+        $("play").textContent = "▶";
+        $("status").textContent = "Tap ▶ to start Aangan Radio";
+      }
       function onReady() {
         ready = true;
-        const frame = player.getIframe && player.getIframe();
-        if (frame) {
-          frame.setAttribute(
-            "allow",
-            "autoplay; encrypted-media; picture-in-picture",
-          );
-          frame.setAttribute("title", "Aangan Radio");
-          frame.setAttribute(
-            "referrerpolicy",
-            "strict-origin-when-cross-origin",
-          );
-        }
         $("status").textContent = "Tap ▶ to start Aangan Radio";
         applySlot();
         renderQueue();
-      }
-      function syncTrack() {
-        const list = player.getPlaylist && player.getPlaylist();
-        const pi = player.getPlaylistIndex && player.getPlaylistIndex();
-        if (typeof pi === "number" && pi >= 0) playlistIndex = pi;
-        const d = player.getVideoData && player.getVideoData();
-        if (d) setMeta(d.title || "Aangan Radio", "YouTube · 90s Hindi Radio");
+        player.pauseVideo();
       }
       function onState(e) {
         if (e.data === YT.PlayerState.PLAYING) {
           playing = true;
           $("play").textContent = "Ⅱ";
           $("status").textContent = "Playing · Aangan Radio";
-          syncTrack();
+          const d = player.getVideoData();
+          setMeta(d.title || "Aangan Radio", "YouTube · 90s Hindi Radio");
         } else if (e.data === YT.PlayerState.PAUSED) {
           playing = false;
           $("play").textContent = "▶";
@@ -741,74 +794,55 @@
         } else if (e.data === YT.PlayerState.ENDED) {
           playing = false;
           $("play").textContent = "▶";
-          $("status").textContent = "Next song…";
-          const list = player.getPlaylist && player.getPlaylist();
-          if (list && list.length) {
-            playlistIndex = (playlistIndex + 1) % list.length;
-            player.playVideoAt(playlistIndex);
-          }
+          const q = VIDEO_QUEUES[activeQueue] || VIDEO_QUEUES.sunrise;
+          activeVideoIndex = (activeVideoIndex + 1) % q.length;
+          loadActive(true);
         } else if (e.data === YT.PlayerState.BUFFERING) {
           $("status").textContent = "Buffering…";
         }
       }
-      function onAutoplayBlocked() {
-        playing = false;
-        $("play").textContent = "▶";
-        $("status").textContent = "Tap ▶ to start Aangan Radio";
-      }
-      function onError() {
-        playing = false;
-        $("play").textContent = "▶";
-        $("status").textContent = "Song unavailable · trying next…";
+      function onError(e) {
+        $("status").textContent = "YouTube playback error · trying next";
         setTimeout(() => {
-          if (!player) return;
-          const list = player.getPlaylist && player.getPlaylist();
-          if (list && list.length) {
-            playlistIndex = (playlistIndex + 1) % list.length;
-            player.playVideoAt(playlistIndex);
-          }
-        }, 500);
+          const q = VIDEO_QUEUES[activeQueue] || VIDEO_QUEUES.sunrise;
+          activeVideoIndex = (activeVideoIndex + 1) % q.length;
+          loadActive(true);
+        }, 700);
       }
       function weather() {
         if (!navigator.geolocation) return;
-        const success = async (pos) => {
-          try {
-            const { latitude, longitude } = pos.coords;
-            const r = await fetch(
-              `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=weather_code`,
-              { cache: "no-store" },
-            );
-            if (!r.ok) throw new Error("Weather request failed");
-            const j = await r.json();
-            const code = j.current?.weather_code;
-            const rain = [
-              51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82,
-            ].includes(code);
-            weatherRain = rain;
-            $("rain").classList.toggle("on", rain);
-            if (rain) {
-              $("slot").textContent = "बारिश · आँगन Radio";
-              $("desc").textContent =
-                "The courtyard has gone quiet. Let the rain choose the mood.";
-              $("scene").style.backgroundImage = `url("${IMAGES[8]}")`;
-            } else {
-              applySlot();
+        navigator.geolocation.getCurrentPosition(
+          async (pos) => {
+            try {
+              let { latitude, longitude } = pos.coords;
+              let r = await fetch(
+                `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=weather_code`,
+              );
+              let j = await r.json();
+              let code = j.current?.weather_code;
+              let rain = [
+                51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82,
+              ].includes(code);
+              weatherRain = rain;
+              $("rain").classList.toggle("on", rain);
+              if (rain) {
+                activeQueue = "rain";
+                $("slot").textContent = "बारिश · आँगन Radio";
+                $("desc").textContent =
+                  "The courtyard has gone quiet. Let the rain choose the mood.";
+                $("scene").style.backgroundImage = `url("${IMAGES[8]}")`;
+                renderQueue();
+                if (ready && !playing) loadActive(false);
+              }
+            } catch (e) {
+              console.warn("Weather unavailable", e);
             }
-          } catch (e) {
-            console.warn("Weather unavailable:", e);
-            applySlot();
-          }
-        };
-        const error = (err) => {
-          console.warn("Location unavailable:", err.message);
-          applySlot();
-        };
-        const options = {
-          enableHighAccuracy: false,
-          timeout: 5000,
-          maximumAge: 600000,
-        };
-        navigator.geolocation.getCurrentPosition(success, error, options);
+          },
+          (err) => {
+            console.warn("Geolocation unavailable", err.message);
+          },
+          { enableHighAccuracy: false, timeout: 8000, maximumAge: 600000 },
+        );
       }
       setInterval(updateProgress, 1000);
       setInterval(updateClock, 30000);

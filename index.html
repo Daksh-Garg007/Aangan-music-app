@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -399,6 +399,217 @@
         }
       }
     </style>
+
+    <style id="aangan-responsive">
+      /* ---------- AANGAN RESPONSIVE LAYER ---------- */
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        width: 100%;
+        min-height: 100%;
+        overflow-x: hidden;
+      }
+      body {
+        width: 100%;
+        min-width: 0;
+        overflow-x: hidden;
+        -webkit-text-size-adjust: 100%;
+      }
+      img,
+      iframe,
+      video {
+        max-width: 100%;
+      }
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+      button {
+        touch-action: manipulation;
+      }
+
+      @media (max-width: 1100px) {
+        .player,
+        .music-player,
+        .radio-player,
+        #playerCard {
+          max-width: min(92vw, 680px);
+        }
+      }
+
+      @media (max-width: 768px) {
+        body {
+          min-height: 100svh;
+        }
+        .scene,
+        #scene {
+          min-height: 100svh !important;
+          height: auto !important;
+          background-position: center center !important;
+        }
+
+        /* Keep hero content readable without changing the desktop composition. */
+        .hero,
+        .hero-content,
+        .content,
+        .overlay,
+        .scene-content {
+          max-width: 100%;
+        }
+
+        h1,
+        .title,
+        .hero-title {
+          font-size: clamp(2.1rem, 9vw, 4.2rem) !important;
+          line-height: 1.02 !important;
+        }
+
+        h2 {
+          font-size: clamp(1.35rem, 5vw, 2rem) !important;
+        }
+        p,
+        .desc,
+        #desc {
+          font-size: clamp(0.92rem, 3.5vw, 1.08rem);
+        }
+
+        .player,
+        .music-player,
+        .radio-player,
+        #playerCard {
+          width: min(92vw, 620px) !important;
+          max-width: 92vw !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+        }
+
+        /* Make the embedded YouTube area fit narrow screens. */
+        .player iframe,
+        .music-player iframe,
+        .radio-player iframe {
+          width: 100% !important;
+          max-width: 100% !important;
+        }
+
+        /* Prevent long metadata/playlist text from forcing horizontal scroll. */
+        .queue,
+        .playlist,
+        .track-list,
+        #queue {
+          max-width: 100%;
+          overflow-x: hidden;
+        }
+        .queue-item,
+        .track,
+        .song,
+        .track-row {
+          min-width: 0;
+        }
+
+        /* Comfortable touch targets. */
+        button,
+        .btn,
+        .control,
+        .player button {
+          min-height: 44px;
+          min-width: 44px;
+        }
+
+        #clock {
+          white-space: normal;
+          max-width: 90vw;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .scene,
+        #scene {
+          background-position: 50% 50% !important;
+        }
+
+        h1,
+        .title,
+        .hero-title {
+          font-size: clamp(1.85rem, 11vw, 3rem) !important;
+        }
+
+        .player,
+        .music-player,
+        .radio-player,
+        #playerCard {
+          width: calc(100vw - 24px) !important;
+          max-width: calc(100vw - 24px) !important;
+          border-radius: 18px !important;
+        }
+
+        .player iframe,
+        .music-player iframe,
+        .radio-player iframe {
+          min-height: 190px;
+          height: 34vw;
+          max-height: 240px;
+        }
+
+        .controls,
+        .player-controls,
+        .music-controls {
+          gap: 8px !important;
+          flex-wrap: wrap;
+        }
+
+        .controls > *,
+        .player-controls > *,
+        .music-controls > * {
+          flex: 0 0 auto;
+        }
+
+        .queue-item,
+        .track,
+        .song,
+        .track-row {
+          padding: 10px !important;
+        }
+      }
+
+      @media (max-width: 360px) {
+        h1,
+        .title,
+        .hero-title {
+          font-size: 1.7rem !important;
+        }
+
+        .player,
+        .music-player,
+        .radio-player,
+        #playerCard {
+          width: calc(100vw - 16px) !important;
+          max-width: calc(100vw - 16px) !important;
+        }
+      }
+
+      /* Tablet landscape / small laptops */
+      @media (min-width: 769px) and (max-width: 1024px) {
+        .scene,
+        #scene {
+          min-height: 100svh !important;
+          background-position: center !important;
+        }
+      }
+
+      /* Respect reduced motion. */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
   </head>
   <body>
     <div class="app">
@@ -409,6 +620,13 @@
         <div class="brand">आँगन Radio</div>
         <div class="clock" id="clock">--:--</div>
       </header>
+      <main class="hero">
+        <div class="hero-inner">
+          <div class="eyebrow" id="slot">A living courtyard</div>
+          <h1 class="title">आँगन</h1>
+          <p class="desc" id="desc">हर वक़्त की अपनी धुन होती है।</p>
+        </div>
+      </main>
       <div class="footer">90s Hindi Radio · slow moments</div>
       <section class="radio" aria-label="Aangan music player">
         <div class="queue" id="queue">
@@ -616,6 +834,16 @@
         weatherRain = false,
         playlistIndex = 0;
       const $ = (id) => document.getElementById(id);
+      const setText = (id, value) => {
+        const el = $(id);
+        if (el) el.textContent = value;
+        return el;
+      };
+      const setStyle = (id, prop, value) => {
+        const el = $(id);
+        if (el) el.style[prop] = value;
+        return el;
+      };
       function getSlot() {
         let h = new Date().getHours();
         if (h < 5) h += 24;
@@ -641,10 +869,10 @@
         if (n !== currentSlot) {
           currentSlot = n;
           const s = slots[n];
-          $("scene").style.backgroundImage = `url("${IMAGES[s.img]}")`;
-          $("slot").textContent = s.name;
-          $("desc").textContent = s.desc;
-          $("qhead").textContent = "आँगन Radio · " + s.name;
+          setStyle("scene", "backgroundImage", `url("${IMAGES[s.img]}")`);
+          setText("slot", s.name);
+          setText("desc", s.desc);
+          setText("qhead", "आँगन Radio · " + s.name);
           activeQueue = queueForSlot(n);
           activeVideoIndex = 0;
           renderQueue();
@@ -653,10 +881,12 @@
       }
       function updateClock() {
         const d = new Date();
-        $("clock").textContent =
+        setText(
+          "clock",
           d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) +
-          " · " +
-          Intl.DateTimeFormat().resolvedOptions().timeZone;
+            " · " +
+            Intl.DateTimeFormat().resolvedOptions().timeZone,
+        );
         applySlot();
       }
       function renderQueue() {
@@ -733,12 +963,19 @@
       });
       function updateProgress() {
         if (!player || !ready) return;
-        let d = player.getDuration(),
-          t = player.getCurrentTime();
-        $("bar").style.width = (d ? Math.min(100, (t / d) * 100) : 0) + "%";
+        try {
+          let d = player.getDuration(),
+            t = player.getCurrentTime();
+          setStyle(
+            "bar",
+            "width",
+            (d ? Math.min(100, (t / d) * 100) : 0) + "%",
+          );
+        } catch (e) {}
       }
       function onYouTubeIframeAPIReady() {
-        const origin = window.location.origin;
+        const origin =
+          window.location.origin || "https://aangan-music-app.vercel.app";
         player = new YT.Player("yt", {
           width: "200",
           height: "200",
@@ -821,10 +1058,12 @@
               $("rain").classList.toggle("on", rain);
               if (rain) {
                 activeQueue = "rain";
-                $("slot").textContent = "बारिश · आँगन Radio";
-                $("desc").textContent =
-                  "The courtyard has gone quiet. Let the rain choose the mood.";
-                $("scene").style.backgroundImage = `url("${IMAGES[8]}")`;
+                setText("slot", "बारिश · आँगन Radio");
+                setText(
+                  "desc",
+                  "The courtyard has gone quiet. Let the rain choose the mood.",
+                );
+                setStyle("scene", "backgroundImage", `url("${IMAGES[8]}")`);
                 renderQueue();
                 if (ready && !playing) loadActive(false);
               }

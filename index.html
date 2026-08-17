@@ -788,6 +788,198 @@
         }
       }
     </style>
+
+    <style id="aangan-player-mobile-fix">
+      /* ===== MOBILE/TABLET MUSIC PLAYER VISIBILITY FIX ===== */
+      @media (max-width: 1200px) {
+        html,
+        body,
+        .app {
+          overflow: hidden !important;
+          height: 100% !important;
+          min-height: 100svh !important;
+        }
+
+        .radio,
+        #radio,
+        .music-player,
+        .radio-player,
+        #playerCard {
+          position: fixed !important;
+          z-index: 9999 !important;
+          left: 10px !important;
+          right: 10px !important;
+          bottom: max(10px, env(safe-area-inset-bottom)) !important;
+          width: auto !important;
+          max-width: none !important;
+          height: auto !important;
+          transform: none !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+          display: block !important;
+        }
+
+        .radio .player,
+        #radio .player {
+          position: relative !important;
+          width: 100% !important;
+          max-width: none !important;
+          height: auto !important;
+          max-height: 90px !important;
+          overflow: visible !important;
+        }
+
+        /* Never let the hero/footer cover the fixed player. */
+        .hero,
+        .hero-inner,
+        .footer {
+          z-index: 1 !important;
+        }
+
+        .queue {
+          z-index: 10000 !important;
+        }
+      }
+
+      /* Phones */
+      @media (max-width: 767px) {
+        .radio,
+        #radio,
+        .music-player,
+        .radio-player,
+        #playerCard {
+          left: 8px !important;
+          right: 8px !important;
+          bottom: max(8px, env(safe-area-inset-bottom)) !important;
+        }
+
+        .radio .player,
+        #radio .player,
+        .music-player,
+        .radio-player,
+        #playerCard {
+          min-height: 64px !important;
+          max-height: 82px !important;
+          padding: 7px 9px !important;
+          border-radius: 14px !important;
+        }
+
+        .radio .row,
+        #radio .row {
+          min-height: 46px !important;
+          align-items: center !important;
+        }
+
+        .radio .controls,
+        #radio .controls {
+          display: flex !important;
+          flex-shrink: 0 !important;
+          visibility: visible !important;
+        }
+
+        .radio .ctrl,
+        #radio .ctrl {
+          display: flex !important;
+          visibility: visible !important;
+        }
+
+        .radio .progress,
+        #radio .progress {
+          display: block !important;
+          visibility: visible !important;
+        }
+
+        /* Keep enough room above the player so it never gets pushed off-screen. */
+        .hero {
+          padding-bottom: 105px !important;
+        }
+
+        .footer {
+          bottom: 94px !important;
+        }
+      }
+
+      /* Very narrow phones */
+      @media (max-width: 380px) {
+        .radio,
+        #radio,
+        .music-player,
+        .radio-player,
+        #playerCard {
+          left: 5px !important;
+          right: 5px !important;
+          bottom: max(5px, env(safe-area-inset-bottom)) !important;
+        }
+
+        .radio .player,
+        #radio .player {
+          min-height: 58px !important;
+          max-height: 74px !important;
+          padding: 5px 7px !important;
+        }
+
+        .radio .artist,
+        #radio .artist,
+        .radio .status,
+        #radio .status {
+          display: none !important;
+        }
+
+        .hero {
+          padding-bottom: 92px !important;
+        }
+      }
+
+      /* Tablets */
+      @media (min-width: 768px) and (max-width: 1200px) {
+        .radio,
+        #radio,
+        .music-player,
+        .radio-player,
+        #playerCard {
+          left: 18px !important;
+          right: 18px !important;
+          bottom: max(14px, env(safe-area-inset-bottom)) !important;
+        }
+
+        .radio .player,
+        #radio .player {
+          width: min(760px, 100%) !important;
+          margin: 0 auto !important;
+          min-height: 72px !important;
+        }
+
+        .hero {
+          padding-bottom: 125px !important;
+        }
+      }
+
+      /* Landscape phones/tablets */
+      @media (orientation: landscape) and (max-width: 1200px) and (max-height: 650px) {
+        .radio,
+        #radio,
+        .music-player,
+        .radio-player,
+        #playerCard {
+          bottom: max(5px, env(safe-area-inset-bottom)) !important;
+        }
+
+        .radio .player,
+        #radio .player {
+          max-height: 68px !important;
+          min-height: 54px !important;
+          padding: 5px 9px !important;
+        }
+
+        .hero {
+          padding-bottom: 78px !important;
+        }
+
+        .footer {
+          display: none !important;
+        }
+      }
+    </style>
   </head>
   <body>
     <div class="app">
@@ -798,13 +990,6 @@
         <div class="brand">आँगन Radio</div>
         <div class="clock" id="clock">--:--</div>
       </header>
-      <main class="hero">
-        <div class="hero-inner">
-          <div class="eyebrow" id="slot">A living courtyard</div>
-          <h1 class="title">आँगन</h1>
-          <p class="desc" id="desc">हर वक़्त की अपनी धुन होती है।</p>
-        </div>
-      </main>
       <div class="footer">90s Hindi Radio · slow moments</div>
       <section class="radio" aria-label="Aangan music player">
         <div class="queue" id="queue">

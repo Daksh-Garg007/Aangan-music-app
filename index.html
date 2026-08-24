@@ -3928,6 +3928,405 @@ body {
 }
 </style>
 
+
+<style id="aangan-hanuman-inspired-features">
+/* ===== TOP BAR ===== */
+.aangan-topbar {
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr !important;
+  align-items: center !important;
+  gap: 16px !important;
+  position: relative !important;
+  z-index: 50 !important;
+}
+
+.brand-wrap {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  min-width: 0 !important;
+}
+
+.brand-wrap .clock {
+  opacity: .72;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.listener-pill {
+  justify-self: center !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  min-height: 34px !important;
+  padding: 7px 13px !important;
+  border: 1px solid rgba(255,255,255,.16) !important;
+  border-radius: 999px !important;
+  background: rgba(18,12,9,.16) !important;
+  color: rgba(255,248,235,.92) !important;
+  backdrop-filter: blur(7px) !important;
+  -webkit-backdrop-filter: blur(7px) !important;
+  box-shadow: 0 5px 20px rgba(0,0,0,.08) !important;
+  font: 11px Arial, sans-serif !important;
+  cursor: default !important;
+}
+
+.listener-dot {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background: #69d78a !important;
+  box-shadow: 0 0 0 3px rgba(105,215,138,.12), 0 0 10px rgba(105,215,138,.55) !important;
+  flex: 0 0 auto !important;
+}
+
+.listener-pill strong {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+.top-actions {
+  justify-self: end !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.top-action {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 34px !important;
+  border: 1px solid rgba(255,255,255,.15) !important;
+  border-radius: 999px !important;
+  background: rgba(15,10,8,.15) !important;
+  color: rgba(255,248,235,.9) !important;
+  backdrop-filter: blur(7px) !important;
+  -webkit-backdrop-filter: blur(7px) !important;
+  cursor: pointer !important;
+  transition: background .2s ease, border-color .2s ease, transform .2s ease !important;
+}
+
+.top-action:hover {
+  background: rgba(255,255,255,.08) !important;
+  border-color: rgba(255,255,255,.28) !important;
+  transform: translateY(-1px) !important;
+}
+
+.info-action {
+  width: 34px !important;
+  padding: 0 !important;
+  font: 600 13px Georgia, serif !important;
+}
+
+.support-action {
+  padding: 7px 13px !important;
+  gap: 6px !important;
+  font: 600 10px Arial, sans-serif !important;
+}
+
+/* ===== MODALS ===== */
+.aangan-modal-backdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 200 !important;
+  display: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 20px !important;
+  background: rgba(3,2,2,.48) !important;
+  backdrop-filter: blur(9px) !important;
+  -webkit-backdrop-filter: blur(9px) !important;
+}
+
+.aangan-modal-backdrop.open {
+  display: flex !important;
+}
+
+.aangan-modal {
+  position: relative !important;
+  width: min(520px, calc(100vw - 32px)) !important;
+  max-height: min(720px, calc(100dvh - 40px)) !important;
+  overflow: auto !important;
+  box-sizing: border-box !important;
+  padding: 42px 36px 30px !important;
+  border: 1px solid rgba(255,235,202,.18) !important;
+  border-radius: 30px !important;
+  background: rgba(22,12,8,.66) !important;
+  backdrop-filter: blur(22px) saturate(115%) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(115%) !important;
+  color: #f7ead5 !important;
+  box-shadow: 0 30px 100px rgba(0,0,0,.42) !important;
+  text-align: center !important;
+}
+
+.modal-close {
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+  width: 38px !important;
+  height: 38px !important;
+  border: 1px solid rgba(255,255,255,.2) !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  color: rgba(255,248,235,.9) !important;
+  font-size: 23px !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+}
+
+.modal-kicker {
+  color: #d5a269 !important;
+  letter-spacing: .24em !important;
+  font: 700 9px Arial, sans-serif !important;
+}
+
+.aangan-modal h2 {
+  margin: 14px 0 12px !important;
+  font: 400 clamp(34px, 5vw, 54px)/.98 Georgia, "Times New Roman", serif !important;
+  letter-spacing: -.025em !important;
+}
+
+.modal-lead {
+  margin: 0 auto !important;
+  max-width: 430px !important;
+  color: rgba(247,234,213,.67) !important;
+  font: 500 14px/1.55 Arial, sans-serif !important;
+}
+
+.modal-note {
+  margin: 22px auto 0 !important;
+  color: rgba(247,234,213,.42) !important;
+  font: 10px/1.5 Arial, sans-serif !important;
+}
+
+.time-guide {
+  display: grid !important;
+  grid-template-columns: repeat(2,1fr) !important;
+  gap: 8px !important;
+  margin-top: 28px !important;
+}
+
+.time-guide div {
+  display: grid !important;
+  grid-template-columns: 28px 1fr !important;
+  grid-template-rows: auto auto !important;
+  align-items: center !important;
+  text-align: left !important;
+  padding: 12px !important;
+  border: 1px solid rgba(255,255,255,.09) !important;
+  border-radius: 16px !important;
+  background: rgba(255,255,255,.035) !important;
+}
+
+.time-guide span {
+  grid-row: 1 / span 2 !important;
+  font-size: 20px !important;
+  opacity: .9 !important;
+}
+
+.time-guide b {
+  font: 600 11px Arial, sans-serif !important;
+}
+
+.time-guide small {
+  margin-top: 3px !important;
+  color: rgba(247,234,213,.42) !important;
+  font: 9px Arial, sans-serif !important;
+}
+
+.support-lamp {
+  font-size: 42px !important;
+  margin-bottom: 10px !important;
+}
+
+.upi-box {
+  margin: 26px auto 0 !important;
+  padding: 20px !important;
+  width: min(300px, 100%) !important;
+  border: 1px solid rgba(255,255,255,.11) !important;
+  border-radius: 20px !important;
+  background: rgba(255,255,255,.035) !important;
+}
+
+.upi-placeholder {
+  display: grid !important;
+  place-items: center !important;
+  width: 150px !important;
+  height: 150px !important;
+  margin: 0 auto 15px !important;
+  border: 1px dashed rgba(255,255,255,.28) !important;
+  border-radius: 16px !important;
+  color: rgba(255,255,255,.35) !important;
+  font: 700 11px Arial, sans-serif !important;
+  letter-spacing: .15em !important;
+}
+
+.upi-id {
+  display: inline-block !important;
+  padding: 9px 13px !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+  border-radius: 999px !important;
+  font: 600 11px Arial, sans-serif !important;
+}
+
+.upi-box small {
+  display: block !important;
+  margin-top: 10px !important;
+  color: rgba(247,234,213,.38) !important;
+  font: 8px Arial, sans-serif !important;
+}
+
+/* ===== QUEUE MODAL ===== */
+.queue-modal {
+  width: min(560px, calc(100vw - 28px)) !important;
+  text-align: left !important;
+}
+
+.queue-modal h2 {
+  margin-bottom: 5px !important;
+}
+
+.queue-modal-sub {
+  color: rgba(247,234,213,.42) !important;
+  font: 10px Arial, sans-serif !important;
+  margin-bottom: 18px !important;
+}
+
+.queue-modal-list {
+  max-height: min(430px, 55dvh) !important;
+  overflow: auto !important;
+  display: grid !important;
+  gap: 4px !important;
+}
+
+.queue-modal-list .queue-song {
+  display: grid !important;
+  grid-template-columns: 34px minmax(0,1fr) !important;
+  gap: 10px !important;
+  align-items: center !important;
+  width: 100% !important;
+  padding: 10px 9px !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  background: transparent !important;
+  color: #f7ead5 !important;
+  text-align: left !important;
+  cursor: pointer !important;
+}
+
+.queue-modal-list .queue-song:hover,
+.queue-modal-list .queue-song.active {
+  background: rgba(255,255,255,.065) !important;
+}
+
+.queue-song-num {
+  color: rgba(247,234,213,.32) !important;
+  font: 9px Arial, sans-serif !important;
+  text-align: center !important;
+}
+
+.queue-song-title {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  font: 600 11px Arial, sans-serif !important;
+}
+
+/* Queue button */
+.radio .queue-toggle {
+  font-size: 16px !important;
+  opacity: .8 !important;
+}
+
+@media (max-width: 767px) {
+  .aangan-topbar {
+    grid-template-columns: 1fr auto !important;
+    grid-template-areas:
+      "brand actions"
+      "listener listener" !important;
+    row-gap: 7px !important;
+  }
+
+  .brand-wrap {
+    grid-area: brand !important;
+  }
+
+  .top-actions {
+    grid-area: actions !important;
+  }
+
+  .listener-pill {
+    grid-area: listener !important;
+    justify-self: center !important;
+    min-height: 29px !important;
+    padding: 5px 11px !important;
+    font-size: 9px !important;
+  }
+
+  .listener-dot {
+    width: 7px !important;
+    height: 7px !important;
+  }
+
+  .top-action {
+    min-height: 30px !important;
+  }
+
+  .support-action {
+    width: 30px !important;
+    padding: 0 !important;
+    font-size: 14px !important;
+  }
+
+  .support-action span {
+    display: none !important;
+  }
+
+  .info-action {
+    width: 30px !important;
+  }
+
+  .aangan-modal-backdrop {
+    padding: 10px !important;
+    align-items: flex-end !important;
+  }
+
+  .aangan-modal {
+    width: 100% !important;
+    max-height: calc(100dvh - 20px) !important;
+    padding: 36px 20px 24px !important;
+    border-radius: 26px !important;
+  }
+
+  .aangan-modal h2 {
+    font-size: 36px !important;
+  }
+
+  .time-guide {
+    gap: 6px !important;
+  }
+
+  .time-guide div {
+    padding: 10px !important;
+  }
+
+  .queue-modal {
+    max-height: calc(100dvh - 20px) !important;
+  }
+
+  .queue-modal-list {
+    max-height: 50dvh !important;
+  }
+}
+</style>
+
+
+<style>
+body.modal-open { overflow: hidden !important; }
+</style>
+
 </head>
   <body>
     <!-- Aangan Radio: long/compilation tracks are rejected before playback and remembered locally. -->
@@ -3935,9 +4334,22 @@ body {
       <div class="scene" id="scene"></div>
       <div class="vignette"></div>
       <div class="rain" id="rain"></div>
-      <header>
-        <div class="brand">आँगन Radio</div>
-        <div class="clock" id="clock">--:--</div>
+      <header class="aangan-topbar">
+        <div class="brand-wrap">
+          <div class="brand">आँगन Radio</div>
+          <div class="clock" id="clock">--:--</div>
+        </div>
+
+        <button class="listener-pill" id="listenerPill" type="button" aria-label="People listening">
+          <span class="listener-dot"></span>
+          <strong id="listenerCount">1</strong>
+          <span id="listenerLabel">person listening</span>
+        </button>
+
+        <div class="top-actions">
+          <button class="top-action info-action" id="infoBtn" type="button" aria-label="About Aangan" title="About Aangan">i</button>
+          <button class="top-action support-action" id="supportBtn" type="button" aria-label="Support Aangan">☕ <span>Support Aangan</span></button>
+        </div>
       </header>
       <div class="footer">90s Hindi Radio · slow moments</div>
       <section class="radio" aria-label="Aangan music player">
@@ -3961,6 +4373,7 @@ body {
               <button class="ctrl" id="prev" aria-label="Previous song" title="Previous">‹</button>
               <button class="ctrl play" id="play" aria-label="Play" title="Play">▶</button>
               <button class="ctrl" id="next" aria-label="Next song" title="Next">›</button>
+              <button class="ctrl queue-toggle" id="queueToggle" aria-label="Show song queue" title="Song queue">☷</button>
             </div>
           </div>
 
@@ -3975,6 +4388,56 @@ body {
           <div class="status" id="status">Tap ▶ to start Aangan Radio</div>
         </div>
       </section>
+
+      <!-- Aangan info -->
+      <div class="aangan-modal-backdrop" id="infoModal" aria-hidden="true">
+        <section class="aangan-modal info-modal" role="dialog" aria-modal="true" aria-labelledby="infoTitle">
+          <button class="modal-close" data-close-modal="infoModal" aria-label="Close">×</button>
+          <div class="modal-kicker">आँगन RADIO</div>
+          <h2 id="infoTitle">A little corner for old songs.</h2>
+          <p class="modal-lead">90s nostalgia · slow moments · music that follows your local time.</p>
+
+          <div class="time-guide">
+            <div><span>☀</span><b>Morning</b><small>Fresh & familiar</small></div>
+            <div><span>◐</span><b>Afternoon</b><small>Easy-going classics</small></div>
+            <div><span>◒</span><b>Evening</b><small>Romance & memories</small></div>
+            <div><span>☾</span><b>Night</b><small>Slow & nostalgic</small></div>
+          </div>
+
+          <p class="modal-note">Aangan changes its scene and music with the time where you are.</p>
+        </section>
+      </div>
+
+      <!-- Support Aangan -->
+      <div class="aangan-modal-backdrop" id="supportModal" aria-hidden="true">
+        <section class="aangan-modal support-modal" role="dialog" aria-modal="true" aria-labelledby="supportTitle">
+          <button class="modal-close" data-close-modal="supportModal" aria-label="Close">×</button>
+          <div class="support-lamp">🪔</div>
+          <div class="modal-kicker">SUPPORT THIS PROJECT</div>
+          <h2 id="supportTitle">Help keep Aangan running.</h2>
+          <p class="modal-lead">Your support helps with hosting, music curation and keeping this little corner free.</p>
+
+          <div class="upi-box">
+            <div class="upi-placeholder">UPI</div>
+            <div class="upi-id" id="upiId">YOUR-UPI-ID@bank</div>
+            <small>Replace the UPI ID in the HTML with yours.</small>
+          </div>
+
+          <p class="modal-note">Support is completely optional. Aangan will always remain free.</p>
+        </section>
+      </div>
+
+      <!-- Song queue -->
+      <div class="aangan-modal-backdrop queue-modal-backdrop" id="queueModal" aria-hidden="true">
+        <section class="aangan-modal queue-modal" role="dialog" aria-modal="true" aria-labelledby="queueTitle">
+          <button class="modal-close" data-close-modal="queueModal" aria-label="Close">×</button>
+          <div class="modal-kicker">NOW PLAYING</div>
+          <h2 id="queueTitle">Aangan Radio</h2>
+          <div class="queue-modal-sub" id="queueModalSub">Songs for your local time</div>
+          <div class="queue-modal-list" id="queueModalList"></div>
+        </section>
+      </div>
+
       <div id="yt"></div>
     </div>
     <script>
@@ -4428,8 +4891,11 @@ function markTrackBlocked(item) {
       });
 
       document.addEventListener("click", (e) => {
-        if (!$("volumePanel").contains(e.target) && e.target !== $("volume"))
-          $("volumePanel").classList.remove("open");
+        const volumePanel = $("volumePanel");
+        const volumeButton = $("volume");
+        if (!volumePanel) return;
+        if (!volumePanel.contains(e.target) && e.target !== volumeButton)
+          volumePanel.classList.remove("open");
       });
 
       function updateProgress() {
@@ -4561,6 +5027,150 @@ function markTrackBlocked(item) {
           { enableHighAccuracy: false, timeout: 8000, maximumAge: 600000 },
         );
       }
+
+      /* ===== AANGAN: HANUMAN-STYLE UX FEATURES ===== */
+      const LISTENER_STORAGE_KEY = "aangan_listener_tabs_v1";
+      let listenerChannel = null;
+      let listenerId = Math.random().toString(36).slice(2) + Date.now().toString(36);
+
+      function openModal(id) {
+        const el = $(id);
+        if (!el) return;
+        el.classList.add("open");
+        el.setAttribute("aria-hidden", "false");
+        document.body.classList.add("modal-open");
+      }
+
+      function closeModal(id) {
+        const el = $(id);
+        if (!el) return;
+        el.classList.remove("open");
+        el.setAttribute("aria-hidden", "true");
+        if (!document.querySelector(".aangan-modal-backdrop.open")) {
+          document.body.classList.remove("modal-open");
+        }
+      }
+
+      $("infoBtn")?.addEventListener("click", () => openModal("infoModal"));
+      $("supportBtn")?.addEventListener("click", () => openModal("supportModal"));
+      $("queueToggle")?.addEventListener("click", () => {
+        populateQueueModal();
+        openModal("queueModal");
+      });
+
+      document.querySelectorAll("[data-close-modal]").forEach(btn => {
+        btn.addEventListener("click", () => closeModal(btn.dataset.closeModal));
+      });
+
+      document.querySelectorAll(".aangan-modal-backdrop").forEach(backdrop => {
+        backdrop.addEventListener("click", e => {
+          if (e.target === backdrop) closeModal(backdrop.id);
+        });
+      });
+
+      document.addEventListener("keydown", e => {
+        if (e.key === "Escape") {
+          document.querySelectorAll(".aangan-modal-backdrop.open")
+            .forEach(el => closeModal(el.id));
+        }
+      });
+
+      function populateQueueModal() {
+        const list = $("queueModalList");
+        if (!list) return;
+
+        const q = (VIDEO_QUEUES[activeQueue] || VIDEO_QUEUES.sunrise)
+          .filter(item => !isBlockedTrack(item));
+
+        const slotText = $("qhead")?.textContent || "Aangan Radio";
+        setText("queueModalSub", slotText);
+
+        list.innerHTML = q.map((song, i) => `
+          <button class="queue-song ${song.id === q[activeVideoIndex % q.length]?.id ? "active" : ""}"
+                  data-qindex="${i}">
+            <span class="queue-song-num">${String(i + 1).padStart(2, "0")}</span>
+            <span class="queue-song-title">${shortSongTitle(song.title)}</span>
+          </button>
+        `).join("");
+
+        list.querySelectorAll(".queue-song").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const visibleIndex = Number(btn.dataset.qindex);
+            const item = q[visibleIndex];
+            const originalIndex = (VIDEO_QUEUES[activeQueue] || []).findIndex(x => x.id === item.id);
+            if (originalIndex >= 0) {
+              activeVideoIndex = originalIndex;
+              loadActive(true);
+              closeModal("queueModal");
+            }
+          });
+        });
+      }
+
+      /*
+       * Listener count:
+       * This HTML includes a local live-presence counter so the feature works
+       * immediately without another service. It counts simultaneous Aangan tabs
+       * in the same browser/device.
+       *
+       * For a true cross-user count across all visitors, connect this hook to
+       * Firebase/Supabase later. The UI itself is already ready for that.
+       */
+      function updateLocalListenerCount() {
+        const now = Date.now();
+        let sessions = {};
+        try {
+          sessions = JSON.parse(localStorage.getItem(LISTENER_STORAGE_KEY) || "{}");
+        } catch (e) {}
+
+        Object.keys(sessions).forEach(id => {
+          if (now - sessions[id] > 15000) delete sessions[id];
+        });
+
+        sessions[listenerId] = now;
+        try {
+          localStorage.setItem(LISTENER_STORAGE_KEY, JSON.stringify(sessions));
+        } catch (e) {}
+
+        const count = Math.max(1, Object.keys(sessions).length);
+        setText("listenerCount", count);
+        setText("listenerLabel", count === 1 ? "person listening" : "people listening");
+      }
+
+      function announceListenerPresence() {
+        updateLocalListenerCount();
+
+        try {
+          if ("BroadcastChannel" in window) {
+            listenerChannel = new BroadcastChannel("aangan-listeners");
+            listenerChannel.postMessage({ type: "heartbeat", id: listenerId });
+
+            listenerChannel.onmessage = e => {
+              if (e.data?.type === "heartbeat") updateLocalListenerCount();
+              if (e.data?.type === "bye") updateLocalListenerCount();
+            };
+          }
+        } catch (e) {}
+      }
+
+      setInterval(updateLocalListenerCount, 5000);
+      window.addEventListener("storage", e => {
+        if (e.key === LISTENER_STORAGE_KEY) updateLocalListenerCount();
+      });
+
+      window.addEventListener("beforeunload", () => {
+        try {
+          const sessions = JSON.parse(localStorage.getItem(LISTENER_STORAGE_KEY) || "{}");
+          delete sessions[listenerId];
+          localStorage.setItem(LISTENER_STORAGE_KEY, JSON.stringify(sessions));
+          listenerChannel?.postMessage({ type: "bye", id: listenerId });
+          listenerChannel?.close();
+        } catch (e) {}
+      });
+
+      announceListenerPresence();
+
+
       setInterval(updateProgress, 1000);
       setInterval(updateClock, 30000);
       updateClock();

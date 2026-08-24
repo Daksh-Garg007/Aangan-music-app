@@ -2591,6 +2591,448 @@ body {
   }
 </style>
 
+
+<style id="aangan-saloon-final-player">
+/* =========================================================
+   AANGAN MUSIC PLAYER
+   Large artwork + clean Saloon-inspired glass capsule
+   Functionality is intentionally untouched.
+   ========================================================= */
+
+.radio {
+  position: absolute !important;
+  z-index: 50 !important;
+  left: 50% !important;
+  bottom: max(24px, env(safe-area-inset-bottom)) !important;
+  transform: translateX(-50%) !important;
+  width: min(920px, calc(100vw - 56px)) !important;
+}
+
+/* Main capsule */
+.radio .player {
+  width: 100% !important;
+  min-height: 164px !important;
+  padding: 18px 28px 14px 18px !important;
+  border-radius: 82px !important;
+
+  background:
+    linear-gradient(
+      105deg,
+      rgba(73, 39, 27, .56),
+      rgba(42, 23, 17, .38)
+    ) !important;
+
+  border: 1px solid rgba(255,255,255,.24) !important;
+
+  box-shadow:
+    0 22px 65px rgba(0,0,0,.34),
+    inset 0 1px 0 rgba(255,255,255,.15),
+    inset 0 -1px 0 rgba(0,0,0,.15) !important;
+
+  backdrop-filter: blur(24px) saturate(125%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(125%) !important;
+}
+
+/* One clean horizontal row */
+.radio .player .row {
+  display: flex !important;
+  align-items: center !important;
+  min-height: 116px !important;
+  gap: 22px !important;
+}
+
+/* BIG album/cassette artwork */
+.radio .player .disc {
+  position: relative !important;
+  width: 116px !important;
+  height: 116px !important;
+  min-width: 116px !important;
+  flex: 0 0 116px !important;
+  border-radius: 50% !important;
+
+  border: 2px solid rgba(255,255,255,.34) !important;
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.38),
+    0 0 0 5px rgba(255,255,255,.055),
+    inset 0 0 0 1px rgba(0,0,0,.18) !important;
+}
+
+/* Slight cassette/vinyl rotation while playing */
+.radio .player .disc.has-art {
+  animation: aanganDiscSpin 9s linear infinite !important;
+  animation-play-state: paused !important;
+}
+
+.radio .player.playing .disc.has-art,
+.radio .player.is-playing .disc.has-art {
+  animation-play-state: running !important;
+}
+
+@keyframes aanganDiscSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Keep the artwork itself perfectly circular */
+.radio .player .disc #discArt {
+  border-radius: 50% !important;
+}
+
+/* Center hole / subtle disc overlay */
+.radio .player .disc::after {
+  width: 10px !important;
+  height: 10px !important;
+  background: rgba(20,12,8,.72) !important;
+  border: 2px solid rgba(255,255,255,.62) !important;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.08) !important;
+}
+
+/* Text block stays vertically together */
+.radio .player .meta {
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+  align-self: center !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  gap: 7px !important;
+
+  padding: 0 !important;
+  text-align: left !important;
+}
+
+/* Larger title */
+.radio .player .track {
+  margin: 0 !important;
+  max-width: 100% !important;
+
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+
+  font-size: 22px !important;
+  line-height: 1.18 !important;
+  font-weight: 650 !important;
+  letter-spacing: -.018em !important;
+
+  color: rgba(255,255,255,.96) !important;
+
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Larger artist */
+.radio .player .artist {
+  margin: 0 !important;
+
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+
+  font-size: 15px !important;
+  line-height: 1.2 !important;
+  font-weight: 450 !important;
+
+  color: rgba(255,255,255,.64) !important;
+
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Controls on the right, vertically centered */
+.radio .player .controls {
+  flex: 0 0 auto !important;
+  align-self: center !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+}
+
+/* Previous / Next */
+.radio .player .ctrl {
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+
+  border: 0 !important;
+  border-radius: 50% !important;
+
+  background: transparent !important;
+  color: rgba(255,255,255,.86) !important;
+
+  font-size: 27px !important;
+  font-weight: 400 !important;
+
+  transition:
+    background .18s ease,
+    transform .18s ease,
+    color .18s ease !important;
+}
+
+.radio .player .ctrl:hover {
+  background: rgba(255,255,255,.10) !important;
+  color: #fff !important;
+}
+
+.radio .player .ctrl:active {
+  transform: scale(.90) !important;
+}
+
+/* Large play button like the reference */
+.radio .player .play {
+  width: 68px !important;
+  height: 68px !important;
+  min-width: 68px !important;
+  min-height: 68px !important;
+
+  margin: 0 5px !important;
+  border-radius: 50% !important;
+
+  background: rgba(255,255,255,.97) !important;
+  color: #1c120e !important;
+
+  font-size: 27px !important;
+  font-weight: 500 !important;
+
+  box-shadow:
+    0 8px 24px rgba(0,0,0,.25),
+    0 0 0 1px rgba(255,255,255,.35) !important;
+}
+
+.radio .player .play:hover {
+  background: #fff !important;
+  transform: scale(1.035) !important;
+}
+
+/* Progress bar beneath text/artwork, like reference */
+.radio .player .seek-row {
+  display: grid !important;
+  grid-template-columns: auto minmax(0,1fr) auto !important;
+  align-items: center !important;
+
+  gap: 10px !important;
+  margin-top: 5px !important;
+
+  /* align with the text rather than the circular artwork */
+  padding-left: 138px !important;
+  padding-right: 170px !important;
+}
+
+.radio .player .time {
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+
+  font-size: 12px !important;
+  line-height: 1 !important;
+  color: rgba(255,255,255,.58) !important;
+  white-space: nowrap !important;
+}
+
+.radio .player .progress {
+  height: 4px !important;
+  border-radius: 999px !important;
+  background: rgba(255,255,255,.25) !important;
+  cursor: pointer !important;
+}
+
+.radio .player .progress i {
+  height: 100% !important;
+  border-radius: inherit !important;
+  background: rgba(255,255,255,.78) !important;
+}
+
+.radio .player .progress i::after {
+  width: 9px !important;
+  height: 9px !important;
+  right: -4px !important;
+  top: 50% !important;
+
+  border-radius: 50% !important;
+  background: #fff !important;
+
+  box-shadow: 0 2px 7px rgba(0,0,0,.25) !important;
+}
+
+/* Hide anything not needed in the clean player */
+.radio .player .status,
+.radio .player .queue {
+  display: none !important;
+}
+
+/* =========================
+   TABLET
+   ========================= */
+@media (max-width: 900px) {
+  .radio {
+    width: min(820px, calc(100vw - 36px)) !important;
+  }
+
+  .radio .player {
+    min-height: 145px !important;
+    border-radius: 70px !important;
+    padding-right: 20px !important;
+  }
+
+  .radio .player .disc {
+    width: 96px !important;
+    height: 96px !important;
+    min-width: 96px !important;
+    flex-basis: 96px !important;
+  }
+
+  .radio .player .row {
+    min-height: 96px !important;
+    gap: 17px !important;
+  }
+
+  .radio .player .track {
+    font-size: 19px !important;
+  }
+
+  .radio .player .artist {
+    font-size: 13px !important;
+  }
+
+  .radio .player .play {
+    width: 60px !important;
+    height: 60px !important;
+    min-width: 60px !important;
+    min-height: 60px !important;
+  }
+
+  .radio .player .seek-row {
+    padding-left: 113px !important;
+    padding-right: 150px !important;
+  }
+}
+
+/* =========================
+   MOBILE
+   ========================= */
+@media (max-width: 767px) {
+  .radio {
+    left: 8px !important;
+    right: 8px !important;
+    bottom: max(8px, env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+    transform: none !important;
+  }
+
+  .radio .player {
+    min-height: 105px !important;
+    padding: 10px 12px 9px !important;
+    border-radius: 34px !important;
+  }
+
+  .radio .player .row {
+    min-height: 67px !important;
+    gap: 11px !important;
+  }
+
+  .radio .player .disc {
+    width: 62px !important;
+    height: 62px !important;
+    min-width: 62px !important;
+    flex-basis: 62px !important;
+    border-width: 1px !important;
+  }
+
+  .radio .player .meta {
+    gap: 4px !important;
+  }
+
+  .radio .player .track {
+    font-size: 14px !important;
+  }
+
+  .radio .player .artist {
+    font-size: 10px !important;
+  }
+
+  .radio .player .controls {
+    gap: 0 !important;
+  }
+
+  .radio .player .ctrl {
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    min-height: 30px !important;
+    font-size: 18px !important;
+  }
+
+  .radio .player .play {
+    width: 43px !important;
+    height: 43px !important;
+    min-width: 43px !important;
+    min-height: 43px !important;
+    margin: 0 1px !important;
+    font-size: 17px !important;
+  }
+
+  .radio .player .seek-row {
+    padding-left: 73px !important;
+    padding-right: 3px !important;
+    gap: 5px !important;
+    margin-top: 3px !important;
+  }
+
+  .radio .player .time {
+    font-size: 8px !important;
+  }
+
+  .radio .player .progress {
+    height: 3px !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .radio .player .disc {
+    width: 54px !important;
+    height: 54px !important;
+    min-width: 54px !important;
+    flex-basis: 54px !important;
+  }
+
+  .radio .player .track {
+    font-size: 12px !important;
+  }
+
+  .radio .player .artist {
+    font-size: 9px !important;
+  }
+
+  .radio .player .ctrl {
+    width: 27px !important;
+    height: 27px !important;
+    min-width: 27px !important;
+    min-height: 27px !important;
+    font-size: 16px !important;
+  }
+
+  .radio .player .play {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+    font-size: 15px !important;
+  }
+
+  .radio .player .seek-row {
+    padding-left: 64px !important;
+  }
+}
+</style>
+
 </head>
   <body>
     <div class="app">

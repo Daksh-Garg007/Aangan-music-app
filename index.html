@@ -2805,11 +2805,20 @@ header {
         loadActive(true);
       }
       function toggle() {
-        if (!ready) {
+        if (!ready || !player) {
           $("status").textContent = "Connecting to YouTube…";
           return;
         }
-        playing ? player.pauseVideo() : player.playVideo();
+
+        const state = player.getPlayerState
+          ? player.getPlayerState()
+          : -1;
+
+        if (state === YT.PlayerState.PLAYING || state === YT.PlayerState.BUFFERING) {
+          player.pauseVideo();
+        } else {
+          player.playVideo();
+        }
       }
       $("play").onclick = toggle;
       $("next").onclick = () => {
@@ -2901,6 +2910,7 @@ header {
 player = new YT.Player("yt", {
           width: "200",
           height: "200",
+          videoId: "Oc9E71akp5M",
           playerVars: {
             autoplay: 0,
             controls: 0,
@@ -2909,8 +2919,6 @@ player = new YT.Player("yt", {
             iv_load_policy: 3,
             enablejsapi: 1,
             modestbranding: 1,
-            listType: "playlist",
-            list: AANGAN_PLAYLIST_ID,
           },
           events: {
             onReady: onReady,
@@ -2932,18 +2940,33 @@ player = new YT.Player("yt", {
         ready = true;
         $("status").textContent = "Loading Aangan playlist…";
 
+        // Load the playlist explicitly after the iframe is ready. This avoids
+        // the unreliable empty getPlaylist() state seen with listType/list.
+        try {
+          player.loadPlaylist({
+            list: AANGAN_PLAYLIST_ID,
+            listType: "playlist",
+            index: 0,
+            startSeconds: 0,
+          });
+        } catch (err) {
+          console.error("Aangan playlist load failed:", err);
+          $("status").textContent = "Could not load Aangan playlist";
+          return;
+        }
+
         const waitForPlaylist = (attempt = 0) => {
           if (!player || typeof player.getPlaylist !== "function") {
-            if (attempt < 30) setTimeout(() => waitForPlaylist(attempt + 1), 300);
+            if (attempt < 40) setTimeout(() => waitForPlaylist(attempt + 1), 250);
             return;
           }
 
           const list = player.getPlaylist() || [];
           if (!list.length) {
-            if (attempt < 30) {
-              setTimeout(() => waitForPlaylist(attempt + 1), 300);
+            if (attempt < 40) {
+              setTimeout(() => waitForPlaylist(attempt + 1), 250);
             } else {
-              $("status").textContent = "Playlist could not be loaded";
+              $("status").textContent = "Aangan playlist is unavailable";
             }
             return;
           }
@@ -2951,10 +2974,10 @@ player = new YT.Player("yt", {
           const requested = PLAYLIST_START_INDEX[activeQueue] ?? 0;
           activeVideoIndex = requested % list.length;
 
-          // cueVideoAtIndex does not unexpectedly start playback.
-          if (typeof player.cueVideoAt === "function") {
+          try {
             player.cueVideoAt(activeVideoIndex);
-          } else {
+          } catch (e) {
+            // cueVideoAt is not available in every IFrame API build.
             player.playVideoAt(activeVideoIndex);
             player.pauseVideo();
           }
@@ -2968,11 +2991,14 @@ player = new YT.Player("yt", {
           $("status").textContent = "Ready · Tap ▶ to begin";
         };
 
-        applySlot();
         waitForPlaylist();
       }
-
       function onState(e) {
+        if (player && typeof player.getPlaylistIndex === "function") {
+          const idx = player.getPlaylistIndex();
+          if (Number.isFinite(idx) && idx >= 0) activeVideoIndex = idx;
+        }
+
         if (e.data === YT.PlayerState.PLAYING) {
           playing = true;
           $("disc").classList.add("playing");
@@ -3006,6 +3032,7 @@ player = new YT.Player("yt", {
         }
       }
       function onError(e) {
+        console.error("YouTube player error:", e.data);
         $("status").textContent = "YouTube playback error · trying next";
         setTimeout(() => {
           activeVideoIndex = typeof player.getPlaylistIndex === "function"

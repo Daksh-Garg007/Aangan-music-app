@@ -3265,6 +3265,59 @@ body {
   }
 </style>
 
+
+<style id="aangan-final-transparency">
+/* ===== AANGAN MUSIC PLAYER — REFERENCE TRANSPARENCY ===== */
+
+.radio .player {
+    background: rgba(255, 255, 255, 0.075) !important;
+
+    border: 2px solid rgba(255, 255, 255, 0.58) !important;
+
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.10),
+        inset 0 1px 0 rgba(255, 255, 255, 0.16) !important;
+
+    backdrop-filter: blur(2px) saturate(105%) !important;
+    -webkit-backdrop-filter: blur(2px) saturate(105%) !important;
+}
+
+.radio .player .track {
+    color: rgba(255, 255, 255, 0.98) !important;
+    text-shadow: 0 2px 7px rgba(0, 0, 0, 0.42) !important;
+}
+
+.radio .player .artist,
+.radio .player .time {
+    color: rgba(255, 255, 255, 0.88) !important;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.35) !important;
+}
+
+.radio .player .progress {
+    background: rgba(255, 255, 255, 0.30) !important;
+}
+
+.radio .player .progress i {
+    background: rgba(255, 255, 255, 0.92) !important;
+}
+
+.radio .player .meta,
+.radio .player .controls,
+.radio .player .seek-row {
+    background: transparent !important;
+}
+
+/* Mobile keeps the same transparent glass treatment. */
+@media (max-width: 767px) {
+    .radio .player {
+        background: rgba(255, 255, 255, 0.065) !important;
+        border: 1.5px solid rgba(255, 255, 255, 0.50) !important;
+        backdrop-filter: blur(2px) saturate(105%) !important;
+        -webkit-backdrop-filter: blur(2px) saturate(105%) !important;
+    }
+}
+</style>
+
 </head>
   <body>
     <div class="app">

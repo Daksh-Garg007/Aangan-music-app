@@ -652,7 +652,196 @@
         }
       }
 
-    </style>
+    
+/* ===== FINAL MOBILE PLAYER FIT ===== */
+@media (max-width: 767px) {
+  .radio {
+    left: 6px !important;
+    right: 6px !important;
+    bottom: max(6px, env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+    transform: none !important;
+    max-width: none !important;
+  }
+
+  .radio .player {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 9px 10px 7px !important;
+    border-radius: 30px !important;
+    overflow: hidden !important;
+  }
+
+  .radio .player .row {
+    display: grid !important;
+    grid-template-columns: 56px minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    min-height: 56px !important;
+    gap: 8px !important;
+  }
+
+  .radio .player .disc {
+    width: 56px !important;
+    height: 56px !important;
+    min-width: 56px !important;
+    min-height: 56px !important;
+    flex: none !important;
+  }
+
+  .radio .player .meta {
+    min-width: 0 !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    gap: 3px !important;
+  }
+
+  .radio .player .track {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: 13px !important;
+    line-height: 1.15 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .radio .player .artist {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: 9px !important;
+    line-height: 1.15 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .radio .player .controls {
+    display: flex !important;
+    flex: none !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 0 !important;
+    width: auto !important;
+  }
+
+  .radio .player .ctrl {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 28px !important;
+    height: 38px !important;
+    min-width: 28px !important;
+    min-height: 38px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    font-size: 19px !important;
+    line-height: 1 !important;
+  }
+
+  .radio .player .play,
+  .radio .player .play:hover,
+  .radio .player .play:focus,
+  .radio .player .play:active {
+    width: 43px !important;
+    height: 43px !important;
+    min-width: 43px !important;
+    min-height: 43px !important;
+    margin: 0 !important;
+    border-radius: 50% !important;
+    background: rgba(255,255,255,.96) !important;
+    color: #17110e !important;
+    font-size: 16px !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,.24) !important;
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .radio .player .seek-row {
+    display: grid !important;
+    grid-template-columns: auto minmax(0,1fr) auto !important;
+    align-items: center !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    gap: 5px !important;
+    padding: 0 2px !important;
+    margin-top: 3px !important;
+  }
+
+  .radio .player .time {
+    font-size: 8px !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+  }
+
+  .radio .player .progress {
+    min-width: 0 !important;
+    width: 100% !important;
+    height: 3px !important;
+  }
+
+  .radio .player .status {
+    display: none !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .radio {
+    left: 4px !important;
+    right: 4px !important;
+  }
+
+  .radio .player {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    border-radius: 27px !important;
+  }
+
+  .radio .player .row {
+    grid-template-columns: 50px minmax(0,1fr) auto !important;
+    gap: 6px !important;
+  }
+
+  .radio .player .disc {
+    width: 50px !important;
+    height: 50px !important;
+    min-width: 50px !important;
+    min-height: 50px !important;
+  }
+
+  .radio .player .track {
+    font-size: 12px !important;
+  }
+
+  .radio .player .artist {
+    font-size: 8px !important;
+  }
+
+  .radio .player .ctrl {
+    width: 25px !important;
+    min-width: 25px !important;
+    font-size: 17px !important;
+  }
+
+  .radio .player .play,
+  .radio .player .play:hover,
+  .radio .player .play:focus,
+  .radio .player .play:active {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+    font-size: 14px !important;
+  }
+}
+
+</style>
 
     <style id="aangan-responsive">
       /* ===== AANGAN MOBILE-FIRST RESPONSIVE SYSTEM ===== */
@@ -3656,6 +3845,7 @@ body {
 
 </head>
   <body>
+    <!-- Aangan Radio: long/compilation tracks are rejected before playback and remembered locally. -->
     <div class="app">
       <div class="scene" id="scene"></div>
       <div class="vignette"></div>
@@ -3717,14 +3907,14 @@ body {
       // Aangan changes its music queue with the visitor's local time.
       // Each time block has its own songs; rain has a separate mood queue.
       const VIDEO_QUEUES = {
-        sunrise: [{ id: "N0jnLZxYwYc", title: "Aangan Song", sub: "YouTube Music" }, { id: "3NWMK2MRqIk", title: "Aangan Song", sub: "YouTube Music" }, { id: "bga_0ziOOfQ", title: "Aangan Song", sub: "YouTube Music" }, { id: "oFxbBeYhLqM", title: "Aangan Song", sub: "YouTube Music" }, { id: "nNhv8A_rJTg", title: "Aangan Song", sub: "YouTube Music" }, { id: "d3lZvNexPL0", title: "Aangan Song", sub: "YouTube Music" }, { id: "CTuvMubzXpU", title: "Aangan Song", sub: "YouTube Music" }, { id: "i1IsLVz6T9Q", title: "Aangan Song", sub: "YouTube Music" }],
-        morning: [{ id: "5y_TCKNzAMI", title: "Aangan Song", sub: "YouTube Music" }, { id: "fBylcT-TWZw", title: "Aangan Song", sub: "YouTube Music" }, { id: "CTNgz5gb3D8", title: "Aangan Song", sub: "YouTube Music" }, { id: "lFdSi01tpYM", title: "Aangan Song", sub: "YouTube Music" }, { id: "dDR4oiyjUBA", title: "Aangan Song", sub: "YouTube Music" }, { id: "otQmzlm-s7Q", title: "Aangan Song", sub: "YouTube Music" }, { id: "tPNwGuu_rQ4", title: "Aangan Song", sub: "YouTube Music" }, { id: "p1jhKCIoVjI", title: "Aangan Song", sub: "YouTube Music" }],
-        afternoon: [{ id: "2OsyNo53MzU", title: "Aangan Song", sub: "YouTube Music" }, { id: "-N-k56i7M2k", title: "Aangan Song", sub: "YouTube Music" }, { id: "rXHY4Cv9cA8", title: "Aangan Song", sub: "YouTube Music" }, { id: "qGOTe3KmCdY", title: "Aangan Song", sub: "YouTube Music" }, { id: "cGKBs7rokos", title: "Aangan Song", sub: "YouTube Music" }, { id: "BtdiNnrftYM", title: "Aangan Song", sub: "YouTube Music" }, { id: "nRJ8vHpi6_g", title: "Aangan Song", sub: "YouTube Music" }, { id: "xKx_80QM2LU", title: "Aangan Song", sub: "YouTube Music" }],
-        late: [{ id: "zuPoUsdXrqM", title: "Aangan Song", sub: "YouTube Music" }, { id: "wYdXuNtJkPk", title: "Aangan Song", sub: "YouTube Music" }, { id: "wuLJtA0uJro", title: "Aangan Song", sub: "YouTube Music" }, { id: "RjJxWRFfG3s", title: "Aangan Song", sub: "YouTube Music" }, { id: "2nypvYilIkA", title: "Aangan Song", sub: "YouTube Music" }, { id: "_p0QrO4Mq9Q", title: "Aangan Song", sub: "YouTube Music" }, { id: "wV8njoRVefQ", title: "Aangan Song", sub: "YouTube Music" }, { id: "4ImdbyqnH8w", title: "Aangan Song", sub: "YouTube Music" }],
-        sunset: [{ id: "htMvfOfixuM", title: "Aangan Song", sub: "YouTube Music" }, { id: "5dWbn_qER3s", title: "Aangan Song", sub: "YouTube Music" }, { id: "6Na7GSV9bVY", title: "Aangan Song", sub: "YouTube Music" }, { id: "oEg_iXEWlt4", title: "Aangan Song", sub: "YouTube Music" }, { id: "QjqKXFGM3eI", title: "Aangan Song", sub: "YouTube Music" }, { id: "Dz1Ad3cdtQA", title: "Aangan Song", sub: "YouTube Music" }, { id: "G7AdjVDBLO8", title: "Aangan Song", sub: "YouTube Music" }, { id: "TgHYW8ubFko", title: "Aangan Song", sub: "YouTube Music" }],
-        night: [{ id: "yWAWNe74vgM", title: "Aangan Song", sub: "YouTube Music" }, { id: "uIOrAkrjwp4", title: "Aangan Song", sub: "YouTube Music" }, { id: "HoMSu1iw0Zw", title: "Aangan Song", sub: "YouTube Music" }, { id: "WAgJ8KM5AVQ", title: "Aangan Song", sub: "YouTube Music" }, { id: "OgocnLh9P1M", title: "Aangan Song", sub: "YouTube Music" }, { id: "Zi9UBJQMz3I", title: "Aangan Song", sub: "YouTube Music" }, { id: "_dUAVM5ERXA", title: "Aangan Song", sub: "YouTube Music" }, { id: "lRBIcaSV-Ns", title: "Aangan Song", sub: "YouTube Music" }],
-        midnight: [{ id: "9v2bq2JHt4I", title: "Aangan Song", sub: "YouTube Music" }, { id: "Gg9ZUppafLo", title: "Aangan Song", sub: "YouTube Music" }, { id: "w89fWEelFns", title: "Aangan Song", sub: "YouTube Music" }, { id: "fg9G1dacXjk", title: "Aangan Song", sub: "YouTube Music" }, { id: "Y-o8NQ8Y36A", title: "Aangan Song", sub: "YouTube Music" }, { id: "526hvVlBP1U", title: "Aangan Song", sub: "YouTube Music" }, { id: "iCZfjggJg3M", title: "Aangan Song", sub: "YouTube Music" }, { id: "BaAoZA0fup0", title: "Aangan Song", sub: "YouTube Music" }],
-        lateNight: [{ id: "cBGDDBHN22U", title: "Aangan Song", sub: "YouTube Music" }, { id: "nG85YFR3o6U", title: "Aangan Song", sub: "YouTube Music" }, { id: "TRUuSFW80Rk", title: "Aangan Song", sub: "YouTube Music" }, { id: "-pIMyf5dOnA", title: "Aangan Song", sub: "YouTube Music" }, { id: "GxaTSDnI71w", title: "Aangan Song", sub: "YouTube Music" }, { id: "XWKazQwFFdY", title: "Aangan Song", sub: "YouTube Music" }, { id: "9f6GhUb-WdM", title: "Aangan Song", sub: "YouTube Music" }, { id: "rMbQufI9xQw", title: "Aangan Song", sub: "YouTube Music" }, { id: "Mfeg92XPXik", title: "Aangan Song", sub: "YouTube Music" }],
+        sunrise: [{ id: "N0jnLZxYwYc", title: "Aangan Song", sub: "YouTube Music" }, { id: "3NWMK2MRqIk", title: "Aangan Song", sub: "YouTube Music" }, { id: "bga_0ziOOfQ", title: "Aangan Song", sub: "YouTube Music" }, { id: "oFxbBeYhLqM", title: "Aangan Song", sub: "YouTube Music" }, { id: "nNhv8A_rJTg", title: "Aangan Song", sub: "YouTube Music" }, { id: "d3lZvNexPL0", title: "Aangan Song", sub: "YouTube Music" }, { id: "CTuvMubzXpU", title: "Aangan Song", sub: "YouTube Music" }, { id: "i1IsLVz6T9Q", title: "Aangan Song", sub: "YouTube Music" },, { id: "sWqjZpBtcxc", title: "Aangan Song", sub: "YouTube Music" }, { id: "UCsW7nea7sI", title: "Aangan Song", sub: "YouTube Music" }, { id: "XaPnZTljQbI", title: "Aangan Song", sub: "YouTube Music" }, { id: "RVQsBlI35vw", title: "Aangan Song", sub: "YouTube Music" }, { id: "9a6UaCBEV6o", title: "Aangan Song", sub: "YouTube Music" }, { id: "h_fCN4pinqs", title: "Aangan Song", sub: "YouTube Music" }],
+        morning: [{ id: "5y_TCKNzAMI", title: "Aangan Song", sub: "YouTube Music" }, { id: "fBylcT-TWZw", title: "Aangan Song", sub: "YouTube Music" }, { id: "CTNgz5gb3D8", title: "Aangan Song", sub: "YouTube Music" }, { id: "lFdSi01tpYM", title: "Aangan Song", sub: "YouTube Music" }, { id: "dDR4oiyjUBA", title: "Aangan Song", sub: "YouTube Music" }, { id: "otQmzlm-s7Q", title: "Aangan Song", sub: "YouTube Music" }, { id: "tPNwGuu_rQ4", title: "Aangan Song", sub: "YouTube Music" }, { id: "p1jhKCIoVjI", title: "Aangan Song", sub: "YouTube Music" },, { id: "Jtg2zyS_y_c", title: "Aangan Song", sub: "YouTube Music" }, { id: "P2s1Cl23oik", title: "Aangan Song", sub: "YouTube Music" }, { id: "GRikmrj8VN4", title: "Aangan Song", sub: "YouTube Music" }, { id: "Q7rEqETf5qs", title: "Aangan Song", sub: "YouTube Music" }, { id: "Q1KFA9ehMp0", title: "Aangan Song", sub: "YouTube Music" }, { id: "Uk6CB2o2eY0", title: "Aangan Song", sub: "YouTube Music" }],
+        afternoon: [{ id: "2OsyNo53MzU", title: "Aangan Song", sub: "YouTube Music" }, { id: "-N-k56i7M2k", title: "Aangan Song", sub: "YouTube Music" }, { id: "rXHY4Cv9cA8", title: "Aangan Song", sub: "YouTube Music" }, { id: "qGOTe3KmCdY", title: "Aangan Song", sub: "YouTube Music" }, { id: "cGKBs7rokos", title: "Aangan Song", sub: "YouTube Music" }, { id: "BtdiNnrftYM", title: "Aangan Song", sub: "YouTube Music" }, { id: "nRJ8vHpi6_g", title: "Aangan Song", sub: "YouTube Music" }, { id: "xKx_80QM2LU", title: "Aangan Song", sub: "YouTube Music" },, { id: "LtlZv_hd9fg", title: "Aangan Song", sub: "YouTube Music" }, { id: "XFT2niDEy28", title: "Aangan Song", sub: "YouTube Music" }, { id: "mnOs6GTZwhA", title: "Aangan Song", sub: "YouTube Music" }, { id: "Q04pjPOAVLc", title: "Aangan Song", sub: "YouTube Music" }, { id: "vIyNwuPTafk", title: "Aangan Song", sub: "YouTube Music" }, { id: "3B9R2pyh7Os", title: "Aangan Song", sub: "YouTube Music" }],
+        late: [{ id: "zuPoUsdXrqM", title: "Aangan Song", sub: "YouTube Music" }, { id: "wYdXuNtJkPk", title: "Aangan Song", sub: "YouTube Music" }, { id: "wuLJtA0uJro", title: "Aangan Song", sub: "YouTube Music" }, { id: "RjJxWRFfG3s", title: "Aangan Song", sub: "YouTube Music" }, { id: "2nypvYilIkA", title: "Aangan Song", sub: "YouTube Music" }, { id: "_p0QrO4Mq9Q", title: "Aangan Song", sub: "YouTube Music" }, { id: "wV8njoRVefQ", title: "Aangan Song", sub: "YouTube Music" }, { id: "4ImdbyqnH8w", title: "Aangan Song", sub: "YouTube Music" },, { id: "HHgVlMrkloQ", title: "Aangan Song", sub: "YouTube Music" }, { id: "uQfoHhq5C90", title: "Aangan Song", sub: "YouTube Music" }, { id: "gejEimJIdWc", title: "Aangan Song", sub: "YouTube Music" }, { id: "gmJW33derRY", title: "Aangan Song", sub: "YouTube Music" }, { id: "0B0YOzzcO-o", title: "Aangan Song", sub: "YouTube Music" }, { id: "iSUK1QoK9-E", title: "Aangan Song", sub: "YouTube Music" }],
+        sunset: [{ id: "htMvfOfixuM", title: "Aangan Song", sub: "YouTube Music" }, { id: "5dWbn_qER3s", title: "Aangan Song", sub: "YouTube Music" }, { id: "6Na7GSV9bVY", title: "Aangan Song", sub: "YouTube Music" }, { id: "oEg_iXEWlt4", title: "Aangan Song", sub: "YouTube Music" }, { id: "QjqKXFGM3eI", title: "Aangan Song", sub: "YouTube Music" }, { id: "Dz1Ad3cdtQA", title: "Aangan Song", sub: "YouTube Music" }, { id: "G7AdjVDBLO8", title: "Aangan Song", sub: "YouTube Music" }, { id: "TgHYW8ubFko", title: "Aangan Song", sub: "YouTube Music" },, { id: "zGbMOXFIYko", title: "Aangan Song", sub: "YouTube Music" }, { id: "LCfvYo3ILG0", title: "Aangan Song", sub: "YouTube Music" }, { id: "mwvZM7KMcHM", title: "Aangan Song", sub: "YouTube Music" }, { id: "KraIQ85y68s", title: "Aangan Song", sub: "YouTube Music" }, { id: "R9snTOBEWso", title: "Aangan Song", sub: "YouTube Music" }, { id: "NUqlCJTYu6I", title: "Aangan Song", sub: "YouTube Music" }],
+        night: [{ id: "yWAWNe74vgM", title: "Aangan Song", sub: "YouTube Music" }, { id: "uIOrAkrjwp4", title: "Aangan Song", sub: "YouTube Music" }, { id: "HoMSu1iw0Zw", title: "Aangan Song", sub: "YouTube Music" }, { id: "WAgJ8KM5AVQ", title: "Aangan Song", sub: "YouTube Music" }, { id: "OgocnLh9P1M", title: "Aangan Song", sub: "YouTube Music" }, { id: "Zi9UBJQMz3I", title: "Aangan Song", sub: "YouTube Music" }, { id: "_dUAVM5ERXA", title: "Aangan Song", sub: "YouTube Music" }, { id: "lRBIcaSV-Ns", title: "Aangan Song", sub: "YouTube Music" },, { id: "5DkkCDk1lpU", title: "Aangan Song", sub: "YouTube Music" }, { id: "OzJ6m0tpVIo", title: "Aangan Song", sub: "YouTube Music" }, { id: "v5VtxXxuoZk", title: "Aangan Song", sub: "YouTube Music" }, { id: "XBr11cQDg-E", title: "Aangan Song", sub: "YouTube Music" }, { id: "l-Ed7gCwGBw", title: "Aangan Song", sub: "YouTube Music" }, { id: "WGtqzK0VIRc", title: "Aangan Song", sub: "YouTube Music" }],
+        midnight: [{ id: "9v2bq2JHt4I", title: "Aangan Song", sub: "YouTube Music" }, { id: "Gg9ZUppafLo", title: "Aangan Song", sub: "YouTube Music" }, { id: "w89fWEelFns", title: "Aangan Song", sub: "YouTube Music" }, { id: "fg9G1dacXjk", title: "Aangan Song", sub: "YouTube Music" }, { id: "Y-o8NQ8Y36A", title: "Aangan Song", sub: "YouTube Music" }, { id: "526hvVlBP1U", title: "Aangan Song", sub: "YouTube Music" }, { id: "iCZfjggJg3M", title: "Aangan Song", sub: "YouTube Music" }, { id: "BaAoZA0fup0", title: "Aangan Song", sub: "YouTube Music" },, { id: "327fctKF9aA", title: "Aangan Song", sub: "YouTube Music" }, { id: "bnSeLxfs6H8", title: "Aangan Song", sub: "YouTube Music" }, { id: "0dZrOnf-vmo", title: "Aangan Song", sub: "YouTube Music" }, { id: "utSwZmd467s", title: "Aangan Song", sub: "YouTube Music" }, { id: "atKqgEQoERI", title: "Aangan Song", sub: "YouTube Music" }, { id: "wI-xNuJcr0M", title: "Aangan Song", sub: "YouTube Music" }],
+        lateNight: [{ id: "cBGDDBHN22U", title: "Aangan Song", sub: "YouTube Music" }, { id: "nG85YFR3o6U", title: "Aangan Song", sub: "YouTube Music" }, { id: "TRUuSFW80Rk", title: "Aangan Song", sub: "YouTube Music" }, { id: "-pIMyf5dOnA", title: "Aangan Song", sub: "YouTube Music" }, { id: "GxaTSDnI71w", title: "Aangan Song", sub: "YouTube Music" }, { id: "XWKazQwFFdY", title: "Aangan Song", sub: "YouTube Music" }, { id: "9f6GhUb-WdM", title: "Aangan Song", sub: "YouTube Music" }, { id: "rMbQufI9xQw", title: "Aangan Song", sub: "YouTube Music" }, { id: "Mfeg92XPXik", title: "Aangan Song", sub: "YouTube Music" },, { id: "ub7_wJDIYZc", title: "Aangan Song", sub: "YouTube Music" }, { id: "zqtLLRvWHkU", title: "Aangan Song", sub: "YouTube Music" }, { id: "eb-fZ5ESfok", title: "Aangan Song", sub: "YouTube Music" }],
         rain: [{ id: "3NWMK2MRqIk", title: "Aangan Song", sub: "YouTube Music" }, { id: "N0jnLZxYwYc", title: "Aangan Song", sub: "YouTube Music" }, { id: "nNhv8A_rJTg", title: "Aangan Song", sub: "YouTube Music" }, { id: "CTNgz5gb3D8", title: "Aangan Song", sub: "YouTube Music" }, { id: "tPNwGuu_rQ4", title: "Aangan Song", sub: "YouTube Music" }, { id: "rXHY4Cv9cA8", title: "Aangan Song", sub: "YouTube Music" }, { id: "nRJ8vHpi6_g", title: "Aangan Song", sub: "YouTube Music" }, { id: "RjJxWRFfG3s", title: "Aangan Song", sub: "YouTube Music" }, { id: "6Na7GSV9bVY", title: "Aangan Song", sub: "YouTube Music" }, { id: "uIOrAkrjwp4", title: "Aangan Song", sub: "YouTube Music" }, { id: "Gg9ZUppafLo", title: "Aangan Song", sub: "YouTube Music" }, { id: "nG85YFR3o6U", title: "Aangan Song", sub: "YouTube Music" }],
       };
       const QUEUE_LABELS = {
@@ -3744,15 +3934,28 @@ body {
       // Normal songs are well below this limit; long "86 minute" style uploads
       // are automatically skipped without changing the actual YouTube player.
       const MAX_SONG_SECONDS = 15 * 60;
-      const BLOCKED_TRACKS = new Set();
 
-      function isBlockedTrack(item) {
-        return !item || BLOCKED_TRACKS.has(item.id);
-      }
+// Persist rejected long/compilation videos so an 86-minute upload cannot
+// come back every time the page is refreshed.
+const BLOCKED_STORAGE_KEY = "aangan_blocked_tracks_v2";
+let BLOCKED_TRACKS = new Set();
+try {
+  BLOCKED_TRACKS = new Set(JSON.parse(localStorage.getItem(BLOCKED_STORAGE_KEY) || "[]"));
+} catch (e) {
+  BLOCKED_TRACKS = new Set();
+}
 
-      function markTrackBlocked(item) {
-        if (item && item.id) BLOCKED_TRACKS.add(item.id);
-      }
+function isBlockedTrack(item) {
+  return !item || BLOCKED_TRACKS.has(item.id);
+}
+
+function markTrackBlocked(item) {
+  if (!item || !item.id) return;
+  BLOCKED_TRACKS.add(item.id);
+  try {
+    localStorage.setItem(BLOCKED_STORAGE_KEY, JSON.stringify([...BLOCKED_TRACKS]));
+  } catch (e) {}
+}
 
       function getPlayableQueue() {
         const q = VIDEO_QUEUES[activeQueue] || VIDEO_QUEUES.sunrise;
@@ -4003,13 +4206,12 @@ body {
         const q = VIDEO_QUEUES[activeQueue] || VIDEO_QUEUES.sunrise;
         if (!q.length) return;
 
-        // Find the next candidate that hasn't already been rejected.
+        // Never let a previously rejected long/compilation upload become active.
         let attempts = 0;
         while (isBlockedTrack(q[activeVideoIndex % q.length]) && attempts < q.length) {
           activeVideoIndex = (activeVideoIndex + 1) % q.length;
           attempts++;
         }
-
         if (attempts >= q.length) return;
 
         updateCurrentArtwork();
@@ -4017,40 +4219,65 @@ body {
         const item = q[activeVideoIndex % q.length];
         if (!item) return;
 
-        player.loadVideoById(item.id);
+        // IMPORTANT: cue first. We wait for YouTube metadata/duration before
+        // allowing playback, so 60–90 minute "radio/playlist" uploads are
+        // rejected before the user hears them.
+        try {
+          player.cueVideoById(item.id);
+        } catch (e) {
+          player.loadVideoById(item.id);
+        }
 
-        const syncMeta = () => {
+        let checks = 0;
+        const inspectTrack = () => {
+          if (!player) return;
+
           try {
             const data = player.getVideoData ? player.getVideoData() : {};
-            const realTitle = data.title || item.title;
+            const realTitle = data.title || item.title || "";
             const duration = player.getDuration ? player.getDuration() : 0;
 
-            // Reject playlists, jukeboxes, mixes, albums and long uploads.
-            if (isCompilationTitle(realTitle) || duration > MAX_SONG_SECONDS) {
+            const compilation = isCompilationTitle(realTitle);
+            const longUpload = Number.isFinite(duration) && duration > MAX_SONG_SECONDS;
+
+            if (compilation || longUpload) {
+              console.info("Aangan skipped long/compilation track:", item.id, realTitle, duration);
               markTrackBlocked(item);
               activeVideoIndex = (activeVideoIndex + 1) % q.length;
-              setTimeout(() => loadActive(play), 100);
+              setTimeout(() => loadActive(play), 80);
               return;
             }
 
-            setMeta(realTitle, "YouTube Music");
-          } catch (e) {
-            setMeta(item.title, item.sub);
+            // If metadata is ready, this is a valid individual song.
+            if (duration > 0 || checks >= 6) {
+              setMeta(realTitle, "YouTube Music");
+              if (play) {
+                try { player.playVideo(); } catch (e) {}
+              } else {
+                try { player.pauseVideo(); } catch (e) {}
+              }
+              renderQueue();
+              return;
+            }
+          } catch (e) {}
+
+          checks++;
+          if (checks < 8) {
+            setTimeout(inspectTrack, 350);
+          } else {
+            // If YouTube did not expose duration, do not classify it as long.
+            // Normal playback is allowed after the preflight timeout.
+            setMeta(item.title, item.sub || "YouTube Music");
+            if (play) {
+              try { player.playVideo(); } catch (e) {}
+            } else {
+              try { player.pauseVideo(); } catch (e) {}
+            }
+            renderQueue();
           }
         };
 
-        // YouTube metadata/duration can arrive at different times.
-        setTimeout(syncMeta, 700);
-        setTimeout(syncMeta, 1600);
-        setTimeout(syncMeta, 2600);
-
-        if (!play) {
-          setTimeout(() => {
-            try { player.pauseVideo(); } catch (e) {}
-          }, 700);
-        }
-
-        renderQueue();
+        setTimeout(inspectTrack, 350);
       }
       function cueAt(index) {
         activeVideoIndex = Math.max(0, index);
@@ -4067,15 +4294,15 @@ body {
       $("next").onclick = () => {
         if (!ready) return;
         const q = VIDEO_QUEUES[activeQueue] || VIDEO_QUEUES.sunrise;
+        if (!q.length) return;
         activeVideoIndex = (activeVideoIndex + 1) % q.length;
-        updateCurrentArtwork();
         loadActive(true);
       };
       $("prev").onclick = () => {
         if (!ready) return;
         const q = VIDEO_QUEUES[activeQueue] || VIDEO_QUEUES.sunrise;
+        if (!q.length) return;
         activeVideoIndex = (activeVideoIndex - 1 + q.length) % q.length;
-        updateCurrentArtwork();
         loadActive(true);
       };
       document.addEventListener("keydown", (e) => {

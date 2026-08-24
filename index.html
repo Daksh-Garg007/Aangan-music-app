@@ -2903,16 +2903,9 @@ header {
       function onYouTubeIframeAPIReady() {
         // YouTube's API can reject an invalid "null" origin when the page
         // is opened directly from file://. Only send origin for real web origins.
-        const protocol = window.location.protocol;
-        const validOrigin =
-          protocol === "http:" || protocol === "https:"
-            ? window.location.origin
-            : null;
-
-        player = new YT.Player("yt", {
+player = new YT.Player("yt", {
           width: "200",
           height: "200",
-          host: "https://www.youtube.com",
           playerVars: {
             autoplay: 0,
             controls: 0,
@@ -2923,7 +2916,6 @@ header {
             modestbranding: 1,
             listType: "playlist",
             list: AANGAN_PLAYLIST_ID,
-            ...(validOrigin ? { origin: validOrigin } : {}),
           },
           events: {
             onReady: onReady,

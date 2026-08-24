@@ -2246,70 +2246,12 @@ body {
         "1000106039.jpg",
         "1000106042.jpg",
       ];
+      // Songs are loaded from the requested YouTube playlist.
+      // This object remains only as a fallback for the queue UI before YouTube
+      // has finished exposing the playlist.
       const VIDEO_QUEUES = {
-        sunrise: [
-          {
-            id: "jhLZhNlfmxQ",
-            title: "90s Superhit Hindi Songs",
-            sub: "Romantic Evergreen Jukebox",
-          },
-        ],
-        morning: [
-          {
-            id: "jhLZhNlfmxQ",
-            title: "90s Bollywood Romance",
-            sub: "Evergreen Hindi Jukebox",
-          },
-        ],
-        afternoon: [
-          {
-            id: "Fs-lAtqIO9g",
-            title: "90's Dance Songs",
-            sub: "90s Party Hits · Tips Official",
-          },
-        ],
-        late: [
-          {
-            id: "jhLZhNlfmxQ",
-            title: "90s Superhit Hindi Songs",
-            sub: "Evergreen Romantic Hits",
-          },
-        ],
-        sunset: [
-          {
-            id: "jhLZhNlfmxQ",
-            title: "90s Bollywood Romance",
-            sub: "Golden Hour Jukebox",
-          },
-        ],
-        night: [
-          {
-            id: "iiwILELFmxs",
-            title: "Hindi 90s Sad Songs Hits",
-            sub: "Late Night Jukebox · Tips Official",
-          },
-        ],
-        midnight: [
-          {
-            id: "l8_1_5R0oz8",
-            title: "90's Bollywood Sadabahar Sad Songs",
-            sub: "Midnight Jukebox · 90s Gaane",
-          },
-        ],
-        lateNight: [
-          {
-            id: "iiwILELFmxs",
-            title: "Hindi 90s Sad Songs Hits",
-            sub: "Quiet Night Jukebox · Tips Official",
-          },
-        ],
-        rain: [
-          {
-            id: "jhLZhNlfmxQ",
-            title: "90s Superhit Hindi Songs",
-            sub: "Rainy Evening · Evergreen Hindi",
-          },
-        ],
+        sunrise: [], morning: [], afternoon: [], late: [], sunset: [],
+        night: [], midnight: [], lateNight: [], rain: [],
       };
       let activeQueue = "sunrise";
       let activeVideoIndex = 0;
@@ -2411,6 +2353,18 @@ body {
         currentSlot = -1,
         weatherRain = false,
         playlistIndex = 0;
+      const AANGAN_PLAYLIST_ID = "PLTJ1PnzCWyFw";
+      const PLAYLIST_START_INDEX = {
+        sunrise: 0,
+        morning: 4,
+        afternoon: 8,
+        late: 12,
+        sunset: 16,
+        night: 20,
+        midnight: 24,
+        lateNight: 28,
+        rain: 0,
+      };
       const $ = (id) => document.getElementById(id);
       const setText = (id, value) => {
         const el = $(id);
@@ -2450,11 +2404,14 @@ body {
           setStyle("scene", "backgroundImage", `url("${IMAGES[s.img]}")`);
           setText("slot", s.name);
           setText("desc", s.desc);
-          setText("qhead", "आँगन Radio · " + s.name);
+          setText("qhead", "आँगन Radio · YouTube Playlist");
           activeQueue = queueForSlot(n);
-          activeVideoIndex = 0;
+          const list = ready && player && player.getPlaylist ? (player.getPlaylist() || []) : [];
+          activeVideoIndex = list.length
+            ? (PLAYLIST_START_INDEX[activeQueue] ?? 0) % list.length
+            : 0;
           renderQueue();
-          if (ready && !playing) loadActive(false);
+          if (ready && !playing && list.length) loadActive(false);
         }
       }
       function updateClock() {
@@ -2467,38 +2424,60 @@ body {
         );
         applySlot();
       }
+      function getPlaylistItems() {
+        if (!player || !ready || typeof player.getPlaylist !== "function") return [];
+        const ids = player.getPlaylist() || [];
+        return ids.map((id, i) => ({
+          id,
+          title: i === activeVideoIndex && player.getVideoData
+            ? (player.getVideoData().title || `Aangan Radio · Song ${i + 1}`)
+            : `Aangan Radio · Song ${i + 1}`,
+          sub: "90s Hindi Nostalgia",
+        }));
+      }
+
       function renderQueue() {
         const list = $("songs");
-        const q = VIDEO_QUEUES[activeQueue] || VIDEO_QUEUES.sunrise;
-        list.innerHTML = q
-          .map(
-            (s, i) =>
-              `<button class="qitem ${i === activeVideoIndex ? "active" : ""}" data-i="${i}"><span class="num">${String(i + 1).padStart(2, "0")}</span><span class="qtext"><span class="qtitle">${s.title}</span><span class="qsub">${s.sub}</span></span><span class="dot"></span></button>`,
-          )
-          .join("");
+        const q = getPlaylistItems();
+
+        if (!q.length) {
+          list.innerHTML = `<div style="padding:14px;color:rgba(247,234,213,.55);font:10px Arial,sans-serif;">YouTube playlist · loading…</div>`;
+          return;
+        }
+
+        list.innerHTML = q.map((s, i) =>
+          `<button class="qitem ${i === activeVideoIndex ? "active" : ""}" data-i="${i}">
+            <span class="num">${String(i + 1).padStart(2, "0")}</span>
+            <span class="qtext"><span class="qtitle">${s.title}</span><span class="qsub">${s.sub}</span></span>
+            <span class="dot"></span>
+          </button>`
+        ).join("");
+
         list.querySelectorAll(".qitem").forEach((b) =>
           b.addEventListener("click", () => {
-            activeVideoIndex = +b.dataset.i;
+            activeVideoIndex = Number(b.dataset.i);
             loadActive(true);
             $("queue").classList.remove("open");
-          }),
+          })
         );
       }
+
       function setMeta(title, sub) {
         $("track").textContent = title || "आँगन Radio";
         $("artist").textContent = sub || "90s Hindi Radio";
         renderQueue();
       }
       function loadActive(play) {
-        if (!ready) return;
-        const q = VIDEO_QUEUES[activeQueue] || VIDEO_QUEUES.sunrise;
-        const item = q[activeVideoIndex % q.length];
-        $("status").textContent = "Loading · " + item.title;
-        player.loadVideoById({ videoId: item.id, startSeconds: 0 });
-        if (!play) {
-          player.pauseVideo();
-        }
+        if (!ready || !player) return;
+        const list = player.getPlaylist ? (player.getPlaylist() || []) : [];
+        if (!list.length) return;
+
+        activeVideoIndex = Math.max(0, Math.min(activeVideoIndex, list.length - 1));
+        player.playVideoAt(activeVideoIndex);
+        if (!play) player.pauseVideo();
+        renderQueue();
       }
+
       function cueAt(index) {
         activeVideoIndex = Math.max(0, index);
         loadActive(true);
@@ -2512,16 +2491,12 @@ body {
       }
       $("play").onclick = toggle;
       $("next").onclick = () => {
-        if (!ready) return;
-        const q = VIDEO_QUEUES[activeQueue] || VIDEO_QUEUES.sunrise;
-        activeVideoIndex = (activeVideoIndex + 1) % q.length;
-        loadActive(true);
+        if (!ready || !player) return;
+        player.nextVideo();
       };
       $("prev").onclick = () => {
-        if (!ready) return;
-        const q = VIDEO_QUEUES[activeQueue] || VIDEO_QUEUES.sunrise;
-        activeVideoIndex = (activeVideoIndex - 1 + q.length) % q.length;
-        loadActive(true);
+        if (!ready || !player) return;
+        player.previousVideo();
       };
       $("more").onclick = (e) => {
         $("queue").classList.toggle("open");
@@ -2602,7 +2577,6 @@ body {
         player = new YT.Player("yt", {
           width: "200",
           height: "200",
-          videoId: "mJmbQrrzzXc",
           host: "https://www.youtube.com",
           playerVars: {
             autoplay: 0,
@@ -2612,6 +2586,8 @@ body {
             iv_load_policy: 3,
             enablejsapi: 1,
             modestbranding: 1,
+            listType: "playlist",
+            list: AANGAN_PLAYLIST_ID,
             ...(validOrigin ? { origin: validOrigin } : {}),
           },
           events: {
@@ -2632,10 +2608,27 @@ body {
       }
       function onReady() {
         ready = true;
-        $("status").textContent = "Tap ▶ to start Aangan Radio";
+        $("status").textContent = "Loading Aangan playlist…";
+
+        const initPlaylist = () => {
+          const list = player.getPlaylist ? (player.getPlaylist() || []) : [];
+          if (!list.length) {
+            setTimeout(initPlaylist, 300);
+            return;
+          }
+
+          const requested = PLAYLIST_START_INDEX[activeQueue] ?? 0;
+          activeVideoIndex = requested % list.length;
+          player.playVideoAt(activeVideoIndex);
+          player.pauseVideo();
+
+          const data = player.getVideoData ? player.getVideoData() : {};
+          setMeta(data.title || "आँगन Radio", "YouTube · 90s Hindi Nostalgia");
+          renderQueue();
+        };
+
         applySlot();
-        renderQueue();
-        player.pauseVideo();
+        initPlaylist();
       }
       function onState(e) {
         if (e.data === YT.PlayerState.PLAYING) {
@@ -2660,9 +2653,10 @@ body {
           $("play").setAttribute("aria-label", "Play");
           $("play").setAttribute("title", "Play");
           updatePlayerVisualState();
-          const q = VIDEO_QUEUES[activeQueue] || VIDEO_QUEUES.sunrise;
-          activeVideoIndex = (activeVideoIndex + 1) % q.length;
-          loadActive(true);
+          activeVideoIndex = typeof player.getPlaylistIndex === "function"
+            ? Math.max(0, player.getPlaylistIndex())
+            : activeVideoIndex + 1;
+          renderQueue();
         } else if (e.data === YT.PlayerState.BUFFERING) {
           $("status").textContent = "Buffering…";
         }
@@ -2670,9 +2664,10 @@ body {
       function onError(e) {
         $("status").textContent = "YouTube playback error · trying next";
         setTimeout(() => {
-          const q = VIDEO_QUEUES[activeQueue] || VIDEO_QUEUES.sunrise;
-          activeVideoIndex = (activeVideoIndex + 1) % q.length;
-          loadActive(true);
+          activeVideoIndex = typeof player.getPlaylistIndex === "function"
+            ? Math.max(0, player.getPlaylistIndex())
+            : activeVideoIndex + 1;
+          renderQueue();
         }, 700);
       }
       function weather() {
@@ -2693,6 +2688,7 @@ body {
               $("rain").classList.toggle("on", rain);
               if (rain) {
                 activeQueue = "rain";
+                activeVideoIndex = 0;
                 setText("slot", "बारिश · आँगन Radio");
                 setText(
                   "desc",

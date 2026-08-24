@@ -1491,190 +1491,6 @@
         }
       }
     </style>
-  
-    <style id="aangan-player-final-style">
-      /* ===== FINAL AANGAN GLASS PLAYER ===== */
-      .radio {
-        left: 50% !important;
-        right: auto !important;
-        bottom: 20px !important;
-        width: min(590px, calc(100vw - 32px)) !important;
-        max-width: 590px !important;
-        transform: translateX(-50%) !important;
-      }
-
-      .radio .player,
-      section.radio .player {
-        width: 100% !important;
-        min-height: 0 !important;
-        max-height: none !important;
-        padding: 10px 13px 9px !important;
-        border-radius: 40px !important;
-        border: 1px solid rgba(255, 238, 207, 0.18) !important;
-        background:
-          linear-gradient(135deg, rgba(24, 16, 10, 0.22), rgba(24, 16, 10, 0.08)),
-          rgba(255, 255, 255, 0.025) !important;
-        box-shadow:
-          0 16px 48px rgba(0, 0, 0, 0.28),
-          inset 0 1px 0 rgba(255, 255, 255, 0.09) !important;
-        backdrop-filter: blur(22px) saturate(115%) !important;
-        -webkit-backdrop-filter: blur(22px) saturate(115%) !important;
-      }
-
-      .radio .row,
-      section.radio .row {
-        min-height: 0 !important;
-        gap: 10px !important;
-      }
-
-      .radio .disc,
-      section.radio .disc {
-        width: 42px !important;
-        height: 42px !important;
-        flex: 0 0 42px !important;
-        border-color: rgba(255, 236, 203, 0.20) !important;
-      }
-
-      .radio .track,
-      section.radio .track {
-        font-size: 12px !important;
-      }
-
-      .radio .artist,
-      section.radio .artist {
-        font-size: 8px !important;
-        color: rgba(247,234,213,.54) !important;
-      }
-
-      .radio .controls,
-      section.radio .controls {
-        gap: 1px !important;
-      }
-
-      .radio .ctrl,
-      section.radio .ctrl {
-        width: 31px !important;
-        height: 31px !important;
-        min-width: 31px !important;
-        min-height: 31px !important;
-        color: rgba(255,255,255,.78) !important;
-      }
-
-      .radio .play,
-      section.radio .play {
-        width: 38px !important;
-        height: 38px !important;
-        min-width: 38px !important;
-        min-height: 38px !important;
-        background: rgba(224, 188, 119, .90) !important;
-        box-shadow: 0 4px 15px rgba(0,0,0,.18) !important;
-      }
-
-      .radio .seek-row,
-      section.radio .seek-row {
-        margin-top: 7px !important;
-        gap: 6px !important;
-      }
-
-      .radio .progress,
-      section.radio .progress {
-        height: 3px !important;
-        background: rgba(255,255,255,.12) !important;
-      }
-
-      .radio .progress i,
-      section.radio .progress i {
-        background: linear-gradient(90deg, rgba(183,141,76,.92), rgba(232,201,133,.95)) !important;
-      }
-
-      .radio .status,
-      section.radio .status {
-        display: none !important;
-      }
-
-      /* Keep the queue glassy too. */
-      .radio .queue,
-      section.radio .queue {
-        border-radius: 24px !important;
-        background: rgba(14, 9, 6, .42) !important;
-        border-color: rgba(255, 235, 205, .15) !important;
-        backdrop-filter: blur(22px) !important;
-        -webkit-backdrop-filter: blur(22px) !important;
-      }
-
-      @media (max-width: 767px) {
-        .radio {
-          left: 50% !important;
-          right: auto !important;
-          bottom: 8px !important;
-          width: calc(100vw - 20px) !important;
-          max-width: none !important;
-          transform: translateX(-50%) !important;
-        }
-
-        .radio .player,
-        section.radio .player {
-          padding: 7px 9px 6px !important;
-          border-radius: 28px !important;
-          background:
-            linear-gradient(135deg, rgba(24,16,10,.26), rgba(24,16,10,.08)),
-            rgba(255,255,255,.025) !important;
-          backdrop-filter: blur(20px) saturate(115%) !important;
-          -webkit-backdrop-filter: blur(20px) saturate(115%) !important;
-          box-shadow: 0 12px 38px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.08) !important;
-        }
-
-        .radio .disc,
-        section.radio .disc {
-          width: 36px !important;
-          height: 36px !important;
-          flex-basis: 36px !important;
-        }
-
-        .radio .track,
-        section.radio .track {
-          font-size: 11px !important;
-        }
-
-        .radio .artist,
-        section.radio .artist {
-          font-size: 7px !important;
-        }
-
-        .radio .ctrl,
-        section.radio .ctrl {
-          width: 29px !important;
-          height: 29px !important;
-          min-width: 29px !important;
-          min-height: 29px !important;
-        }
-
-        .radio .play,
-        section.radio .play {
-          width: 36px !important;
-          height: 36px !important;
-          min-width: 36px !important;
-          min-height: 36px !important;
-        }
-      }
-
-      @media (max-width: 390px) {
-        .radio {
-          width: calc(100vw - 14px) !important;
-        }
-
-        .radio .disc,
-        section.radio .disc {
-          display: none !important;
-        }
-
-        .radio .volume-wrap,
-        section.radio .volume-wrap {
-          display: none !important;
-        }
-      }
-    </style>
-
   </head>
   <body>
     <div class="app">
@@ -1745,14 +1561,14 @@
       const VIDEO_QUEUES = {
         sunrise: [
           {
-            id: "jhLZhNlfmxQ",
+            id: "mJmbQrrzzXc",
             title: "90s Superhit Hindi Songs",
             sub: "Romantic Evergreen Jukebox",
           },
         ],
         morning: [
           {
-            id: "jhLZhNlfmxQ",
+            id: "mJmbQrrzzXc",
             title: "90s Bollywood Romance",
             sub: "Evergreen Hindi Jukebox",
           },
@@ -1766,14 +1582,14 @@
         ],
         late: [
           {
-            id: "jhLZhNlfmxQ",
+            id: "mJmbQrrzzXc",
             title: "90s Superhit Hindi Songs",
             sub: "Evergreen Romantic Hits",
           },
         ],
         sunset: [
           {
-            id: "jhLZhNlfmxQ",
+            id: "mJmbQrrzzXc",
             title: "90s Bollywood Romance",
             sub: "Golden Hour Jukebox",
           },
@@ -1801,7 +1617,7 @@
         ],
         rain: [
           {
-            id: "jhLZhNlfmxQ",
+            id: "mJmbQrrzzXc",
             title: "90s Superhit Hindi Songs",
             sub: "Rainy Evening · Evergreen Hindi",
           },
@@ -2109,16 +1925,9 @@
           if (seek) seek.setAttribute("aria-valuenow", Math.round(percent));
         } catch (e) {}
       }
-      window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
       function onYouTubeIframeAPIReady() {
-        // YouTube's API can reject an invalid "null" origin when the page
-        // is opened directly from file://. Only send origin for real web origins.
-        const protocol = window.location.protocol;
-        const validOrigin =
-          protocol === "http:" || protocol === "https:"
-            ? window.location.origin
-            : null;
-
+        const origin =
+          window.location.origin || "https://aangan-music-app.vercel.app";
         player = new YT.Player("yt", {
           width: "200",
           height: "200",
@@ -2131,8 +1940,8 @@
             rel: 0,
             iv_load_policy: 3,
             enablejsapi: 1,
-            modestbranding: 1,
-            ...(validOrigin ? { origin: validOrigin } : {}),
+            origin: origin,
+            widget_referrer: window.location.href,
           },
           events: {
             onReady: onReady,
@@ -2243,11 +2052,6 @@
       setStyle("disc", "backgroundImage", `url("${IMAGES[0]}")`);
       const api = document.createElement("script");
       api.src = "https://www.youtube.com/iframe_api";
-      api.async = true;
-      api.onerror = () => {
-        ready = false;
-        setText("status", "Music service could not be loaded");
-      };
       document.head.appendChild(api);
     </script>
   </body>

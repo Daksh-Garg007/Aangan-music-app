@@ -2189,6 +2189,309 @@ body {
 }
 </style>
 
+
+<style id="aangan-saloon-inspired">
+/* ===== AANGAN · SALOON-INSPIRED MINIMAL UI ===== */
+
+header {
+  z-index: 20;
+}
+
+.playlist-pill {
+  position: fixed;
+  right: 20px;
+  top: 17px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 32px;
+  padding: 7px 11px;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 999px;
+  color: rgba(255,250,242,.88);
+  text-decoration: none;
+  background: rgba(0,0,0,.08);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  box-shadow: 0 4px 20px rgba(0,0,0,.10);
+  font: 10px Arial, sans-serif;
+  letter-spacing: .04em;
+  transition: background .2s ease, transform .2s ease, border-color .2s ease;
+}
+
+.playlist-pill:hover {
+  background: rgba(255,255,255,.10);
+  border-color: rgba(255,255,255,.25);
+  transform: translateY(-1px);
+}
+
+.playlist-pill:active {
+  transform: scale(.96);
+}
+
+.yt-dot {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.9);
+  color: #261d15;
+  font-size: 7px;
+  padding-left: 1px;
+}
+
+.playlist-label {
+  opacity: .86;
+}
+
+.playlist-arrow {
+  opacity: .45;
+  font-size: 12px;
+}
+
+/* The player is a floating glass capsule rather than a conventional box. */
+.radio {
+  width: min(650px, calc(100vw - 32px)) !important;
+  bottom: 24px !important;
+  z-index: 30 !important;
+}
+
+.player {
+  position: relative !important;
+  min-height: 104px !important;
+  padding: 15px 18px 12px !important;
+  border-radius: 34px !important;
+  border: 1px solid rgba(255,255,255,.15) !important;
+  background:
+    linear-gradient(120deg, rgba(255,255,255,.075), rgba(255,255,255,.025)),
+    rgba(12,9,7,.13) !important;
+  box-shadow:
+    0 16px 55px rgba(0,0,0,.20),
+    inset 0 1px 0 rgba(255,255,255,.10) !important;
+  backdrop-filter: blur(28px) saturate(125%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(125%) !important;
+}
+
+.row {
+  min-height: 57px !important;
+  gap: 13px !important;
+}
+
+.disc {
+  width: 56px !important;
+  height: 56px !important;
+  flex: 0 0 56px !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  background:
+    radial-gradient(circle at center, rgba(0,0,0,.55) 0 8%, transparent 9%),
+    linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.025)) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  border: 1px solid rgba(255,255,255,.20) !important;
+  box-shadow: 0 5px 20px rgba(0,0,0,.20) !important;
+}
+
+.disc.playing {
+  animation: aangan-disc-spin 8s linear infinite !important;
+}
+
+@keyframes aangan-disc-spin {
+  to { transform: rotate(360deg); }
+}
+
+.meta {
+  min-width: 0 !important;
+}
+
+.track {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: rgba(255,250,243,.94) !important;
+  text-shadow: 0 1px 8px rgba(0,0,0,.25);
+}
+
+.artist {
+  margin-top: 5px !important;
+  color: rgba(255,245,231,.52) !important;
+  font-size: 9px !important;
+}
+
+.controls {
+  gap: 2px !important;
+}
+
+.ctrl {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  border-radius: 50% !important;
+  color: rgba(255,250,243,.72) !important;
+  background: transparent !important;
+  transition: background .18s ease, color .18s ease, transform .18s ease !important;
+}
+
+.ctrl:hover {
+  color: #fff !important;
+  background: rgba(255,255,255,.09) !important;
+}
+
+.play {
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  background: rgba(255,250,242,.92) !important;
+  color: #17110d !important;
+  box-shadow: 0 5px 18px rgba(0,0,0,.20) !important;
+}
+
+.play:hover {
+  background: #fff !important;
+  transform: scale(1.04);
+}
+
+.seek-row {
+  margin-top: 10px !important;
+  gap: 8px !important;
+}
+
+.progress {
+  height: 3px !important;
+  background: rgba(255,255,255,.12) !important;
+  border-radius: 99px !important;
+}
+
+.progress i {
+  background: rgba(255,255,255,.82) !important;
+  border-radius: 99px !important;
+}
+
+.progress i::after {
+  width: 7px !important;
+  height: 7px !important;
+  background: #fff !important;
+  box-shadow: 0 1px 5px rgba(0,0,0,.30) !important;
+}
+
+.time {
+  color: rgba(255,245,231,.38) !important;
+  font-size: 8px !important;
+}
+
+/* Keep the queue as an optional feature rather than cluttering the main view. */
+.queue {
+  border: 1px solid rgba(255,255,255,.13) !important;
+  border-radius: 24px !important;
+  background: rgba(13,10,8,.40) !important;
+  backdrop-filter: blur(25px) saturate(125%) !important;
+  -webkit-backdrop-filter: blur(25px) saturate(125%) !important;
+  box-shadow: 0 14px 45px rgba(0,0,0,.22) !important;
+}
+
+/* Hide technical status text visually; retain it for screen readers/debugging. */
+.status {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0,0,0,0) !important;
+  white-space: nowrap !important;
+}
+
+/* Small-screen version closely follows the compact Saloon player proportions. */
+@media (max-width: 767px) {
+  .playlist-pill {
+    right: 12px;
+    top: calc(10px + var(--safe-top));
+    min-height: 30px;
+    padding: 6px 9px;
+  }
+
+  .playlist-label,
+  .playlist-arrow {
+    display: none;
+  }
+
+  .radio {
+    width: calc(100vw - 16px) !important;
+    bottom: calc(8px + var(--safe-bottom)) !important;
+  }
+
+  .player {
+    min-height: 90px !important;
+    padding: 11px 12px 9px !important;
+    border-radius: 29px !important;
+  }
+
+  .row {
+    min-height: 48px !important;
+    gap: 9px !important;
+  }
+
+  .disc {
+    width: 44px !important;
+    height: 44px !important;
+    flex-basis: 44px !important;
+  }
+
+  .track {
+    font-size: 11px !important;
+  }
+
+  .artist {
+    font-size: 8px !important;
+    margin-top: 3px !important;
+  }
+
+  .ctrl {
+    width: 31px !important;
+    height: 31px !important;
+    min-width: 31px !important;
+    min-height: 31px !important;
+  }
+
+  .play {
+    width: 39px !important;
+    height: 39px !important;
+    min-width: 39px !important;
+    min-height: 39px !important;
+  }
+
+  .seek-row {
+    margin-top: 8px !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .playlist-pill {
+    right: 9px;
+  }
+
+  .disc {
+    width: 38px !important;
+    height: 38px !important;
+    flex-basis: 38px !important;
+  }
+
+  .ctrl {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+  }
+
+  .play {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+  }
+}
+</style>
+
 </head>
   <body>
     <div class="app">
@@ -2198,6 +2501,18 @@ body {
       <header>
         <div class="brand">आँगन Radio</div>
         <div class="clock" id="clock">--:--</div>
+        <a
+          class="playlist-pill"
+          href="https://music.youtube.com/playlist?list=PLTJ1PnzCWyFw"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open Aangan playlist on YouTube Music"
+          title="Open playlist on YouTube Music"
+        >
+          <span class="yt-dot">▶</span>
+          <span class="playlist-label">YT Music</span>
+          <span class="playlist-arrow">↗</span>
+        </a>
       </header>
       <div class="footer">90s Hindi Radio · slow moments</div>
       <section class="radio" aria-label="Aangan music player">
@@ -2207,7 +2522,7 @@ body {
         </div>
         <div class="player" id="playerCard">
           <div class="row">
-            <div class="disc" id="disc" aria-hidden="true">♫</div>
+            <div class="disc" id="disc" aria-hidden="true"></div>
 
             <div class="meta">
               <div class="track" id="track">आँगन Radio</div>
@@ -2402,8 +2717,6 @@ body {
           currentSlot = n;
           const s = slots[n];
           setStyle("scene", "backgroundImage", `url("${IMAGES[s.img]}")`);
-          setText("slot", s.name);
-          setText("desc", s.desc);
           setText("qhead", "आँगन Radio · YouTube Playlist");
           activeQueue = queueForSlot(n);
           const list = ready && player && player.getPlaylist ? (player.getPlaylist() || []) : [];
@@ -2464,7 +2777,16 @@ body {
 
       function setMeta(title, sub) {
         $("track").textContent = title || "आँगन Radio";
-        $("artist").textContent = sub || "90s Hindi Radio";
+        $("artist").textContent = sub || "YouTube Music · 90s Hindi Nostalgia";
+
+        if (player && typeof player.getVideoData === "function") {
+          const d = player.getVideoData() || {};
+          if (d.video_id) {
+            $("disc").style.backgroundImage =
+              `url("https://i.ytimg.com/vi/${d.video_id}/hqdefault.jpg")`;
+          }
+        }
+
         renderQueue();
       }
       function loadActive(play) {
@@ -2623,7 +2945,7 @@ body {
           player.pauseVideo();
 
           const data = player.getVideoData ? player.getVideoData() : {};
-          setMeta(data.title || "आँगन Radio", "YouTube · 90s Hindi Nostalgia");
+          setMeta(data.title || "आँगन Radio", "YouTube Music · 90s Hindi Nostalgia");
           renderQueue();
         };
 
@@ -2633,6 +2955,7 @@ body {
       function onState(e) {
         if (e.data === YT.PlayerState.PLAYING) {
           playing = true;
+          $("disc").classList.add("playing");
           $("play").textContent = "Ⅱ";
           $("play").setAttribute("aria-label", "Pause");
           $("play").setAttribute("title", "Pause");
@@ -2642,6 +2965,7 @@ body {
           setMeta(d.title || "Aangan Radio", "YouTube · 90s Hindi Radio");
         } else if (e.data === YT.PlayerState.PAUSED) {
           playing = false;
+          $("disc").classList.remove("playing");
           $("play").textContent = "▶";
           $("play").setAttribute("aria-label", "Play");
           $("play").setAttribute("title", "Play");

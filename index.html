@@ -2814,11 +2814,24 @@ header {
       $("play").onclick = toggle;
       $("next").onclick = () => {
         if (!ready || !player) return;
-        player.nextVideo();
+        const list = player.getPlaylist ? (player.getPlaylist() || []) : [];
+        if (!list.length) return;
+
+        activeVideoIndex =
+          (activeVideoIndex + 1) % list.length;
+        player.playVideoAt(activeVideoIndex);
+        renderQueue();
       };
+
       $("prev").onclick = () => {
         if (!ready || !player) return;
-        player.previousVideo();
+        const list = player.getPlaylist ? (player.getPlaylist() || []) : [];
+        if (!list.length) return;
+
+        activeVideoIndex =
+          (activeVideoIndex - 1 + list.length) % list.length;
+        player.playVideoAt(activeVideoIndex);
+        renderQueue();
       };
       $("more").onclick = (e) => {
         $("queue").classList.toggle("open");
@@ -2932,26 +2945,46 @@ header {
         ready = true;
         $("status").textContent = "Loading Aangan playlist…";
 
-        const initPlaylist = () => {
-          const list = player.getPlaylist ? (player.getPlaylist() || []) : [];
+        const waitForPlaylist = (attempt = 0) => {
+          if (!player || typeof player.getPlaylist !== "function") {
+            if (attempt < 30) setTimeout(() => waitForPlaylist(attempt + 1), 300);
+            return;
+          }
+
+          const list = player.getPlaylist() || [];
           if (!list.length) {
-            setTimeout(initPlaylist, 300);
+            if (attempt < 30) {
+              setTimeout(() => waitForPlaylist(attempt + 1), 300);
+            } else {
+              $("status").textContent = "Playlist could not be loaded";
+            }
             return;
           }
 
           const requested = PLAYLIST_START_INDEX[activeQueue] ?? 0;
           activeVideoIndex = requested % list.length;
-          player.playVideoAt(activeVideoIndex);
-          player.pauseVideo();
+
+          // cueVideoAtIndex does not unexpectedly start playback.
+          if (typeof player.cueVideoAt === "function") {
+            player.cueVideoAt(activeVideoIndex);
+          } else {
+            player.playVideoAt(activeVideoIndex);
+            player.pauseVideo();
+          }
 
           const data = player.getVideoData ? player.getVideoData() : {};
-          setMeta(data.title || "आँगन Radio", "YouTube Music · 90s Hindi Nostalgia");
+          setMeta(
+            data.title || "आँगन Radio",
+            "YouTube Music · 90s Hindi Nostalgia"
+          );
           renderQueue();
+          $("status").textContent = "Ready · Tap ▶ to begin";
         };
 
         applySlot();
-        initPlaylist();
+        waitForPlaylist();
       }
+
       function onState(e) {
         if (e.data === YT.PlayerState.PLAYING) {
           playing = true;

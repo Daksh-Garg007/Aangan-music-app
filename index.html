@@ -2503,6 +2503,94 @@ body {
   }
 </style>
 
+
+<style id="aangan-player-alignment">
+  /* Final alignment pass — Saloon-inspired horizontal layout */
+  .player .row {
+    display: flex !important;
+    align-items: center !important;
+    min-height: 82px !important;
+    gap: 16px !important;
+  }
+
+  .player .disc {
+    width: 82px !important;
+    height: 82px !important;
+    flex: 0 0 82px !important;
+  }
+
+  .player .meta {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    align-self: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    text-align: left !important;
+  }
+
+  .player .track {
+    margin: 0 !important;
+    line-height: 1.18 !important;
+  }
+
+  .player .artist {
+    margin: 0 !important;
+    line-height: 1.2 !important;
+  }
+
+  .player .controls {
+    flex: 0 0 auto !important;
+    align-self: center !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .player .seek-row {
+    margin-top: 3px !important;
+    padding-left: 98px !important;
+  }
+
+  @media (max-width: 767px) {
+    .player .row {
+      min-height: 58px !important;
+      gap: 10px !important;
+    }
+
+    .player .disc {
+      width: 58px !important;
+      height: 58px !important;
+      flex-basis: 58px !important;
+    }
+
+    .player .meta {
+      gap: 3px !important;
+    }
+
+    .player .seek-row {
+      padding-left: 68px !important;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .player .disc {
+      width: 52px !important;
+      height: 52px !important;
+      flex-basis: 52px !important;
+    }
+
+    .player .row {
+      gap: 8px !important;
+    }
+
+    .player .seek-row {
+      padding-left: 60px !important;
+    }
+  }
+</style>
+
 </head>
   <body>
     <div class="app">

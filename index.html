@@ -2724,7 +2724,7 @@ header {
             ? (PLAYLIST_START_INDEX[activeQueue] ?? 0) % list.length
             : 0;
           renderQueue();
-          if (ready && !playing && list.length) loadActive(false);
+          if (ready && !playing && list.length) goToPlaylistIndex(activeVideoIndex, false);
         }
       }
       function updateClock() {
@@ -2768,8 +2768,7 @@ header {
 
         list.querySelectorAll(".qitem").forEach((b) =>
           b.addEventListener("click", () => {
-            activeVideoIndex = Number(b.dataset.i);
-            loadActive(true);
+            goToPlaylistIndex(Number(b.dataset.i), true);
             $("queue").classList.remove("open");
           })
         );
@@ -2821,26 +2820,71 @@ header {
         }
       }
       $("play").onclick = toggle;
+      function getPlaylistLength() {
+        if (!player || typeof player.getPlaylist !== "function") return 0;
+        const list = player.getPlaylist();
+        return Array.isArray(list) ? list.length : 0;
+      }
+
+      function goToPlaylistIndex(index, shouldPlay = true) {
+        if (!ready || !player) return;
+
+        const list = player.getPlaylist ? player.getPlaylist() : [];
+        const length = Array.isArray(list) ? list.length : 0;
+
+        if (!length) {
+          $("status").textContent = "Playlist is still loading…";
+          return;
+        }
+
+        activeVideoIndex = (index + length) % length;
+
+        // playVideoAt is the important part here: nextVideo()/previousVideo()
+        // can be unreliable when a playlist was loaded dynamically.
+        try {
+          player.playVideoAt(activeVideoIndex);
+          if (!shouldPlay) player.pauseVideo();
+        } catch (err) {
+          console.error("Playlist navigation failed:", err);
+          $("status").textContent = "Could not change song";
+          return;
+        }
+
+        renderQueue();
+      }
+
       $("next").onclick = () => {
         if (!ready || !player) return;
-        const list = player.getPlaylist ? (player.getPlaylist() || []) : [];
-        if (!list.length) return;
 
-        activeVideoIndex =
-          (activeVideoIndex + 1) % list.length;
-        player.playVideoAt(activeVideoIndex);
-        renderQueue();
+        const length = getPlaylistLength();
+        if (!length) {
+          $("status").textContent = "Playlist is still loading…";
+          return;
+        }
+
+        const current =
+          typeof player.getPlaylistIndex === "function"
+            ? player.getPlaylistIndex()
+            : activeVideoIndex;
+
+        goToPlaylistIndex(current + 1, true);
       };
 
       $("prev").onclick = () => {
         if (!ready || !player) return;
-        const list = player.getPlaylist ? (player.getPlaylist() || []) : [];
-        if (!list.length) return;
 
-        activeVideoIndex =
-          (activeVideoIndex - 1 + list.length) % list.length;
-        player.playVideoAt(activeVideoIndex);
-        renderQueue();
+        const length = getPlaylistLength();
+        if (!length) {
+          $("status").textContent = "Playlist is still loading…";
+          return;
+        }
+
+        const current =
+          typeof player.getPlaylistIndex === "function"
+            ? player.getPlaylistIndex()
+            : activeVideoIndex;
+
+        goToPlaylistIndex(current - 1, true);
       };
       $("more").onclick = (e) => {
         $("queue").classList.toggle("open");

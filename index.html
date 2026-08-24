@@ -2768,7 +2768,19 @@ header {
 
         list.querySelectorAll(".qitem").forEach((b) =>
           b.addEventListener("click", () => {
-            goToPlaylistIndex(Number(b.dataset.i), true);
+            const target = Number(b.dataset.i);
+            const current = typeof player.getPlaylistIndex === "function"
+              ? player.getPlaylistIndex()
+              : activeVideoIndex;
+            const length = player.getPlaylist ? (player.getPlaylist() || []).length : 0;
+
+            if (length && target !== current) {
+              // For a queue click, playVideoAt is appropriate because the
+              // playlist is already loaded and the target is explicit.
+              player.playVideoAt(target);
+              activeVideoIndex = target;
+              renderQueue();
+            }
             $("queue").classList.remove("open");
           })
         );
@@ -2820,72 +2832,45 @@ header {
         }
       }
       $("play").onclick = toggle;
-      function getPlaylistLength() {
-        if (!player || typeof player.getPlaylist !== "function") return 0;
-        const list = player.getPlaylist();
-        return Array.isArray(list) ? list.length : 0;
-      }
-
-      function goToPlaylistIndex(index, shouldPlay = true) {
-        if (!ready || !player) return;
-
-        const list = player.getPlaylist ? player.getPlaylist() : [];
-        const length = Array.isArray(list) ? list.length : 0;
-
-        if (!length) {
-          $("status").textContent = "Playlist is still loading…";
-          return;
-        }
-
-        activeVideoIndex = (index + length) % length;
-
-        // playVideoAt is the important part here: nextVideo()/previousVideo()
-        // can be unreliable when a playlist was loaded dynamically.
+      function syncPlaylistIndex() {
+        if (!player || typeof player.getPlaylistIndex !== "function") return;
         try {
-          player.playVideoAt(activeVideoIndex);
-          if (!shouldPlay) player.pauseVideo();
-        } catch (err) {
-          console.error("Playlist navigation failed:", err);
-          $("status").textContent = "Could not change song";
-          return;
-        }
-
-        renderQueue();
+          const idx = player.getPlaylistIndex();
+          if (Number.isFinite(idx) && idx >= 0) {
+            activeVideoIndex = idx;
+            renderQueue();
+          }
+        } catch (e) {}
       }
 
       $("next").onclick = () => {
         if (!ready || !player) return;
 
-        const length = getPlaylistLength();
-        if (!length) {
-          $("status").textContent = "Playlist is still loading…";
-          return;
+        try {
+          // Use YouTube's own playlist navigation. This is more reliable than
+          // playVideoAt() for playlists loaded dynamically with loadPlaylist().
+          player.nextVideo();
+          setTimeout(syncPlaylistIndex, 250);
+          setTimeout(syncPlaylistIndex, 900);
+        } catch (err) {
+          console.error("YouTube nextVideo failed:", err);
+          $("status").textContent = "Could not change song";
         }
-
-        const current =
-          typeof player.getPlaylistIndex === "function"
-            ? player.getPlaylistIndex()
-            : activeVideoIndex;
-
-        goToPlaylistIndex(current + 1, true);
       };
 
       $("prev").onclick = () => {
         if (!ready || !player) return;
 
-        const length = getPlaylistLength();
-        if (!length) {
-          $("status").textContent = "Playlist is still loading…";
-          return;
+        try {
+          player.previousVideo();
+          setTimeout(syncPlaylistIndex, 250);
+          setTimeout(syncPlaylistIndex, 900);
+        } catch (err) {
+          console.error("YouTube previousVideo failed:", err);
+          $("status").textContent = "Could not change song";
         }
-
-        const current =
-          typeof player.getPlaylistIndex === "function"
-            ? player.getPlaylistIndex()
-            : activeVideoIndex;
-
-        goToPlaylistIndex(current - 1, true);
       };
+
       $("more").onclick = (e) => {
         $("queue").classList.toggle("open");
         renderQueue();
@@ -3067,10 +3052,13 @@ player = new YT.Player("yt", {
           $("play").setAttribute("aria-label", "Play");
           $("play").setAttribute("title", "Play");
           updatePlayerVisualState();
-          activeVideoIndex = typeof player.getPlaylistIndex === "function"
-            ? Math.max(0, player.getPlaylistIndex())
-            : activeVideoIndex + 1;
-          renderQueue();
+          syncPlaylistIndex();
+          try {
+            player.nextVideo();
+            setTimeout(syncPlaylistIndex, 300);
+          } catch (err) {
+            console.error("Automatic playlist advance failed:", err);
+          }
         } else if (e.data === YT.PlayerState.BUFFERING) {
           $("status").textContent = "Buffering…";
         }

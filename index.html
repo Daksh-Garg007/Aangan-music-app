@@ -3162,6 +3162,109 @@ body {
   }
 </style>
 
+
+<style id="aangan-ultra-transparent-player">
+  /* Ultra-transparent glass player.
+     Width is intentionally unchanged. */
+  .radio .player {
+    background:
+      linear-gradient(
+        105deg,
+        rgba(55, 32, 24, .105),
+        rgba(25, 16, 12, .055)
+      ) !important;
+
+    border: 1px solid rgba(255,255,255,.24) !important;
+
+    box-shadow:
+      0 12px 35px rgba(0,0,0,.12),
+      inset 0 1px 0 rgba(255,255,255,.12) !important;
+
+    backdrop-filter: blur(5px) saturate(108%) !important;
+    -webkit-backdrop-filter: blur(5px) saturate(108%) !important;
+  }
+
+  /* Make the interior almost completely transparent so
+     the people/background remain visible through the capsule. */
+  .radio .player .meta,
+  .radio .player .controls,
+  .radio .player .seek-row {
+    background: transparent !important;
+  }
+
+  .radio .player .progress {
+    background: rgba(255,255,255,.18) !important;
+  }
+
+  .radio .player .progress i {
+    background: rgba(255,255,255,.72) !important;
+  }
+
+  @media (max-width: 767px) {
+    .radio .player {
+      background:
+        linear-gradient(
+          105deg,
+          rgba(55, 32, 24, .09),
+          rgba(25, 16, 12, .045)
+        ) !important;
+      backdrop-filter: blur(4px) saturate(105%) !important;
+      -webkit-backdrop-filter: blur(4px) saturate(105%) !important;
+    }
+  }
+</style>
+
+
+<style id="aangan-sample-transparency">
+  /* Match the reference image: very transparent glass with the scene
+     clearly visible through the entire music player. */
+  .radio .player {
+    background: rgba(255, 255, 255, 0.075) !important;
+    border: 2px solid rgba(255, 255, 255, 0.58) !important;
+
+    box-shadow:
+      0 8px 30px rgba(0,0,0,.10),
+      inset 0 1px 0 rgba(255,255,255,.16) !important;
+
+    backdrop-filter: blur(2px) saturate(105%) !important;
+    -webkit-backdrop-filter: blur(2px) saturate(105%) !important;
+  }
+
+  .radio .player .meta,
+  .radio .player .controls,
+  .radio .player .seek-row {
+    background: transparent !important;
+  }
+
+  .radio .player .track {
+    color: rgba(255,255,255,.98) !important;
+    text-shadow: 0 2px 7px rgba(0,0,0,.42) !important;
+  }
+
+  .radio .player .artist,
+  .radio .player .time {
+    color: rgba(255,255,255,.88) !important;
+    text-shadow: 0 1px 5px rgba(0,0,0,.35) !important;
+  }
+
+  .radio .player .progress {
+    background: rgba(255,255,255,.30) !important;
+  }
+
+  .radio .player .progress i {
+    background: rgba(255,255,255,.92) !important;
+  }
+
+  @media (max-width: 767px) {
+    .radio .player {
+      background: rgba(255,255,255,.065) !important;
+      border-width: 1.5px !important;
+      backdrop-filter: blur(2px) saturate(105%) !important;
+      -webkit-backdrop-filter: blur(2px) saturate(105%) !important;
+    }
+  }
+</style>
+
 </head>
   <body>
     <div class="app">

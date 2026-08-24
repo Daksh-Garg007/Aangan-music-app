@@ -1871,6 +1871,324 @@ section.radio .player {
 }
 </style>
 
+
+<style id="aangan-device-responsive">
+/* =========================================================
+   AANGAN — DEVICE RESPONSIVE LAYER
+   Desktop / tablet / mobile / small phones
+   ========================================================= */
+
+html, body {
+  width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+body {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Make the main scene safe on all aspect ratios. */
+.scene {
+  width: 100%;
+  height: 100dvh;
+  min-height: 100svh;
+  background-size: cover;
+  background-position: center center;
+}
+
+/* Keep overlays inside the viewport. */
+.ui,
+.overlay,
+.weather,
+.clock,
+.brand,
+.radio,
+.queue {
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+/* ---------- Tablets ---------- */
+@media (max-width: 900px) {
+  .clock {
+    right: 18px !important;
+    top: 18px !important;
+  }
+
+  .brand {
+    left: 18px !important;
+    top: 18px !important;
+  }
+
+  .ui {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+
+  .queue {
+    max-width: calc(100vw - 36px) !important;
+  }
+
+  .radio {
+    width: min(600px, calc(100vw - 30px)) !important;
+  }
+}
+
+/* ---------- Phones ---------- */
+@media (max-width: 767px) {
+  /* Prevent desktop typography from making the scene feel crowded. */
+  .clock {
+    right: 12px !important;
+    top: 12px !important;
+    transform: scale(.88);
+    transform-origin: top right;
+  }
+
+  .brand {
+    left: 12px !important;
+    top: 12px !important;
+    transform: scale(.88);
+    transform-origin: top left;
+  }
+
+  .weather {
+    left: 12px !important;
+    top: 58px !important;
+    max-width: calc(100vw - 24px) !important;
+  }
+
+  .ui {
+    left: 12px !important;
+    right: 12px !important;
+    width: auto !important;
+    padding: 0 !important;
+  }
+
+  /* If the main information panel exists, let it use the full phone width. */
+  .panel,
+  .content,
+  .info,
+  .hero,
+  .intro {
+    max-width: 100% !important;
+  }
+
+  /* Queue should become a comfortable bottom-sheet style panel. */
+  .queue {
+    left: 10px !important;
+    right: 10px !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: min(48dvh, 420px) !important;
+    overflow-y: auto !important;
+    border-radius: 24px !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Music player */
+  .radio {
+    left: 50% !important;
+    right: auto !important;
+    bottom: calc(8px + env(safe-area-inset-bottom)) !important;
+    width: calc(100vw - 18px) !important;
+    max-width: none !important;
+    transform: translateX(-50%) !important;
+    z-index: 100 !important;
+  }
+
+  .radio .player {
+    min-height: 88px !important;
+    width: 100% !important;
+    padding: 11px 12px 9px !important;
+    border-radius: 30px !important;
+  }
+
+  .radio .row {
+    min-height: 46px !important;
+    gap: 9px !important;
+  }
+
+  .radio .disc {
+    width: 40px !important;
+    height: 40px !important;
+    flex: 0 0 40px !important;
+  }
+
+  .radio .track {
+    max-width: 42vw !important;
+    font-size: 11px !important;
+  }
+
+  .radio .artist {
+    max-width: 42vw !important;
+    margin-top: 3px !important;
+    font-size: 7px !important;
+  }
+
+  .radio .controls {
+    gap: 0 !important;
+  }
+
+  .radio .ctrl {
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    min-height: 30px !important;
+  }
+
+  .radio .play {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+  }
+
+  .radio .seek-row {
+    margin-top: 7px !important;
+  }
+
+  /* Better touch targets without making controls visually large. */
+  .radio button,
+  .queue button {
+    touch-action: manipulation;
+  }
+}
+
+/* ---------- Small phones ---------- */
+@media (max-width: 430px) {
+  .scene {
+    background-position: 52% center;
+  }
+
+  .clock {
+    transform: scale(.78);
+  }
+
+  .brand {
+    transform: scale(.78);
+  }
+
+  .weather {
+    top: 52px !important;
+    font-size: 10px !important;
+  }
+
+  .radio {
+    width: calc(100vw - 12px) !important;
+    bottom: calc(5px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .radio .player {
+    min-height: 82px !important;
+    padding: 9px 10px 8px !important;
+    border-radius: 27px !important;
+  }
+
+  .radio .disc {
+    width: 36px !important;
+    height: 36px !important;
+    flex-basis: 36px !important;
+  }
+
+  .radio .track {
+    max-width: 39vw !important;
+    font-size: 10px !important;
+  }
+
+  .radio .artist {
+    max-width: 39vw !important;
+    font-size: 7px !important;
+  }
+
+  .radio .ctrl {
+    width: 27px !important;
+    height: 27px !important;
+    min-width: 27px !important;
+    min-height: 27px !important;
+    font-size: 16px !important;
+  }
+
+  .radio .play {
+    width: 35px !important;
+    height: 35px !important;
+    min-width: 35px !important;
+    min-height: 35px !important;
+  }
+
+  .radio .time {
+    width: 25px !important;
+    font-size: 7px !important;
+  }
+}
+
+/* ---------- Very small phones ---------- */
+@media (max-width: 360px) {
+  .brand,
+  .clock {
+    display: none !important;
+  }
+
+  .radio .disc {
+    display: none !important;
+  }
+
+  .radio .track,
+  .radio .artist {
+    max-width: 44vw !important;
+  }
+
+  .radio .ctrl {
+    width: 25px !important;
+    height: 25px !important;
+    min-width: 25px !important;
+    min-height: 25px !important;
+  }
+
+  .radio .play {
+    width: 33px !important;
+    height: 33px !important;
+    min-width: 33px !important;
+    min-height: 33px !important;
+  }
+}
+
+/* Landscape phones: preserve the scene and avoid covering too much of it. */
+@media (max-width: 900px) and (orientation: landscape) {
+  .radio {
+    bottom: 7px !important;
+    width: min(570px, calc(100vw - 24px)) !important;
+  }
+
+  .radio .player {
+    min-height: 70px !important;
+    padding: 7px 12px !important;
+  }
+
+  .radio .row {
+    min-height: 40px !important;
+  }
+
+  .radio .disc {
+    width: 34px !important;
+    height: 34px !important;
+    flex-basis: 34px !important;
+  }
+
+  .radio .seek-row {
+    margin-top: 4px !important;
+  }
+}
+
+/* Respect phones with a home indicator. */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .radio {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+</style>
+
 </head>
   <body>
     <div class="app">

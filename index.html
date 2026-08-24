@@ -2423,6 +2423,86 @@ body {
   }
 </style>
 
+
+<style id="aangan-artwork-fix">
+  .disc {
+    position: relative !important;
+    overflow: hidden !important;
+    background-color: rgba(20,12,8,.65) !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: cover !important;
+  }
+
+  .disc::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    border-radius: 50% !important;
+    background:
+      radial-gradient(circle at center, rgba(0,0,0,.42) 0 7%, transparent 8%),
+      radial-gradient(circle at center, transparent 0 62%, rgba(0,0,0,.24) 63% 65%, transparent 66%) !important;
+    pointer-events: none !important;
+    z-index: 2 !important;
+  }
+
+  .disc::after {
+    z-index: 3 !important;
+  }
+</style>
+
+
+<style id="aangan-real-artwork">
+  .disc {
+    position: relative !important;
+    overflow: hidden !important;
+    background: rgba(20,12,8,.62) !important;
+  }
+
+  .disc #discArt {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+    opacity: 0 !important;
+    transition: opacity .25s ease !important;
+    z-index: 1 !important;
+    user-select: none !important;
+    -webkit-user-drag: none !important;
+  }
+
+  .disc.has-art #discArt {
+    opacity: 1 !important;
+  }
+
+  .disc .disc-fallback {
+    position: absolute !important;
+    inset: 0 !important;
+    display: grid !important;
+    place-items: center !important;
+    font-size: 22px !important;
+    color: rgba(255,255,255,.55) !important;
+    z-index: 0 !important;
+  }
+
+  .disc.has-art .disc-fallback {
+    opacity: 0 !important;
+  }
+
+  .disc::before {
+    z-index: 2 !important;
+    pointer-events: none !important;
+  }
+
+  .disc::after {
+    z-index: 3 !important;
+    pointer-events: none !important;
+  }
+</style>
+
 </head>
   <body>
     <div class="app">
@@ -2441,7 +2521,10 @@ body {
         </div>
         <div class="player" id="playerCard">
           <div class="row">
-            <div class="disc" id="disc" aria-hidden="true">♫</div>
+            <div class="disc" id="disc" aria-hidden="true">
+          <img id="discArt" alt="" draggable="false">
+          <span class="disc-fallback">♫</span>
+        </div>
 
             <div class="meta">
               <div class="track" id="track">आँगन Radio</div>
@@ -2667,7 +2750,7 @@ body {
         list.innerHTML = q
           .map(
             (s, i) =>
-              `<button class="qitem ${i === activeVideoIndex ? "active" : ""}" data-i="${i}"><span class="num">${String(i + 1).padStart(2, "0")}</span><span class="qtext"><span class="qtitle">${s.title}</span><span class="qsub">${s.sub}</span></span><span class="dot"></span></button>`,
+              `<button class="qitem ${i === activeVideoIndex ? "active" : ""}" data-i="${i}"><span class="num">${String(i + 1).padStart(2, "0")}</span><span class="qtext"><span class="qtitle">${shortSongTitle(s.title)}</span><span class="qsub">${s.sub}</span></span><span class="dot"></span></button>`,
           )
           .join("");
         list.querySelectorAll(".qitem").forEach((b) =>
@@ -2678,43 +2761,113 @@ body {
           }),
         );
       }
-            function setMeta(title, sub) {
-        $("track").textContent = title || "आँगन Radio";
-        $("artist").textContent = sub || "YouTube Music";
+                        function shortSongTitle(title) {
+        if (!title) return "आँगन Radio";
 
-        const q = VIDEO_QUEUES[activeQueue] || VIDEO_QUEUES.sunrise;
-        const item = q[activeVideoIndex % q.length];
+        let t = title
+          .replace(/\s*\|\s*.*$/,"")
+          .replace(/\s*[-–—]\s*(official|lyric|lyrics|video|audio).*$/i,"")
+          .replace(/\s*\((official|lyrics?|video|audio).*?\)/ig,"")
+          .replace(/\s+/g," ")
+          .trim();
 
-        if (item) {
-          const thumb = `https://i.ytimg.com/vi/${item.id}/hqdefault.jpg`;
-          $("disc").style.backgroundImage = `url("${thumb}")`;
-          $("disc").setAttribute("aria-label", item.title);
-          $("disc").title = item.title;
+        if (t.length > 30) {
+          t = t.slice(0, 30).replace(/\s+\S*$/,"").trim() + "…";
         }
+        return t || "आँगन Radio";
+      }
 
+      function isCompilationTitle(title) {
+        if (!title) return false;
+        return /\b(non[- ]?stop|jukebox|juke box|playlist|mix|mega mix|medley|collection|compilation|all songs|full album|complete album|greatest hits|top \d+|\d+ songs|songs collection)\b/i.test(title);
+      }
+
+      function setMeta(title, sub) {
+        $("track").textContent = shortSongTitle(title);
+        $("artist").textContent = sub || "YouTube Music";
+        updateCurrentArtwork();
         renderQueue();
       }
-      function updateCurrentArtwork() {
+                  function updateCurrentArtwork() {
         const q = VIDEO_QUEUES[activeQueue] || VIDEO_QUEUES.sunrise;
+        const item = q[activeVideoIndex % q.length];
+        const img = $("discArt");
+        const disc = $("disc");
+
+        if (!item || !img || !disc) return;
+
+        const id = item.id;
+        const urls = [
+          `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
+          `https://i.ytimg.com/vi/${id}/mqdefault.jpg`,
+          `https://i.ytimg.com/vi/${id}/default.jpg`
+        ];
+
+        let n = 0;
+        disc.classList.remove("has-art");
+        img.removeAttribute("src");
+
+        const tryNext = () => {
+          if (n >= urls.length) {
+            console.warn("No YouTube artwork found for", id);
+            return;
+          }
+
+          const url = urls[n++];
+          img.onload = () => {
+            disc.classList.add("has-art");
+          };
+          img.onerror = tryNext;
+          img.src = url;
+        };
+
+        tryNext();
+        disc.setAttribute("aria-label", item.title || "Aangan Radio artwork");
+        disc.title = item.title || "Aangan Radio";
+      }
+
+            function loadActive(play) {
+        if (!ready) return;
+
+        const q = VIDEO_QUEUES[activeQueue] || VIDEO_QUEUES.sunrise;
+        if (!q.length) return;
+
+        updateCurrentArtwork();
+
         const item = q[activeVideoIndex % q.length];
         if (!item) return;
 
-        $("disc").style.backgroundImage =
-          `url("https://i.ytimg.com/vi/${item.id}/hqdefault.jpg")`;
-        $("disc").setAttribute("aria-label", item.title);
-        $("disc").title = item.title;
-      }
+        player.loadVideoById(item.id);
 
-      function loadActive(play) {
-        if (!ready) return;
-        updateCurrentArtwork();
-        const q = VIDEO_QUEUES[activeQueue] || VIDEO_QUEUES.sunrise;
-        const item = q[activeVideoIndex % q.length];
-        $("status").textContent = "Loading · " + item.title;
-        player.loadVideoById({ videoId: item.id, startSeconds: 0 });
+        const syncMeta = () => {
+          try {
+            const data = player.getVideoData ? player.getVideoData() : {};
+            const realTitle = data.title || item.title;
+
+            // If this URL points to a compilation/playlist-style upload,
+            // automatically skip it instead of making it part of Aangan Radio.
+            if (isCompilationTitle(realTitle)) {
+              activeVideoIndex = (activeVideoIndex + 1) % q.length;
+              setTimeout(() => loadActive(play), 150);
+              return;
+            }
+
+            setMeta(realTitle, "YouTube Music");
+          } catch (e) {
+            setMeta(item.title, item.sub);
+          }
+        };
+
+        setTimeout(syncMeta, 500);
+        setTimeout(syncMeta, 1200);
+
         if (!play) {
-          player.pauseVideo();
+          setTimeout(() => {
+            try { player.pauseVideo(); } catch (e) {}
+          }, 700);
         }
+
+        renderQueue();
       }
       function cueAt(index) {
         activeVideoIndex = Math.max(0, index);

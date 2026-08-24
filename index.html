@@ -2669,6 +2669,13 @@ header {
         weatherRain = false,
         playlistIndex = 0;
       const AANGAN_PLAYLIST_ID = "PLTJ1PnzCWyFw";
+      const AANGAN_SONGS = [
+        { id: "N0jnLZxYwYc", title: "Song 01", artist: "Aangan Radio" },
+        { id: "3NWMK2MRqIk", title: "Song 02", artist: "Aangan Radio" },
+        { id: "bga_0ziOOfQ", title: "Song 03", artist: "Aangan Radio" },
+        { id: "oFxbBeYhLqM", title: "Song 04", artist: "Aangan Radio" },
+      ];
+
       const PLAYLIST_START_INDEX = {
         sunrise: 0,
         morning: 4,
@@ -2717,7 +2724,7 @@ header {
           currentSlot = n;
           const s = slots[n];
           setStyle("scene", "backgroundImage", `url("${IMAGES[s.img]}")`);
-          setText("qhead", "आँगन Radio · YouTube Playlist");
+          setText("qhead", "आँगन Radio · 4 Song Test Playlist");
           activeQueue = queueForSlot(n);
           const list = ready && player && player.getPlaylist ? (player.getPlaylist() || []) : [];
           activeVideoIndex = list.length
@@ -2738,64 +2745,38 @@ header {
         applySlot();
       }
       function getPlaylistItems() {
-        if (!player || !ready || typeof player.getPlaylist !== "function") return [];
-        const ids = player.getPlaylist() || [];
-        return ids.map((id, i) => ({
-          id,
-          title: i === activeVideoIndex && player.getVideoData
-            ? (player.getVideoData().title || `Aangan Radio · Song ${i + 1}`)
-            : `Aangan Radio · Song ${i + 1}`,
-          sub: "90s Hindi Nostalgia",
-        }));
+        return AANGAN_SONGS;
       }
 
       function renderQueue() {
         const list = $("songs");
-        const q = getPlaylistItems();
-
-        if (!q.length) {
-          list.innerHTML = `<div style="padding:14px;color:rgba(247,234,213,.55);font:10px Arial,sans-serif;">YouTube playlist · loading…</div>`;
-          return;
-        }
-
-        list.innerHTML = q.map((s, i) =>
+        list.innerHTML = AANGAN_SONGS.map((song, i) =>
           `<button class="qitem ${i === activeVideoIndex ? "active" : ""}" data-i="${i}">
             <span class="num">${String(i + 1).padStart(2, "0")}</span>
-            <span class="qtext"><span class="qtitle">${s.title}</span><span class="qsub">${s.sub}</span></span>
+            <span class="qtext">
+              <span class="qtitle">${song.title}</span>
+              <span class="qsub">${song.artist}</span>
+            </span>
             <span class="dot"></span>
           </button>`
         ).join("");
 
         list.querySelectorAll(".qitem").forEach((b) =>
           b.addEventListener("click", () => {
-            const target = Number(b.dataset.i);
-            const current = typeof player.getPlaylistIndex === "function"
-              ? player.getPlaylistIndex()
-              : activeVideoIndex;
-            const length = player.getPlaylist ? (player.getPlaylist() || []).length : 0;
-
-            if (length && target !== current) {
-              // For a queue click, playVideoAt is appropriate because the
-              // playlist is already loaded and the target is explicit.
-              player.playVideoAt(target);
-              activeVideoIndex = target;
-              renderQueue();
-            }
+            activeVideoIndex = Number(b.dataset.i);
+            loadControlledSong(true);
             $("queue").classList.remove("open");
           })
         );
       }
 
-      function setMeta(title, sub) {
+function setMeta(title, sub) {
         $("track").textContent = title || "आँगन Radio";
-        $("artist").textContent = sub || "YouTube Music · 90s Hindi Nostalgia";
-
-        if (player && typeof player.getVideoData === "function") {
-          const d = player.getVideoData() || {};
-          if (d.video_id) {
-            $("disc").style.backgroundImage =
-              `url("https://i.ytimg.com/vi/${d.video_id}/hqdefault.jpg")`;
-          }
+        $("artist").textContent = sub || "YouTube Music · 90s Hindi Nostalgia";        const song = AANGAN_SONGS[activeVideoIndex];
+        if (song) {
+          $("disc").style.backgroundImage =
+            `url("https://i.ytimg.com/vi/${song.id}/hqdefault.jpg")`;
+        }
         }
 
         renderQueue();
@@ -2832,44 +2813,15 @@ header {
         }
       }
       $("play").onclick = toggle;
-      function syncPlaylistIndex() {
-        if (!player || typeof player.getPlaylistIndex !== "function") return;
-        try {
-          const idx = player.getPlaylistIndex();
-          if (Number.isFinite(idx) && idx >= 0) {
-            activeVideoIndex = idx;
-            renderQueue();
-          }
-        } catch (e) {}
+      function goToSong(index, shouldPlay = true) {
+        if (!ready || !player) return;
+        activeVideoIndex =
+          (index + AANGAN_SONGS.length) % AANGAN_SONGS.length;
+        loadControlledSong(shouldPlay);
       }
 
-      $("next").onclick = () => {
-        if (!ready || !player) return;
-
-        try {
-          // Use YouTube's own playlist navigation. This is more reliable than
-          // playVideoAt() for playlists loaded dynamically with loadPlaylist().
-          player.nextVideo();
-          setTimeout(syncPlaylistIndex, 250);
-          setTimeout(syncPlaylistIndex, 900);
-        } catch (err) {
-          console.error("YouTube nextVideo failed:", err);
-          $("status").textContent = "Could not change song";
-        }
-      };
-
-      $("prev").onclick = () => {
-        if (!ready || !player) return;
-
-        try {
-          player.previousVideo();
-          setTimeout(syncPlaylistIndex, 250);
-          setTimeout(syncPlaylistIndex, 900);
-        } catch (err) {
-          console.error("YouTube previousVideo failed:", err);
-          $("status").textContent = "Could not change song";
-        }
-      };
+      $("next").onclick = () => goToSong(activeVideoIndex + 1, true);
+      $("prev").onclick = () => goToSong(activeVideoIndex - 1, true);
 
       $("more").onclick = (e) => {
         $("queue").classList.toggle("open");
@@ -2939,7 +2891,7 @@ header {
 player = new YT.Player("yt", {
           width: "200",
           height: "200",
-          videoId: "Oc9E71akp5M",
+          videoId: AANGAN_SONGS[0].id,
           playerVars: {
             autoplay: 0,
             controls: 0,
@@ -2967,61 +2919,34 @@ player = new YT.Player("yt", {
       }
       function onReady() {
         ready = true;
-        $("status").textContent = "Loading Aangan playlist…";
+        activeVideoIndex = 0;
+        loadControlledSong(false);
+        $("status").textContent = "Ready · Tap ▶ to begin";
+      }
 
-        // Load the playlist explicitly after the iframe is ready. This avoids
-        // the unreliable empty getPlaylist() state seen with listType/list.
+      function loadControlledSong(shouldPlay = true) {
+        if (!player || !ready) return;
+        const song = AANGAN_SONGS[activeVideoIndex];
+        if (!song) return;
+
         try {
-          player.loadPlaylist({
-            list: AANGAN_PLAYLIST_ID,
-            listType: "playlist",
-            index: 0,
-            startSeconds: 0,
-          });
+          player.loadVideoById(song.id);
+          if (!shouldPlay) {
+            setTimeout(() => {
+              try { player.pauseVideo(); } catch (e) {}
+            }, 250);
+          }
         } catch (err) {
-          console.error("Aangan playlist load failed:", err);
-          $("status").textContent = "Could not load Aangan playlist";
+          console.error("Aangan song load failed:", err);
+          $("status").textContent = "Could not load this song";
           return;
         }
 
-        const waitForPlaylist = (attempt = 0) => {
-          if (!player || typeof player.getPlaylist !== "function") {
-            if (attempt < 40) setTimeout(() => waitForPlaylist(attempt + 1), 250);
-            return;
-          }
-
-          const list = player.getPlaylist() || [];
-          if (!list.length) {
-            if (attempt < 40) {
-              setTimeout(() => waitForPlaylist(attempt + 1), 250);
-            } else {
-              $("status").textContent = "Aangan playlist is unavailable";
-            }
-            return;
-          }
-
-          const requested = PLAYLIST_START_INDEX[activeQueue] ?? 0;
-          activeVideoIndex = requested % list.length;
-
-          try {
-            player.cueVideoAt(activeVideoIndex);
-          } catch (e) {
-            // cueVideoAt is not available in every IFrame API build.
-            player.playVideoAt(activeVideoIndex);
-            player.pauseVideo();
-          }
-
-          const data = player.getVideoData ? player.getVideoData() : {};
-          setMeta(
-            data.title || "आँगन Radio",
-            "YouTube Music · 90s Hindi Nostalgia"
-          );
-          renderQueue();
-          $("status").textContent = "Ready · Tap ▶ to begin";
-        };
-
-        waitForPlaylist();
+        setMeta(song.title, song.artist);
+        renderQueue();
       }
+
+
       function onState(e) {
         if (player && typeof player.getPlaylistIndex === "function") {
           const idx = player.getPlaylistIndex();
@@ -3052,13 +2977,7 @@ player = new YT.Player("yt", {
           $("play").setAttribute("aria-label", "Play");
           $("play").setAttribute("title", "Play");
           updatePlayerVisualState();
-          syncPlaylistIndex();
-          try {
-            player.nextVideo();
-            setTimeout(syncPlaylistIndex, 300);
-          } catch (err) {
-            console.error("Automatic playlist advance failed:", err);
-          }
+          goToSong(activeVideoIndex + 1, true);
         } else if (e.data === YT.PlayerState.BUFFERING) {
           $("status").textContent = "Buffering…";
         }

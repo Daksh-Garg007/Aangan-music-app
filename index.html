@@ -2879,11 +2879,6 @@ header {
         player.seekTo(Math.max(0, Math.min(duration, current + (e.key === "ArrowRight" ? step : -step))), true);
       });
 
-      document.addEventListener("click", (e) => {
-        if (!$("volumePanel").contains(e.target) && e.target !== $("volume"))
-          $("volumePanel").classList.remove("open");
-      });
-
       function updateProgress() {
         if (!player || !ready) return;
         try {

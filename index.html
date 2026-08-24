@@ -3318,6 +3318,85 @@ body {
 }
 </style>
 
+
+<style id="aangan-truly-transparent-final">
+/* =========================================================
+   TRUE TRANSPARENT MUSIC PLAYER
+   No dark gradient, no glass fill, no blur.
+   The Aangan scene is visible directly through the player.
+   ========================================================= */
+
+.radio .player,
+#radio .player,
+#playerCard {
+    background: transparent !important;
+    background-color: transparent !important;
+
+    border: 2px solid rgba(255,255,255,.58) !important;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,.08),
+        inset 0 1px 0 rgba(255,255,255,.12) !important;
+
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+/* Remove any pseudo-element tint/gradient sitting over the background. */
+.radio .player::before,
+.radio .player::after,
+#playerCard::before,
+#playerCard::after {
+    background: none !important;
+    box-shadow: none !important;
+}
+
+/* Keep only the actual controls/artwork visible. */
+.radio .player .row,
+.radio .player .meta,
+.radio .player .controls,
+.radio .player .seek-row {
+    background: transparent !important;
+}
+
+/* Text remains readable over the photograph. */
+.radio .player .track {
+    color: #fff !important;
+    text-shadow:
+        0 2px 5px rgba(0,0,0,.65),
+        0 0 2px rgba(0,0,0,.45) !important;
+}
+
+.radio .player .artist,
+.radio .player .time {
+    color: rgba(255,255,255,.92) !important;
+    text-shadow: 0 1px 4px rgba(0,0,0,.60) !important;
+}
+
+/* Progress line remains visible but has no filled box behind it. */
+.radio .player .progress {
+    background: rgba(255,255,255,.32) !important;
+}
+
+.radio .player .progress i {
+    background: #fff !important;
+}
+
+/* Mobile: same true-transparent treatment. */
+@media (max-width:767px) {
+    .radio .player,
+    #radio .player,
+    #playerCard {
+        background: transparent !important;
+        background-color: transparent !important;
+        border: 1.5px solid rgba(255,255,255,.52) !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,.08) !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+}
+</style>
+
 </head>
   <body>
     <div class="app">

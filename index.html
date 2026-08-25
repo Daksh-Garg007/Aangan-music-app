@@ -4142,39 +4142,41 @@ body {
 
 .upi-box {
   margin: 26px auto 0 !important;
-  padding: 20px !important;
-  width: min(300px, 100%) !important;
-  border: 1px solid rgba(255,255,255,.11) !important;
-  border-radius: 20px !important;
-  background: rgba(255,255,255,.035) !important;
+  padding: 12px !important;
+  width: min(360px, 100%) !important;
+  border: 1px solid rgba(255,255,255,.12) !important;
+  border-radius: 22px !important;
+  background: rgba(255,255,255,.045) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  overflow: hidden !important;
 }
 
-.upi-placeholder {
-  display: grid !important;
-  place-items: center !important;
-  width: 150px !important;
-  height: 150px !important;
-  margin: 0 auto 15px !important;
-  border: 1px dashed rgba(255,255,255,.28) !important;
-  border-radius: 16px !important;
-  color: rgba(255,255,255,.35) !important;
-  font: 700 11px Arial, sans-serif !important;
-  letter-spacing: .15em !important;
-}
-
-.upi-id {
-  display: inline-block !important;
-  padding: 9px 13px !important;
-  border: 1px solid rgba(255,255,255,.14) !important;
-  border-radius: 999px !important;
-  font: 600 11px Arial, sans-serif !important;
-}
-
-.upi-box small {
+.upi {
   display: block !important;
-  margin-top: 10px !important;
-  color: rgba(247,234,213,.38) !important;
-  font: 8px Arial, sans-serif !important;
+  width: 100% !important;
+  max-width: 336px !important;
+  height: auto !important;
+  max-height: min(460px, 58dvh) !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  border-radius: 14px !important;
+}
+
+@media (max-width: 600px) {
+  .upi-box {
+    width: min(340px, 100%) !important;
+    padding: 9px !important;
+    margin-top: 20px !important;
+    border-radius: 19px !important;
+  }
+
+  .upi {
+    max-width: 100% !important;
+    max-height: 52dvh !important;
+    border-radius: 11px !important;
+  }
 }
 
 /* ===== QUEUE MODAL ===== */
@@ -4327,6 +4329,235 @@ body {
 body.modal-open { overflow: hidden !important; }
 </style>
 
+
+
+<style id="aangan-topbar-final-responsive">
+/* ===== FINAL TOP BAR: RESPONSIVE + NEVER OVERFLOW ===== */
+.aangan-topbar {
+  position: absolute !important;
+  top: max(18px, env(safe-area-inset-top)) !important;
+  left: 24px !important;
+  right: 24px !important;
+  width: auto !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  display: grid !important;
+  grid-template-columns: minmax(0,1fr) auto minmax(0,1fr) !important;
+  align-items: center !important;
+  gap: 12px !important;
+  overflow: visible !important;
+}
+
+.aangan-topbar > * {
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.brand-wrap {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 9px !important;
+  overflow: hidden !important;
+}
+
+.brand-wrap .brand {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  font-size: clamp(12px, 1.4vw, 16px) !important;
+  line-height: 1.1 !important;
+}
+
+.brand-wrap .clock {
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
+  font-size: clamp(8px, .9vw, 10px) !important;
+}
+
+.listener-pill {
+  max-width: min(220px, 100%) !important;
+  min-width: 0 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.listener-pill span,
+.listener-pill strong {
+  flex: 0 0 auto !important;
+}
+
+.top-actions {
+  min-width: 0 !important;
+  justify-self: end !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  max-width: 100% !important;
+}
+
+.top-action {
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
+  max-width: 100% !important;
+}
+
+.support-action {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+@media (min-width: 768px) and (max-width: 1100px) {
+  .aangan-topbar {
+    top: max(14px, env(safe-area-inset-top)) !important;
+    left: 18px !important;
+    right: 18px !important;
+    grid-template-columns: minmax(0,1fr) auto minmax(0,1fr) !important;
+    gap: 8px !important;
+  }
+
+  .brand-wrap {
+    gap: 7px !important;
+  }
+
+  .brand-wrap .brand {
+    font-size: 14px !important;
+  }
+
+  .listener-pill {
+    min-height: 31px !important;
+    padding: 6px 10px !important;
+    font-size: 10px !important;
+    max-width: 190px !important;
+  }
+
+  .listener-pill strong {
+    font-size: 11px !important;
+  }
+
+  .top-actions {
+    gap: 5px !important;
+  }
+
+  .top-action {
+    min-height: 31px !important;
+  }
+
+  .info-action {
+    width: 31px !important;
+  }
+
+  .support-action {
+    padding: 6px 10px !important;
+    font-size: 9px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .aangan-topbar {
+    top: max(10px, env(safe-area-inset-top)) !important;
+    left: 10px !important;
+    right: 10px !important;
+    width: auto !important;
+    grid-template-columns: minmax(0,1fr) auto !important;
+    grid-template-areas:
+      "brand actions"
+      "listener listener" !important;
+    align-items: center !important;
+    column-gap: 8px !important;
+    row-gap: 7px !important;
+  }
+
+  .brand-wrap {
+    grid-area: brand !important;
+    min-width: 0 !important;
+    gap: 7px !important;
+  }
+
+  .brand-wrap .brand {
+    font-size: clamp(13px, 4vw, 16px) !important;
+    letter-spacing: normal !important;
+  }
+
+  .brand-wrap .clock {
+    font-size: clamp(7px, 2.3vw, 9px) !important;
+    letter-spacing: .04em !important;
+  }
+
+  .top-actions {
+    grid-area: actions !important;
+    justify-self: end !important;
+    gap: 4px !important;
+  }
+
+  .top-action {
+    min-height: 30px !important;
+    height: 30px !important;
+  }
+
+  .info-action {
+    width: 30px !important;
+    min-width: 30px !important;
+  }
+
+  .support-action {
+    width: 30px !important;
+    min-width: 30px !important;
+    padding: 0 !important;
+    font-size: 14px !important;
+  }
+
+  .support-action span {
+    display: none !important;
+  }
+
+  .listener-pill {
+    grid-area: listener !important;
+    justify-self: center !important;
+    width: auto !important;
+    max-width: calc(100vw - 36px) !important;
+    min-height: 27px !important;
+    padding: 4px 10px !important;
+    font-size: 8px !important;
+  }
+
+  .listener-pill strong {
+    font-size: 10px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .aangan-topbar {
+    left: 7px !important;
+    right: 7px !important;
+    column-gap: 5px !important;
+  }
+
+  .brand-wrap {
+    gap: 5px !important;
+  }
+
+  .brand-wrap .brand {
+    font-size: 12px !important;
+  }
+
+  .brand-wrap .clock {
+    font-size: 7px !important;
+  }
+
+  .listener-pill {
+    max-width: calc(100vw - 24px) !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+}
+</style>
+
 </head>
   <body>
     <!-- Aangan Radio: long/compilation tracks are rejected before playback and remembered locally. -->
@@ -4395,7 +4626,7 @@ body.modal-open { overflow: hidden !important; }
           <button class="modal-close" data-close-modal="infoModal" aria-label="Close">×</button>
           <div class="modal-kicker">आँगन RADIO</div>
           <h2 id="infoTitle">A little corner for old songs.</h2>
-          <p class="modal-lead">90s nostalgia · slow moments · music that follows your local time.</p>
+          <p class="modal-lead">90s nostalgia · familiar melodies · slow moments.</p>
 
           <div class="time-guide">
             <div><span>☀</span><b>Morning</b><small>Fresh & familiar</small></div>
@@ -4418,9 +4649,7 @@ body.modal-open { overflow: hidden !important; }
           <p class="modal-lead">Your support helps with hosting, music curation and keeping this little corner free.</p>
 
           <div class="upi-box">
-            <div class="upi-placeholder">UPI</div>
-            <div class="upi-id" id="upiId">YOUR-UPI-ID@bank</div>
-            <small>Replace the UPI ID in the HTML with yours.</small>
+            <img src="GooglePay_QR.png" id="upi" class="upi" alt="UPI payment QR code">
           </div>
 
           <p class="modal-note">Support is completely optional. Aangan will always remain free.</p>

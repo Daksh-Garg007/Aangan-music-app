@@ -5006,6 +5006,174 @@ body{padding-bottom:0 !important;}
 }
 </style>
 
+
+<style id="aangan-perfect-circle">
+/* PERFECT CIRCULAR CASSETTE / ARTWORK */
+.radio .player .disc {
+  width: 116px !important;
+  height: 116px !important;
+  min-width: 116px !important;
+  min-height: 116px !important;
+  max-width: 116px !important;
+  max-height: 116px !important;
+  aspect-ratio: 1 / 1 !important;
+  flex: 0 0 116px !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+.radio .player .disc #discArt,
+.radio .player .disc img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  aspect-ratio: 1 / 1 !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border-radius: 50% !important;
+}
+
+/* Keep the rotating artwork perfectly circular while playing */
+.radio .player .disc.has-art {
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 50% !important;
+  animation: aanganDiscSpin 9s linear infinite !important;
+  animation-play-state: paused !important;
+}
+
+.radio .player.playing .disc.has-art,
+.radio .player.is-playing .disc.has-art {
+  animation-play-state: running !important;
+}
+
+@media (max-width: 767px) {
+  .radio .player .disc {
+    width: 56px !important;
+    height: 56px !important;
+    min-width: 56px !important;
+    min-height: 56px !important;
+    max-width: 56px !important;
+    max-height: 56px !important;
+    flex-basis: 56px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .radio .player .disc {
+    width: 50px !important;
+    height: 50px !important;
+    min-width: 50px !important;
+    min-height: 50px !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    flex-basis: 50px !important;
+  }
+}
+</style>
+
+
+<style id="aangan-smaller-cassette">
+/* Smaller circular artwork so it never overlaps the song text */
+.radio .player .disc {
+  width: 92px !important;
+  height: 92px !important;
+  min-width: 92px !important;
+  min-height: 92px !important;
+  max-width: 92px !important;
+  max-height: 92px !important;
+  flex: 0 0 92px !important;
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+}
+
+.radio .player .disc #discArt,
+.radio .player .disc img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+}
+
+@media (max-width: 767px) {
+  .radio .player .disc {
+    width: 52px !important;
+    height: 52px !important;
+    min-width: 52px !important;
+    min-height: 52px !important;
+    max-width: 52px !important;
+    max-height: 52px !important;
+    flex-basis: 52px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .radio .player .disc {
+    width: 46px !important;
+    height: 46px !important;
+    min-width: 46px !important;
+    min-height: 46px !important;
+    max-width: 46px !important;
+    max-height: 46px !important;
+    flex-basis: 46px !important;
+  }
+}
+</style>
+
+
+<style id="aangan-84px-cassette">
+/* Final cassette/artwork size */
+.radio .player .disc {
+  width: 84px !important;
+  height: 84px !important;
+  min-width: 84px !important;
+  min-height: 84px !important;
+  max-width: 84px !important;
+  max-height: 84px !important;
+  flex: 0 0 84px !important;
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+}
+
+.radio .player .disc #discArt,
+.radio .player .disc img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+}
+
+@media (max-width: 767px) {
+  .radio .player .disc {
+    width: 50px !important;
+    height: 50px !important;
+    min-width: 50px !important;
+    min-height: 50px !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    flex-basis: 50px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .radio .player .disc {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    max-width: 44px !important;
+    max-height: 44px !important;
+    flex-basis: 44px !important;
+  }
+}
+</style>
+
 </head>
   <body>
     <!-- Aangan Radio: long/compilation tracks are rejected before playback and remembered locally. -->

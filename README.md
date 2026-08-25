@@ -1,7 +1,7 @@
-# Aangan — Fixed Music Build
+# आँगन — A Living Radio
 
-This build uses the YouTube IFrame Player API with direct video IDs rather than the previously configured playlist ID, which was not reliably loading in the deployed player.
+**आँगन** is a nostalgic digital courtyard inspired by the warmth and simplicity of 90s India.
 
-Important: browsers require a user gesture before audible playback. Click Play once.
+It brings together **90s Hindi music, changing skies, village memories, and the feeling of an old radio playing in the background**. The experience changes with your local time and weather, creating a different mood throughout the day.
 
-Deploy the folder to Vercel/Netlify/GitHub Pages over HTTPS.
+> **आँगन — जहाँ हर समय की अपनी धुन है।**

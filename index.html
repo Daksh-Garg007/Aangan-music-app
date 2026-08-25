@@ -5700,6 +5700,726 @@ button, input {
 }
 </style>
 
+
+<style id="aangan-mobile-final-fix">
+/* =========================================================
+   AANGAN — MOBILE FINAL FIX
+   1. About / Support dialogs are centered, scroll-safe cards.
+   2. Circular artwork is ALWAYS visible on phones.
+   3. Track title/artist always have usable space.
+   ========================================================= */
+
+/* ---------- Mobile About / Support / Queue dialogs ---------- */
+@media (max-width: 767px) {
+  .aangan-modal-backdrop {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 2147483646 !important;
+    display: none !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding:
+      max(14px, env(safe-area-inset-top))
+      12px
+      max(14px, env(safe-area-inset-bottom)) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    background: rgba(3, 2, 2, .62) !important;
+    backdrop-filter: blur(12px) saturate(110%) !important;
+    -webkit-backdrop-filter: blur(12px) saturate(110%) !important;
+  }
+
+  .aangan-modal-backdrop.open {
+    display: flex !important;
+  }
+
+  .aangan-modal-backdrop .aangan-modal {
+    position: relative !important;
+    width: min(92vw, 520px) !important;
+    max-width: 520px !important;
+    max-height: min(88dvh, 760px) !important;
+    margin: auto !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    padding: 40px 20px 24px !important;
+    border-radius: 24px !important;
+    border: 1px solid rgba(255, 235, 205, .22) !important;
+    background:
+      linear-gradient(145deg, rgba(39, 24, 17, .88), rgba(13, 9, 7, .82)) !important;
+    box-shadow:
+      0 24px 80px rgba(0,0,0,.58),
+      inset 0 1px 0 rgba(255,255,255,.10) !important;
+    backdrop-filter: blur(24px) saturate(120%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(120%) !important;
+    transform: translateZ(0) !important;
+    animation: aanganModalIn .22s ease-out both !important;
+  }
+
+  @keyframes aanganModalIn {
+    from { opacity: 0; transform: translateY(12px) scale(.985); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .aangan-modal .modal-close {
+    position: absolute !important;
+    top: 10px !important;
+    right: 10px !important;
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+    z-index: 3 !important;
+    background: rgba(255,255,255,.07) !important;
+    border-color: rgba(255,255,255,.18) !important;
+    font-size: 22px !important;
+  }
+
+  .aangan-modal .modal-kicker {
+    font-size: 8px !important;
+    letter-spacing: .20em !important;
+  }
+
+  .aangan-modal h2 {
+    margin: 12px 30px 10px !important;
+    font-size: clamp(30px, 9vw, 42px) !important;
+    line-height: 1.02 !important;
+  }
+
+  .aangan-modal .modal-lead {
+    width: min(100%, 390px) !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+  }
+
+  .aangan-modal .modal-note {
+    font-size: 9px !important;
+    line-height: 1.45 !important;
+  }
+
+  .info-modal .time-guide {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    margin-top: 20px !important;
+  }
+
+  .info-modal .time-guide div {
+    min-width: 0 !important;
+    padding: 10px !important;
+    border-radius: 13px !important;
+  }
+
+  .info-modal .time-guide b {
+    font-size: 10px !important;
+  }
+
+  .info-modal .time-guide small {
+    font-size: 8px !important;
+  }
+
+  .support-lamp {
+    font-size: 34px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .support-modal .upi-box {
+    width: min(100%, 350px) !important;
+    margin: 18px auto 0 !important;
+    padding: 8px !important;
+    border-radius: 17px !important;
+  }
+
+  .support-modal .upi {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: 55dvh !important;
+    object-fit: contain !important;
+    border-radius: 10px !important;
+  }
+
+  .queue-modal-list {
+    max-height: 54dvh !important;
+  }
+}
+
+/* ---------- Music player: phone-safe layout ---------- */
+@media (max-width: 767px) {
+  .radio .player .row {
+    display: grid !important;
+    grid-template-columns: 50px minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 8px !important;
+    min-height: 50px !important;
+    width: 100% !important;
+  }
+
+  /* Undo earlier <=390px rules that hid the artwork. */
+  .radio .player .disc,
+  .radio .player .disc.has-art {
+    display: grid !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 50px !important;
+    height: 50px !important;
+    min-width: 50px !important;
+    min-height: 50px !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    flex: 0 0 50px !important;
+    aspect-ratio: 1 / 1 !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+  }
+
+  .radio .player .disc #discArt,
+  .radio .player .disc img {
+    display: block !important;
+    visibility: visible !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    border-radius: 50% !important;
+  }
+
+  .radio .player .meta {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    overflow: hidden !important;
+  }
+
+  .radio .player .track,
+  .radio .player .artist {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .radio .player .track {
+    font-size: 13px !important;
+    line-height: 1.18 !important;
+    font-weight: 650 !important;
+  }
+
+  .radio .player .artist {
+    margin-top: 3px !important;
+    font-size: 9px !important;
+    line-height: 1.15 !important;
+  }
+
+  .radio .player .controls {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    gap: 0 !important;
+  }
+
+  .radio .player .ctrl {
+    width: 27px !important;
+    min-width: 27px !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    padding: 0 !important;
+  }
+
+  .radio .player .play {
+    width: 40px !important;
+    min-width: 40px !important;
+    height: 40px !important;
+    min-height: 40px !important;
+  }
+
+  .radio .player .seek-row {
+    display: grid !important;
+    grid-template-columns: 29px minmax(0, 1fr) 29px !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin-top: 4px !important;
+    gap: 5px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .radio .player .row {
+    grid-template-columns: 44px minmax(0, 1fr) auto !important;
+    gap: 6px !important;
+    min-height: 44px !important;
+  }
+
+  .radio .player .disc,
+  .radio .player .disc.has-art {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    max-width: 44px !important;
+    max-height: 44px !important;
+    flex-basis: 44px !important;
+  }
+
+  .radio .player .track {
+    font-size: 11px !important;
+  }
+
+  .radio .player .artist {
+    display: block !important;
+    font-size: 8px !important;
+  }
+
+  .radio .player .ctrl {
+    width: 23px !important;
+    min-width: 23px !important;
+    height: 31px !important;
+    min-height: 31px !important;
+    font-size: 16px !important;
+  }
+
+  .radio .player .play {
+    width: 36px !important;
+    min-width: 36px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    font-size: 13px !important;
+  }
+}
+
+/* Keep the player clear of the home-indicator on iOS. */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  @media (max-width: 767px) {
+    .radio {
+      bottom: max(6px, env(safe-area-inset-bottom)) !important;
+    }
+  }
+}
+</style>
+
+
+
+<style id="aangan-responsive-final-v2">
+/* =========================================================
+   AANGAN — FINAL MOBILE / TABLET UI FIX
+   This block intentionally comes LAST so it overrides all
+   earlier responsive experiments in this single-file app.
+========================================================= */
+
+/* ---------- MODALS ---------- */
+.aangan-modal-backdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99999 !important;
+  display: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 24px !important;
+  background: rgba(4, 3, 2, .66) !important;
+  backdrop-filter: blur(12px) saturate(115%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(115%) !important;
+}
+
+.aangan-modal-backdrop.open {
+  display: flex !important;
+}
+
+.aangan-modal-backdrop > .aangan-modal {
+  position: relative !important;
+  width: min(520px, calc(100vw - 48px)) !important;
+  max-width: 520px !important;
+  max-height: min(86dvh, 760px) !important;
+  margin: 0 !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior: contain !important;
+  padding: 42px 24px 26px !important;
+  border-radius: 26px !important;
+  border: 1px solid rgba(255,235,205,.22) !important;
+  background: linear-gradient(145deg, rgba(38,24,17,.96), rgba(12,8,6,.96)) !important;
+  box-shadow: 0 30px 90px rgba(0,0,0,.62), inset 0 1px 0 rgba(255,255,255,.10) !important;
+}
+
+.aangan-modal .modal-close {
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+  z-index: 5 !important;
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  min-height: 38px !important;
+  border-radius: 50% !important;
+  display: grid !important;
+  place-items: center !important;
+  background: rgba(255,255,255,.08) !important;
+  border: 1px solid rgba(255,255,255,.15) !important;
+}
+
+/* Support QR: never exceed the modal or screen. */
+.support-modal .upi-box {
+  width: min(100%, 340px) !important;
+  max-width: 100% !important;
+  margin: 18px auto 0 !important;
+  padding: 8px !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.support-modal .upi {
+  display: block !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: min(52dvh, 520px) !important;
+  object-fit: contain !important;
+}
+
+/* ---------- PLAYER: MOBILE ---------- */
+@media (max-width: 767px) {
+  .radio {
+    left: 8px !important;
+    right: 8px !important;
+    bottom: max(8px, env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+    max-width: none !important;
+    transform: none !important;
+    z-index: 100 !important;
+  }
+
+  .radio .player {
+    width: 100% !important;
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 9px 10px 8px !important;
+    border-radius: 26px !important;
+    overflow: hidden !important;
+  }
+
+  .radio .player .row {
+    display: grid !important;
+    grid-template-columns: 52px minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 9px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 52px !important;
+  }
+
+  /* Always show the circular cassette/artwork. */
+  .radio .player .disc,
+  .radio .player .disc.has-art {
+    display: grid !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 52px !important;
+    height: 52px !important;
+    min-width: 52px !important;
+    min-height: 52px !important;
+    max-width: 52px !important;
+    max-height: 52px !important;
+    flex: 0 0 52px !important;
+    aspect-ratio: 1 / 1 !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+  }
+
+  .radio .player .disc #discArt,
+  .radio .player .disc img {
+    display: block !important;
+    visibility: visible !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    aspect-ratio: 1 / 1 !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    border-radius: 50% !important;
+  }
+
+  /* Keep fallback visible until YouTube artwork loads. */
+  .radio .player .disc .disc-fallback {
+    display: grid !important;
+    visibility: visible !important;
+  }
+
+  .radio .player .meta {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    overflow: hidden !important;
+  }
+
+  /* Song title and artist are never hidden on mobile. */
+  .radio .player .track,
+  .radio .player .artist {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .radio .player .track {
+    font-size: 13px !important;
+    line-height: 1.2 !important;
+    font-weight: 700 !important;
+  }
+
+  .radio .player .artist {
+    margin-top: 3px !important;
+    font-size: 9px !important;
+    line-height: 1.2 !important;
+  }
+
+  .radio .player .controls {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 0 !important;
+    flex: 0 0 auto !important;
+    min-width: 0 !important;
+    width: auto !important;
+  }
+
+  .radio .player .ctrl {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 28px !important;
+    min-width: 28px !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    padding: 0 !important;
+  }
+
+  .radio .player .play {
+    width: 40px !important;
+    min-width: 40px !important;
+    height: 40px !important;
+    min-height: 40px !important;
+  }
+
+  .radio .player .seek-row {
+    display: grid !important;
+    grid-template-columns: 29px minmax(0,1fr) 29px !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin-top: 5px !important;
+    gap: 5px !important;
+  }
+}
+
+/* Small phones: give the song text more room by removing the optional queue icon. */
+@media (max-width: 480px) {
+  .radio .player .queue-toggle {
+    display: none !important;
+  }
+
+  .radio .player .row {
+    grid-template-columns: 50px minmax(0,1fr) auto !important;
+    gap: 8px !important;
+  }
+
+  .radio .player .disc,
+  .radio .player .disc.has-art {
+    width: 50px !important;
+    height: 50px !important;
+    min-width: 50px !important;
+    min-height: 50px !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    flex-basis: 50px !important;
+  }
+
+  .radio .player .track {
+    font-size: 12px !important;
+  }
+}
+
+/* Very small phones. */
+@media (max-width: 360px) {
+  .aangan-modal-backdrop {
+    padding: max(10px, env(safe-area-inset-top)) 8px max(10px, env(safe-area-inset-bottom)) !important;
+  }
+
+  .aangan-modal-backdrop > .aangan-modal {
+    width: 100% !important;
+    max-height: 90dvh !important;
+    padding: 40px 16px 20px !important;
+    border-radius: 22px !important;
+  }
+
+  .radio .player .row {
+    grid-template-columns: 46px minmax(0,1fr) auto !important;
+    gap: 7px !important;
+  }
+
+  .radio .player .disc,
+  .radio .player .disc.has-art {
+    width: 46px !important;
+    height: 46px !important;
+    min-width: 46px !important;
+    min-height: 46px !important;
+    max-width: 46px !important;
+    max-height: 46px !important;
+    flex-basis: 46px !important;
+  }
+
+  .radio .player .track {
+    font-size: 11px !important;
+  }
+
+  .radio .player .artist {
+    font-size: 8px !important;
+  }
+
+  .radio .player .ctrl {
+    width: 25px !important;
+    min-width: 25px !important;
+    height: 31px !important;
+    min-height: 31px !important;
+  }
+
+  .radio .player .play {
+    width: 36px !important;
+    min-width: 36px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+  }
+}
+</style>
+
+<style id="aangan-real-mobile-fix-v3">
+/* AANGAN — ACTUAL MOBILE/TABLET FIX v3 (final override) */
+@media screen and (max-width: 767px) {
+  body.modal-open { overflow:hidden !important; touch-action:none !important; }
+  .aangan-modal-backdrop {
+    position:fixed !important; inset:0 !important; z-index:2147483000 !important;
+    display:none !important; align-items:center !important; justify-content:center !important;
+    padding:max(12px,env(safe-area-inset-top)) 12px max(12px,env(safe-area-inset-bottom)) !important;
+    background:rgba(0,0,0,.72) !important; backdrop-filter:blur(14px) !important;
+    -webkit-backdrop-filter:blur(14px) !important;
+  }
+  .aangan-modal-backdrop.open { display:flex !important; }
+  .aangan-modal-backdrop > .aangan-modal {
+    position:relative !important; box-sizing:border-box !important;
+    width:min(92vw,500px) !important; max-width:500px !important;
+    max-height:calc(100dvh - 28px) !important; margin:0 auto !important;
+    padding:44px 18px 20px !important; overflow-x:hidden !important; overflow-y:auto !important;
+    -webkit-overflow-scrolling:touch !important; border-radius:24px !important;
+    background:linear-gradient(145deg,rgba(35,23,16,.98),rgba(10,7,5,.98)) !important;
+    border:1px solid rgba(255,235,205,.24) !important;
+    box-shadow:0 28px 90px rgba(0,0,0,.72),inset 0 1px 0 rgba(255,255,255,.10) !important;
+    transform:none !important;
+  }
+  .aangan-modal .modal-close {
+    position:absolute !important; top:9px !important; right:9px !important;
+    width:38px !important; height:38px !important; min-width:38px !important; min-height:38px !important;
+    display:grid !important; place-items:center !important; z-index:20 !important;
+    border-radius:50% !important; background:rgba(255,255,255,.10) !important;
+    color:#f7ead5 !important; border:1px solid rgba(255,255,255,.18) !important;
+  }
+  .aangan-modal h2 { margin:10px 0 12px !important; font-size:clamp(27px,8vw,40px) !important; line-height:1.05 !important; }
+  .aangan-modal .modal-lead { width:100% !important; max-width:420px !important; font-size:13px !important; line-height:1.5 !important; }
+  .info-modal .time-guide { display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:8px !important; }
+  .info-modal .time-guide div { min-width:0 !important; padding:10px 8px !important; }
+  .info-modal .time-guide b { font-size:10px !important; }
+  .info-modal .time-guide small { font-size:8px !important; }
+  .support-modal .upi-box {
+    width:min(82vw,310px) !important; height:min(82vw,310px) !important;
+    max-width:310px !important; max-height:310px !important; margin:16px auto 0 !important;
+    padding:7px !important; display:flex !important; align-items:center !important; justify-content:center !important;
+    overflow:hidden !important; border-radius:18px !important;
+  }
+  .support-modal .upi { display:block !important; width:100% !important; height:100% !important; max-width:100% !important; max-height:100% !important; object-fit:contain !important; }
+
+  /* Mobile player: fixed 3-column header row so artwork and title can never disappear. */
+  .radio {
+    position:fixed !important; left:10px !important; right:10px !important;
+    bottom:max(8px,env(safe-area-inset-bottom)) !important; width:auto !important; max-width:none !important;
+    margin:0 !important; transform:none !important; z-index:1000 !important;
+  }
+  .radio .player { width:100% !important; min-width:0 !important; padding:9px 10px 8px !important; border-radius:24px !important; overflow:hidden !important; }
+  .radio .player .row {
+    display:grid !important; grid-template-columns:50px minmax(0,1fr) 92px !important;
+    align-items:center !important; column-gap:8px !important; width:100% !important; min-width:0 !important; min-height:50px !important;
+  }
+  .radio .player .disc, .radio .player .disc.has-art {
+    display:grid !important; visibility:visible !important; opacity:1 !important;
+    width:50px !important; height:50px !important; min-width:50px !important; min-height:50px !important;
+    max-width:50px !important; max-height:50px !important; aspect-ratio:1/1 !important; flex:none !important;
+    border-radius:50% !important; overflow:hidden !important;
+  }
+  .radio .player .disc #discArt, .radio .player .disc img {
+    display:block !important; visibility:visible !important; opacity:1 !important;
+    width:100% !important; height:100% !important; max-width:none !important; max-height:none !important;
+    object-fit:cover !important; object-position:center !important; border-radius:50% !important;
+  }
+  .radio .player .meta {
+    display:flex !important; flex-direction:column !important; justify-content:center !important;
+    align-items:stretch !important; min-width:0 !important; width:100% !important; overflow:hidden !important;
+  }
+  .radio .player .track, .radio .player .artist {
+    display:block !important; visibility:visible !important; opacity:1 !important; width:100% !important;
+    min-width:0 !important; max-width:100% !important; white-space:nowrap !important; overflow:hidden !important; text-overflow:ellipsis !important;
+  }
+  .radio .player .track { font-size:13px !important; line-height:1.2 !important; font-weight:700 !important; }
+  .radio .player .artist { margin-top:3px !important; font-size:9px !important; line-height:1.2 !important; }
+  .radio .player .controls { display:flex !important; align-items:center !important; justify-content:flex-end !important; width:92px !important; min-width:92px !important; gap:0 !important; }
+  .radio .player .ctrl { display:inline-flex !important; align-items:center !important; justify-content:center !important; width:28px !important; min-width:28px !important; height:34px !important; min-height:34px !important; padding:0 !important; }
+  .radio .player .play { width:36px !important; min-width:36px !important; height:36px !important; min-height:36px !important; }
+  .radio .player .queue-toggle { display:none !important; }
+  .radio .player .seek-row { display:grid !important; grid-template-columns:30px minmax(0,1fr) 30px !important; align-items:center !important; width:100% !important; margin-top:5px !important; gap:5px !important; }
+}
+@media screen and (max-width:390px) {
+  .radio { left:7px !important; right:7px !important; }
+  .radio .player { padding:8px 8px 7px !important; border-radius:21px !important; }
+  .radio .player .row { grid-template-columns:46px minmax(0,1fr) 86px !important; column-gap:6px !important; }
+  .radio .player .disc, .radio .player .disc.has-art { width:46px !important; height:46px !important; min-width:46px !important; min-height:46px !important; max-width:46px !important; max-height:46px !important; }
+  .radio .player .controls { width:86px !important; min-width:86px !important; }
+  .radio .player .ctrl { width:25px !important; min-width:25px !important; height:31px !important; min-height:31px !important; }
+  .radio .player .play { width:34px !important; min-width:34px !important; height:34px !important; min-height:34px !important; }
+  .radio .player .track { font-size:11.5px !important; }
+  .radio .player .artist { font-size:8px !important; }
+}
+@media screen and (max-width:350px) {
+  .radio .player .row { grid-template-columns:42px minmax(0,1fr) 78px !important; column-gap:5px !important; }
+  .radio .player .disc, .radio .player .disc.has-art { width:42px !important; height:42px !important; min-width:42px !important; min-height:42px !important; max-width:42px !important; max-height:42px !important; }
+  .radio .player .controls { width:78px !important; min-width:78px !important; }
+  .radio .player .ctrl { width:22px !important; min-width:22px !important; }
+  .radio .player .play { width:32px !important; min-width:32px !important; height:32px !important; min-height:32px !important; }
+  .radio .player .track { font-size:10.5px !important; }
+}
+</style>
+
 </head>
   <body>
     <!-- Aangan Radio: long/compilation tracks are rejected before playback and remembered locally. -->

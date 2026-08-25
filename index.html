@@ -4558,6 +4558,333 @@ body.modal-open { overflow: hidden !important; }
 }
 </style>
 
+
+<style id="aangan-professional-ui">
+/* =========================================================
+   AANGAN — PROFESSIONAL UI POLISH
+   Visual hierarchy: brand → live status → actions → player
+   ========================================================= */
+
+:root{
+  --glass: rgba(13, 10, 8, .30);
+  --glass-strong: rgba(13, 10, 8, .46);
+  --line: rgba(255,248,235,.20);
+  --line-soft: rgba(255,248,235,.11);
+  --text: rgba(255,249,239,.96);
+  --muted: rgba(255,242,226,.62);
+  --gold-soft: rgba(217,178,107,.78);
+}
+
+/* Keep the page intentionally uncluttered. */
+body{padding-bottom:0 !important;}
+
+/* ---------- TOP BAR ---------- */
+.aangan-topbar{
+  top:max(20px, env(safe-area-inset-top)) !important;
+  left:clamp(16px, 2.4vw, 34px) !important;
+  right:clamp(16px, 2.4vw, 34px) !important;
+  height:42px !important;
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) !important;
+  align-items:center !important;
+  gap:16px !important;
+  z-index:30 !important;
+}
+
+.brand-wrap{
+  justify-self:start !important;
+  display:flex !important;
+  align-items:baseline !important;
+  gap:11px !important;
+  min-width:0 !important;
+  padding:9px 13px !important;
+  border:1px solid var(--line-soft) !important;
+  border-radius:999px !important;
+  background:rgba(9,7,6,.16) !important;
+  backdrop-filter:blur(12px) saturate(115%) !important;
+  -webkit-backdrop-filter:blur(12px) saturate(115%) !important;
+  box-shadow:0 8px 30px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.08) !important;
+}
+
+.brand-wrap .brand{
+  color:var(--text) !important;
+  font:600 clamp(11px,1.05vw,14px)/1 Arial,sans-serif !important;
+  letter-spacing:.26em !important;
+  text-transform:uppercase !important;
+  white-space:nowrap !important;
+}
+
+.brand-wrap .clock{
+  color:var(--muted) !important;
+  font:500 clamp(9px,.82vw,11px)/1 Arial,sans-serif !important;
+  letter-spacing:.06em !important;
+  white-space:nowrap !important;
+}
+
+.listener-pill{
+  justify-self:center !important;
+  min-height:38px !important;
+  padding:8px 15px !important;
+  border:1px solid rgba(255,255,255,.16) !important;
+  background:rgba(17,13,10,.22) !important;
+  box-shadow:0 10px 35px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.08) !important;
+  backdrop-filter:blur(14px) saturate(120%) !important;
+  -webkit-backdrop-filter:blur(14px) saturate(120%) !important;
+  color:var(--text) !important;
+  font:500 11px Arial,sans-serif !important;
+  letter-spacing:.01em !important;
+}
+
+.listener-pill strong{font-size:12px !important;}
+.listener-dot{width:7px !important;height:7px !important;}
+
+.top-actions{
+  justify-self:end !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:7px !important;
+}
+
+.top-action{
+  min-height:38px !important;
+  border-color:rgba(255,255,255,.15) !important;
+  background:rgba(9,7,6,.17) !important;
+  box-shadow:0 8px 30px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.07) !important;
+  backdrop-filter:blur(12px) saturate(115%) !important;
+  -webkit-backdrop-filter:blur(12px) saturate(115%) !important;
+}
+.info-action{width:38px !important;font-size:13px !important;}
+.support-action{padding:8px 14px !important;font-size:10px !important;}
+
+/* ---------- HERO: cleaner hierarchy ---------- */
+.hero{padding:clamp(20px,4vw,48px) !important;}
+.hero-inner{transform:translateY(-2vh) !important;}
+.title{text-shadow:0 12px 40px rgba(0,0,0,.45) !important;}
+
+/* ---------- PLAYER ---------- */
+.radio{
+  width:min(760px, calc(100vw - 36px)) !important;
+  bottom:max(24px, env(safe-area-inset-bottom)) !important;
+  z-index:40 !important;
+}
+
+.radio .player{
+  min-height:126px !important;
+  padding:14px 18px 12px !important;
+  border-radius:32px !important;
+  border:1px solid rgba(255,248,235,.28) !important;
+  background:
+    linear-gradient(110deg, rgba(17,12,9,.30), rgba(17,12,9,.18)) !important;
+  box-shadow:
+    0 24px 70px rgba(0,0,0,.34),
+    inset 0 1px 0 rgba(255,255,255,.12),
+    inset 0 -1px 0 rgba(0,0,0,.12) !important;
+  backdrop-filter:blur(18px) saturate(125%) !important;
+  -webkit-backdrop-filter:blur(18px) saturate(125%) !important;
+}
+
+.radio .player::before{
+  background:
+    radial-gradient(circle at 8% 20%, rgba(255,224,169,.11), transparent 28%),
+    linear-gradient(90deg,transparent,rgba(255,255,255,.025),transparent) !important;
+}
+
+.radio .player .row{
+  display:grid !important;
+  grid-template-columns:76px minmax(0,1fr) auto !important;
+  gap:16px !important;
+  min-height:76px !important;
+  align-items:center !important;
+}
+
+.radio .player .disc{
+  width:76px !important;
+  height:76px !important;
+  border:1px solid rgba(255,242,219,.30) !important;
+  box-shadow:0 9px 28px rgba(0,0,0,.32), inset 0 0 0 3px rgba(0,0,0,.24) !important;
+  font-size:0 !important;
+}
+
+.radio .player .disc::after{
+  width:9px !important;
+  height:9px !important;
+}
+
+.radio .player .meta{
+  align-self:center !important;
+  min-width:0 !important;
+  padding:0 !important;
+}
+
+.radio .player .track{
+  color:var(--text) !important;
+  font:700 clamp(15px,1.35vw,19px)/1.18 Arial,sans-serif !important;
+  letter-spacing:-.015em !important;
+  max-width:100% !important;
+}
+
+.radio .player .artist{
+  margin-top:5px !important;
+  color:var(--muted) !important;
+  font:500 11px/1.2 Arial,sans-serif !important;
+  letter-spacing:.01em !important;
+}
+
+.radio .player .controls{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  gap:3px !important;
+  align-self:center !important;
+}
+
+.radio .player .ctrl{
+  width:40px !important;
+  height:46px !important;
+  border:0 !important;
+  border-radius:50% !important;
+  background:transparent !important;
+  color:rgba(255,249,239,.90) !important;
+  font:400 25px/1 Arial,sans-serif !important;
+  opacity:.86 !important;
+  transition:background .18s ease, opacity .18s ease, transform .18s ease !important;
+}
+
+.radio .player .ctrl:hover{
+  background:rgba(255,255,255,.08) !important;
+  opacity:1 !important;
+  transform:translateY(-1px) !important;
+}
+
+.radio .player .play,
+.radio .player .play:hover,
+.radio .player .play:focus,
+.radio .player .play:active{
+  width:52px !important;
+  height:52px !important;
+  border:1px solid rgba(255,255,255,.28) !important;
+  border-radius:50% !important;
+  background:rgba(255,255,255,.93) !important;
+  color:#17110e !important;
+  font-size:19px !important;
+  opacity:1 !important;
+  transform:none !important;
+  box-shadow:0 8px 24px rgba(0,0,0,.22) !important;
+}
+
+.radio .player .queue-toggle{font-size:21px !important;}
+
+.radio .player .seek-row{
+  display:grid !important;
+  grid-template-columns:34px minmax(0,1fr) 34px !important;
+  align-items:center !important;
+  gap:8px !important;
+  margin-top:5px !important;
+  padding:0 2px !important;
+}
+
+.radio .player .time{
+  width:auto !important;
+  color:rgba(255,242,226,.55) !important;
+  font:500 9px/1 Arial,sans-serif !important;
+  white-space:nowrap !important;
+}
+.radio .player .time:last-child{text-align:right !important;}
+
+.radio .player .progress{
+  height:3px !important;
+  background:rgba(255,255,255,.22) !important;
+  border-radius:99px !important;
+  overflow:visible !important;
+}
+.radio .player .progress i{border-radius:99px !important;}
+.radio .player .status{display:none !important;}
+
+.footer{
+  left:clamp(18px,2.4vw,34px) !important;
+  bottom:max(22px,env(safe-area-inset-bottom)) !important;
+  color:rgba(255,242,226,.55) !important;
+  font:600 9px/1 Arial,sans-serif !important;
+  letter-spacing:.16em !important;
+  text-transform:uppercase !important;
+  z-index:20 !important;
+}
+
+/* ---------- TABLET ---------- */
+@media (min-width:768px) and (max-width:1100px){
+  .aangan-topbar{left:18px !important;right:18px !important;gap:10px !important;}
+  .brand-wrap{padding:8px 11px !important;}
+  .support-action{padding:7px 11px !important;}
+  .radio{width:min(680px,calc(100vw - 28px)) !important;bottom:max(18px,env(safe-area-inset-bottom)) !important;}
+  .radio .player{min-height:116px !important;padding:12px 15px 10px !important;}
+  .radio .player .row{grid-template-columns:68px minmax(0,1fr) auto !important;gap:13px !important;min-height:68px !important;}
+  .radio .player .disc{width:68px !important;height:68px !important;}
+  .radio .player .track{font-size:15px !important;}
+  .radio .player .play{width:48px !important;height:48px !important;}
+}
+
+/* ---------- PHONE ---------- */
+@media (max-width:767px){
+  .aangan-topbar{
+    top:max(9px,env(safe-area-inset-top)) !important;
+    left:10px !important;right:10px !important;
+    height:auto !important;
+    grid-template-columns:minmax(0,1fr) auto !important;
+    grid-template-areas:"brand actions" "listener listener" !important;
+    row-gap:6px !important;
+  }
+  .brand-wrap{padding:7px 10px !important;gap:7px !important;}
+  .brand-wrap .brand{font-size:11px !important;letter-spacing:.18em !important;}
+  .brand-wrap .clock{font-size:8px !important;}
+  .listener-pill{min-height:27px !important;padding:5px 10px !important;font-size:8px !important;}
+  .top-action{min-height:30px !important;height:30px !important;}
+  .info-action{width:30px !important;}
+  .support-action{width:30px !important;padding:0 !important;font-size:13px !important;}
+
+  .radio{
+    left:9px !important;right:9px !important;width:auto !important;
+    bottom:max(9px,env(safe-area-inset-bottom)) !important;
+  }
+  .radio .player{
+    min-height:0 !important;
+    padding:10px 11px 9px !important;
+    border-radius:25px !important;
+  }
+  .radio .player .row{
+    grid-template-columns:52px minmax(0,1fr) auto !important;
+    gap:9px !important;min-height:52px !important;
+  }
+  .radio .player .disc{width:52px !important;height:52px !important;}
+  .radio .player .track{font-size:12px !important;}
+  .radio .player .artist{font-size:9px !important;margin-top:3px !important;}
+  .radio .player .controls{gap:0 !important;}
+  .radio .player .ctrl{width:29px !important;height:38px !important;font-size:19px !important;}
+  .radio .player .play,
+  .radio .player .play:hover,
+  .radio .player .play:focus,
+  .radio .player .play:active{width:42px !important;height:42px !important;font-size:15px !important;}
+  .radio .player .queue-toggle{display:none !important;}
+  .radio .player .seek-row{grid-template-columns:30px minmax(0,1fr) 30px !important;gap:5px !important;margin-top:4px !important;}
+  .radio .player .time{font-size:8px !important;}
+  .radio .player .progress{height:3px !important;}
+  .footer{display:none !important;}
+}
+
+@media (max-width:380px){
+  .aangan-topbar{left:7px !important;right:7px !important;}
+  .brand-wrap .brand{font-size:10px !important;}
+  .brand-wrap .clock{font-size:7px !important;}
+  .radio{left:6px !important;right:6px !important;}
+  .radio .player{padding:8px 9px 8px !important;border-radius:22px !important;}
+  .radio .player .row{grid-template-columns:46px minmax(0,1fr) auto !important;gap:7px !important;min-height:46px !important;}
+  .radio .player .disc{width:46px !important;height:46px !important;}
+  .radio .player .track{font-size:11px !important;}
+  .radio .player .artist{font-size:8px !important;}
+  .radio .player .ctrl{width:25px !important;font-size:17px !important;}
+  .radio .player .play{width:38px !important;height:38px !important;font-size:14px !important;}
+}
+</style>
+
 </head>
   <body>
     <!-- Aangan Radio: long/compilation tracks are rejected before playback and remembered locally. -->

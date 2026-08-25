@@ -5174,6 +5174,532 @@ body{padding-bottom:0 !important;}
 }
 </style>
 
+
+<style id="aangan-responsive-final">
+/* =========================================================
+   AANGAN — FINAL RESPONSIVE LAYOUT
+   Keeps the existing desktop design intact and adapts the
+   header, listener status, scene, and music player for phones,
+   tablets, landscape devices and safe-area/notch screens.
+   ========================================================= */
+
+html, body, .app {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.scene {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Prevent long dynamic text from creating horizontal overflow. */
+.brand-wrap,
+.listener-pill,
+.top-actions,
+.radio,
+.player,
+.row,
+.meta,
+.track,
+.artist {
+  min-width: 0;
+}
+
+/* ---------- TABLETS: 768–1199px ---------- */
+@media screen and (min-width: 768px) and (max-width: 1199px) {
+  .aangan-topbar {
+    left: 18px !important;
+    right: 18px !important;
+    top: max(14px, env(safe-area-inset-top)) !important;
+    gap: 8px !important;
+  }
+
+  .brand-wrap {
+    max-width: 42vw !important;
+    padding: 8px 12px !important;
+  }
+
+  .brand-wrap .brand {
+    font-size: clamp(10px, 1.5vw, 13px) !important;
+    letter-spacing: .18em !important;
+  }
+
+  .brand-wrap .clock {
+    font-size: clamp(8px, 1.1vw, 10px) !important;
+  }
+
+  .listener-pill {
+    min-height: 34px !important;
+    padding: 7px 11px !important;
+    font-size: 10px !important;
+  }
+
+  .top-action {
+    min-height: 34px !important;
+  }
+
+  .support-action {
+    padding: 7px 11px !important;
+  }
+
+  .radio {
+    left: 50% !important;
+    right: auto !important;
+    width: min(680px, calc(100vw - 36px)) !important;
+    bottom: max(14px, env(safe-area-inset-bottom)) !important;
+  }
+
+  .radio .player {
+    min-height: 0 !important;
+    padding: 12px 15px 10px !important;
+    border-radius: 30px !important;
+  }
+
+  .radio .player .row {
+    grid-template-columns: 68px minmax(0, 1fr) auto !important;
+    gap: 12px !important;
+    min-height: 68px !important;
+  }
+
+  .radio .player .disc {
+    width: 68px !important;
+    height: 68px !important;
+    min-width: 68px !important;
+    min-height: 68px !important;
+    flex-basis: 68px !important;
+  }
+
+  .radio .player .track {
+    font-size: clamp(13px, 1.7vw, 17px) !important;
+  }
+
+  .radio .player .artist {
+    font-size: 9px !important;
+  }
+
+  .radio .player .ctrl {
+    width: 34px !important;
+    height: 40px !important;
+  }
+
+  .radio .player .play {
+    width: 46px !important;
+    height: 46px !important;
+  }
+}
+
+/* ---------- PHONES: <=767px ---------- */
+@media screen and (max-width: 767px) {
+  html, body {
+    overflow: hidden !important;
+    height: 100% !important;
+    height: 100dvh !important;
+  }
+
+  .app {
+    height: 100% !important;
+    height: 100dvh !important;
+    overflow: hidden !important;
+  }
+
+  .scene {
+    inset: 0 !important;
+    transform: scale(1.01) !important;
+    background-position: center center !important;
+  }
+
+  /* Compact single-row header. The listener status stays visible
+     but no longer occupies a full row over the central Aangan logo. */
+  .aangan-topbar {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto auto !important;
+    grid-template-areas: "brand listener actions" !important;
+    align-items: center !important;
+    column-gap: 5px !important;
+    row-gap: 0 !important;
+    top: max(8px, env(safe-area-inset-top)) !important;
+    left: 8px !important;
+    right: 8px !important;
+    width: auto !important;
+    height: auto !important;
+  }
+
+  .brand-wrap {
+    grid-area: brand !important;
+    justify-self: start !important;
+    max-width: 100% !important;
+    padding: 7px 9px !important;
+    gap: 6px !important;
+    border-radius: 11px !important;
+    overflow: hidden !important;
+  }
+
+  .brand-wrap .brand {
+    min-width: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    font-size: clamp(9px, 3.1vw, 12px) !important;
+    letter-spacing: .13em !important;
+  }
+
+  .brand-wrap .clock {
+    flex: 0 1 auto !important;
+    font-size: clamp(7px, 2vw, 9px) !important;
+  }
+
+  .listener-pill {
+    grid-area: listener !important;
+    justify-self: center !important;
+    margin: 0 !important;
+    min-height: 28px !important;
+    max-width: 31vw !important;
+    padding: 5px 8px !important;
+    gap: 5px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    font-size: 8px !important;
+  }
+
+  .listener-pill strong {
+    font-size: 9px !important;
+  }
+
+  .listener-pill #listenerLabel {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .top-actions {
+    grid-area: actions !important;
+    justify-self: end !important;
+    gap: 4px !important;
+  }
+
+  .top-action {
+    min-width: 30px !important;
+    width: 30px !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+  }
+
+  .support-action span {
+    display: none !important;
+  }
+
+  .support-action {
+    font-size: 13px !important;
+  }
+
+  /* Central logo/background remains visible; reserve bottom space for player. */
+  .hero {
+    padding: 70px 14px 112px !important;
+  }
+
+  .radio {
+    position: fixed !important;
+    left: 6px !important;
+    right: 6px !important;
+    bottom: max(6px, env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+    max-width: none !important;
+    transform: none !important;
+    z-index: 2147483000 !important;
+  }
+
+  .radio .player {
+    width: 100% !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 8px 9px 7px !important;
+    border-radius: 23px !important;
+    overflow: hidden !important;
+  }
+
+  .radio .player .row {
+    display: grid !important;
+    grid-template-columns: 50px minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 8px !important;
+    min-height: 50px !important;
+    width: 100% !important;
+  }
+
+  .radio .player .disc {
+    width: 50px !important;
+    height: 50px !important;
+    min-width: 50px !important;
+    min-height: 50px !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    flex-basis: 50px !important;
+    border-radius: 50% !important;
+    aspect-ratio: 1 / 1 !important;
+  }
+
+  .radio .player .meta {
+    width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .radio .player .track {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-size: clamp(11px, 3.4vw, 13px) !important;
+    line-height: 1.15 !important;
+  }
+
+  .radio .player .artist {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-size: clamp(7px, 2.4vw, 9px) !important;
+    margin-top: 3px !important;
+  }
+
+  .radio .player .controls {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    gap: 0 !important;
+  }
+
+  .radio .player .ctrl {
+    width: 28px !important;
+    min-width: 28px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    padding: 0 !important;
+    font-size: 18px !important;
+  }
+
+  .radio .player .play,
+  .radio .player .play:hover,
+  .radio .player .play:focus,
+  .radio .player .play:active {
+    width: 40px !important;
+    min-width: 40px !important;
+    height: 40px !important;
+    min-height: 40px !important;
+    border-radius: 50% !important;
+    font-size: 15px !important;
+    transform: none !important;
+  }
+
+  /* Queue icon is unnecessary on the smallest viewport and saves width. */
+  .radio .player .queue-toggle {
+    display: none !important;
+  }
+
+  .radio .player .seek-row {
+    display: grid !important;
+    grid-template-columns: 29px minmax(0, 1fr) 29px !important;
+    align-items: center !important;
+    gap: 5px !important;
+    width: 100% !important;
+    margin-top: 4px !important;
+    padding: 0 1px !important;
+  }
+
+  .radio .player .time {
+    width: auto !important;
+    font-size: 7px !important;
+    white-space: nowrap !important;
+  }
+
+  .radio .player .progress {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 3px !important;
+  }
+
+  .radio .player .status {
+    display: none !important;
+  }
+
+  .footer {
+    display: none !important;
+  }
+}
+
+/* ---------- VERY SMALL PHONES: <=360px ---------- */
+@media screen and (max-width: 360px) {
+  .aangan-topbar {
+    left: 5px !important;
+    right: 5px !important;
+    grid-template-columns: minmax(0, 1fr) auto auto !important;
+    column-gap: 3px !important;
+  }
+
+  .brand-wrap {
+    padding: 6px 7px !important;
+    gap: 4px !important;
+  }
+
+  .brand-wrap .brand {
+    font-size: 9px !important;
+    letter-spacing: .09em !important;
+  }
+
+  .brand-wrap .clock {
+    display: none !important;
+  }
+
+  .listener-pill {
+    max-width: 29vw !important;
+    min-height: 26px !important;
+    padding: 4px 6px !important;
+    font-size: 7px !important;
+  }
+
+  .listener-pill strong {
+    font-size: 8px !important;
+  }
+
+  .top-action {
+    width: 28px !important;
+    min-width: 28px !important;
+    height: 28px !important;
+    min-height: 28px !important;
+  }
+
+  .radio {
+    left: 4px !important;
+    right: 4px !important;
+    bottom: max(4px, env(safe-area-inset-bottom)) !important;
+  }
+
+  .radio .player {
+    padding: 6px 7px 6px !important;
+    border-radius: 20px !important;
+  }
+
+  .radio .player .row {
+    grid-template-columns: 44px minmax(0, 1fr) auto !important;
+    gap: 6px !important;
+    min-height: 44px !important;
+  }
+
+  .radio .player .disc {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    flex-basis: 44px !important;
+  }
+
+  .radio .player .track {
+    font-size: 10px !important;
+  }
+
+  .radio .player .artist {
+    display: none !important;
+  }
+
+  .radio .player .ctrl {
+    width: 24px !important;
+    min-width: 24px !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    font-size: 16px !important;
+  }
+
+  .radio .player .play {
+    width: 36px !important;
+    min-width: 36px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    font-size: 13px !important;
+  }
+
+  .radio .player .seek-row {
+    grid-template-columns: 26px minmax(0, 1fr) 26px !important;
+    gap: 4px !important;
+  }
+}
+
+/* ---------- SHORT LANDSCAPE PHONES/TABLETS ---------- */
+@media screen and (orientation: landscape) and (max-width: 1199px) and (max-height: 650px) {
+  .aangan-topbar {
+    top: max(6px, env(safe-area-inset-top)) !important;
+  }
+
+  .radio {
+    bottom: max(5px, env(safe-area-inset-bottom)) !important;
+  }
+
+  .radio .player {
+    padding-top: 6px !important;
+    padding-bottom: 5px !important;
+  }
+
+  .radio .player .row {
+    min-height: 44px !important;
+  }
+
+  .radio .player .disc {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    flex-basis: 44px !important;
+  }
+
+  .radio .player .play {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+  }
+
+  .radio .player .ctrl {
+    height: 32px !important;
+    min-height: 32px !important;
+  }
+
+  .radio .player .seek-row {
+    margin-top: 2px !important;
+  }
+}
+
+/* ---------- iOS / Android safe areas ---------- */
+@supports (padding: max(0px)) {
+  .aangan-topbar {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  .radio {
+    margin-bottom: env(safe-area-inset-bottom, 0px);
+  }
+}
+
+/* Do not let browser zoom/long text break the player. */
+button, input {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene,
+  .radio .player .disc {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+</style>
+
 </head>
   <body>
     <!-- Aangan Radio: long/compilation tracks are rejected before playback and remembered locally. -->
